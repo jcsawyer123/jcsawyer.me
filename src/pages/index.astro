@@ -1,16 +1,161 @@
 ---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Container from '../components/Container.astro';
+import Button from '../components/Button.astro';
+import SocialIcon from '../components/SocialIcon.astro';
+import ProjectCard from '../components/sections/ProjectCard.astro';
+import BlogPreviewCard from '../components/sections/BlogPreviewCard.astro';
+import { getCollection } from 'astro:content';
 
+const projectEntries = await getCollection('projects');
+const featuredProjects = projectEntries.filter(p => p.data.featured).slice(0, 2);
+const otherProjects = projectEntries.filter(p => !p.data.featured).slice(0, 4);
+const projectsToShow = [...featuredProjects, ...otherProjects].slice(0, 6);
+const blogPosts = (await getCollection('blog'))
+    .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+    .slice(0, 4);
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<BaseLayout title="Joshua Sawyer - Software Engineer">
+  {/* --- Hero Section --- */}
+  <section id="home" class="w-full mb-16">
+    <div class="max-w-4xl mx-auto space-y-4">
+      <Container
+        borderColor="border-slate-200/40 dark:border-slate-700/40"
+        class="relative overflow-hidden bg-white/80 dark:bg-slate-800/75 backdrop-blur-md border shadow-sm"
+      >
+        {/* Accent Gradient Line */}
+        <div
+          class="absolute left-0 top-0 bottom-0 w-3 bg-gradient-to-b from-sky-300 to-blue-400 dark:from-blue-600 dark:to-purple-700"
+          aria-hidden="true"
+        ></div>
+        <div class="py-4 px-4 sm:px-8">
+          <div class="mb-6 flex flex-col sm:flex-row items-baseline">
+            <h1 class="text-5xl font-bold text-slate-800 dark:text-slate-100">
+              Joshua Sawyer
+            </h1>
+            <div class="hidden md:flex px-3 text-slate-400 dark:text-slate-500 text-lg">/</div>
+            <div class="text-slate-600 dark:text-slate-300 text-lg italic mt-2 sm:mt-0 sm:ml-4">
+              Software Engineer
+            </div>
+          </div>
+          <div class="border-t-2 border-slate-200 dark:border-slate-700 my-6 max-w-md"></div>
+          <p class="text-slate-600 dark:text-slate-300 mb-8 max-w-xl">
+            Passionate about engineering elegant and efficient solutions across the stack. Exploring the frontiers of backend systems and large-scale microarchitectures, with a love for hackathons and creative problem-solving.
+          </p>
+          <div class="flex flex-wrap gap-4">
+            <Button href="#projects" variant="primary" class="focus-visible:ring-2 focus-visible:ring-sky-400">View Portfolio</Button>
+            <Button href="#contact" variant="outline" class="focus-visible:ring-2 focus-visible:ring-sky-400">Contact Me</Button>
+          </div>
+          {/* Social Icons: static on mobile, absolute on desktop */}
+          <div class="flex md:hidden justify-end pt-8">
+            <Container
+              borderColor="border-slate-700 dark:border-slate-600"
+              class="px-1 py-1 mt-4"
+            >
+              <div class="flex gap-3">
+                <SocialIcon label="GitHub" href="https://github.com" aria-label="GitHub" />
+                <SocialIcon label="LinkedIn" href="https://linkedin.com" aria-label="LinkedIn" />
+                <SocialIcon label="Twitter" href="https://twitter.com" aria-label="Twitter" />
+              </div>
+            </Container>
+          </div>
+        </div>
+        {/* Social Icons: absolute in bottom right on desktop */}
+        <div class="hidden md:flex absolute bottom-2 right-2">
+          <Container borderColor="border-slate-700 dark:border-slate-600" class="px-1 py-1">
+            <div class="flex gap-3">
+              <SocialIcon label="GitHub" href="https://github.com" aria-label="GitHub" />
+              <SocialIcon label="LinkedIn" href="https://linkedin.com" aria-label="LinkedIn" />
+              <SocialIcon label="Twitter" href="https://twitter.com" aria-label="Twitter" />
+            </div>
+          </Container>
+        </div>
+      </Container>
+    </div>
+  </section>
+
+  {/* --- Projects Section --- */}
+  <section id="projects" class="w-full mb-16">
+    <div class="max-w-4xl mx-auto">
+      {/* Section Header: Gradient Accent + Frosted Glass */}
+      <Container
+        borderColor="border-transparent"
+        class="relative overflow-hidden p-8 mb-6 bg-white/80 dark:bg-slate-800/75 backdrop-blur-md border border-slate-200/40 dark:border-slate-700/40 shadow-sm"
+      >
+        {/* Gradient Accent Bar */}
+        <div
+          class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-sky-300 to-blue-400 dark:from-blue-600 dark:to-purple-700"
+          aria-hidden="true"
+        ></div>
+        <div class="relative z-10 pt-2">
+          <h2 class="text-2xl font-bold text-slate-800 dark:text-slate-100 mb-1">
+            Projects & Repositories
+          </h2>
+          <p class="text-slate-600 dark:text-slate-300 mb-0">
+            A selection of my recent work.
+          </p>
+        </div>
+      </Container>
+
+	{/* Project Grid */}
+	<div class="max-w-3xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-6">
+		{projectsToShow.map(project => (
+		<div class="h-full transition-transform duration-200 hover:-translate-y-1 hover:shadow-lg">
+			<ProjectCard project={project.data} />
+		</div>
+		))}
+	</div>
+
+      {/* "View More" Button */}
+      {projectEntries.length > projectsToShow.length && (
+        <div class="mt-8 text-center">
+          <Button href="/projects" variant="primary" class="focus-visible:ring-2 focus-visible:ring-sky-400">View More Projects</Button>
+        </div>
+      )}
+    </div>
+  </section>
+
+  {/* --- Blog Section --- */}
+  <section id="blog" class="w-full mb-16">
+    <div class="max-w-4xl mx-auto">
+      {/* Section Header: Gradient Accent + Frosted Glass */}
+      <Container
+        borderColor="border-transparent"
+        class="relative overflow-hidden p-8 mb-6 bg-white/80 dark:bg-slate-800/75 backdrop-blur-md border border-slate-200/40 dark:border-slate-700/40 shadow-sm"
+      >
+        {/* Gradient Accent Bar */}
+        <div
+          class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-sky-300 to-blue-400 dark:from-blue-600 dark:to-purple-700"
+          aria-hidden="true"
+        ></div>
+        <div class="relative z-10 pt-2">
+          <h2 class="text-2xl font-bold text-slate-800 dark:text-slate-100 mb-1">
+            From the Blog
+          </h2>
+          <p class="text-slate-600 dark:text-slate-300 mb-0">
+            Recent articles and insights.
+          </p>
+        </div>
+        {/* Top-right button */}
+        <Button
+          href="/blog"
+          variant="outline"
+          class="text-xs md:text-sm px-1 lg:px-3 py-1 absolute top-4 right-4 z-10 border-slate-500/80 dark:border-slate-400/80 text-slate-700 dark:text-slate-200 hover:bg-slate-300/30 dark:hover:bg-slate-700/40 backdrop-blur-sm focus-visible:ring-2 focus-visible:ring-sky-400"
+        >
+          View All
+        </Button>
+      </Container>
+
+{/* Blog Post List */}
+	<div class="max-w-3xl mx-auto space-y-4">
+		{blogPosts.map(post => (
+		<div class="transition-transform duration-200 hover:-translate-y-1 hover:shadow-lg">
+			<BlogPreviewCard post={post} />
+		</div>
+		))}
+	</div>
+  
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,102 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Container from '../../components/Container.astro';
+import BlogPostItem from '../../components/sections/BlogPostItem.astro';
+import YearSection from '../../components/sections/YearSection.astro';
+import { getCollection } from 'astro:content';
+import Button from '../../components/Button.astro';
+
+const allPosts = (await getCollection('blog')).sort(
+	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+
+// Group posts by year
+const postsByYear: Record<string, typeof allPosts> = {};
+allPosts.forEach(post => {
+    const year = post.data.pubDate.getFullYear().toString();
+    if (!postsByYear[year]) {
+        postsByYear[year] = [];
+    }
+    postsByYear[year].push(post);
+});
+
+const years = Object.keys(postsByYear).sort((a, b) => Number(b) - Number(a));
+---
+
+<BaseLayout title="Blog" description="Thoughts, tutorials, and insights about web development and design">
+	<div class="max-w-4xl mx-auto">
+        {/* --- Blog Header --- */}
+		<Container
+			borderColor="border-slate-200/40 dark:border-slate-700/40"
+			class="relative overflow-hidden p-8 mb-10 bg-white/80 dark:bg-slate-800/75 backdrop-blur-md border shadow-sm"
+		>
+			{/* Gradient Accent Bar */}
+			<div
+				class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-sky-300 to-blue-400 dark:from-blue-600 dark:to-purple-700"
+				aria-hidden="true"
+			></div>
+			<div class="relative z-10 pt-2">
+				<h1 class="text-3xl font-bold text-slate-800 dark:text-slate-100 mb-2">Blog</h1>
+				<p class="text-slate-600 dark:text-slate-300 mb-0">
+					Thoughts, tutorials, and insights about web development and design
+				</p>
+			</div>
+		</Container>
+
+        {/* --- Main Content --- */}
+		<Container
+			borderColor="border-slate-200/40 dark:border-slate-700/40"
+			class="relative overflow-hidden p-8 mb-10 bg-white/80 dark:bg-slate-800/75 backdrop-blur-md border shadow-sm"
+		>
+			{/* Filter/Search Section */}
+			<div class="mb-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-4">
+				<div class="text-sm text-slate-500 dark:text-slate-400">
+					{allPosts.length} articles published
+				</div>
+			</div>
+
+			{/* YearSection and BlogPostItem components handle their own dark styles */}
+			<div class="space-y-10">
+				{years.map(year => (
+					<YearSection year={year} posts={postsByYear[year]} />
+				))}
+			</div>
+		</Container>
+
+		{/* --- Newsletter Signup --- */}
+		<Container
+			borderColor="border-slate-200/40 dark:border-slate-700/40"
+			class="relative overflow-hidden p-8 mt-10 bg-white/80 dark:bg-slate-800/75 backdrop-blur-md border shadow-sm text-center"
+		>
+			{/* Gradient Accent Bar */}
+			<div
+				class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-sky-300 to-blue-400 dark:from-blue-600 dark:to-purple-700"
+				aria-hidden="true"
+			></div>
+			<div class="relative z-10 pt-2">
+				<h2 class="text-xl font-bold text-slate-800 dark:text-slate-100 mb-2">Stay Updated</h2>
+				<p class="text-slate-600 dark:text-slate-300 mb-6 max-w-lg mx-auto">
+					Get notified when I publish new articles.
+				</p>
+				<form class="flex flex-col sm:flex-row max-w-md mx-auto gap-2 sm:gap-0">
+					<input
+						type="email"
+						placeholder="Enter your email"
+						required
+						class="flex-grow px-4 py-2 border-2 border-slate-300 rounded-lg sm:rounded-l-lg sm:rounded-r-none focus:outline-none focus:ring-1 focus:ring-sky-400 focus:border-sky-400 dark:bg-slate-700 dark:border-slate-600 dark:text-slate-200 dark:placeholder:text-slate-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+					/>
+					<Button
+						type="submit"
+						variant="primary"
+						class="sm:rounded-l-none sm:rounded-r-lg w-full sm:w-auto focus-visible:ring-2 focus-visible:ring-sky-400"
+					>
+						Subscribe
+					</Button>
+				</form>
+				<p class="text-sm text-slate-500 dark:text-slate-400 mt-4">
+					No spam, just the good stuff. Unsubscribe anytime.
+				</p>
+			</div>
+		</Container>
+	</div>
+</BaseLayout>

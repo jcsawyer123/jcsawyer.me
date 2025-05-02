@@ -1,0 +1,35 @@
+---
+export interface Heading {
+  depth: number;
+  slug: string;
+  text: string;
+}
+
+interface Props {
+  headings: Heading[];
+}
+
+const { headings } = Astro.props;
+
+// Filter headings to only include h2 and h3
+const filteredHeadings = headings.filter(
+  heading => heading.depth === 2 || heading.depth === 3
+);
+---
+
+{filteredHeadings.length > 0 && (
+  <nav class="toc text-sm">
+    <ul class="space-y-2">
+      {filteredHeadings.map(heading => (
+        <li class={`${heading.depth === 3 ? "ml-4" : ""}`}>
+          <a
+            href={`#${heading.slug}`}
+            class={`toc-link block py-1 text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition ${heading.depth === 3 ? "border-l-2 border-slate-200 dark:border-slate-700 pl-2" : ""}`}
+          >
+            {heading.text}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </nav>
+)}

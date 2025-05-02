@@ -1,0 +1,93 @@
+---
+// src/layouts/BaseLayout.astro
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+
+interface Props {
+	title: string;
+	description?: string;
+}
+
+const { title, description = 'My personal website' } = Astro.props;
+const currentPath = Astro.url.pathname;
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta charset="UTF-8" />
+        <meta name="description" content={description} />
+
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+        <link rel="manifest" href="/site.webmanifest">
+		<link rel="stylesheet" href="/src/styles/global.css" />
+
+        <title>{title}</title>
+
+        {/* Theme Toggle Script - Runs early */}
+		<script is:inline>
+			const theme = (() => {
+				if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
+					return localStorage.getItem('theme');
+				}
+				if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+					return 'dark';
+				}
+				return 'light';
+			})();
+
+			if (theme === 'dark') {
+				document.documentElement.classList.add('dark');
+			} else {
+				document.documentElement.classList.remove('dark');
+			}
+		</script>
+
+		<script>
+            document.addEventListener('astro:after-swap', () => {
+            const theme = localStorage.getItem('theme');
+            if (theme === 'dark') {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+            });
+        </script>
+
+        <style is:inline>
+		</style>
+	</head>
+    {/* Apply gradient to body */}
+    <body class="relative overflow-x-hidden bg-gradient-to-br from-white to-sky-100 dark:from-slate-900 dark:to-slate-800 min-h-screen text-slate-800 dark:text-slate-200">
+
+      {/* Grid Pattern - Fixed Position */}
+      <div aria-hidden="true" class="pointer-events-none fixed inset-0 z-0">
+        <svg class="w-full h-full opacity-20 dark:opacity-20 text-slate-400 dark:text-slate-700" width="100%" height="100%">
+          <defs>
+            <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
+              <path d="M 40 0 L 0 0 0 40" fill="none" stroke="currentColor" stroke-width="1" />
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#grid)" />
+        </svg>
+      </div>
+
+      {/* Blobs - Fixed Position */}
+      <div aria-hidden="true" class="pointer-events-none fixed inset-0 z-10">
+        <div class="absolute -top-40 -left-40 w-[18rem] h-[18rem] sm:w-[40rem] sm:h-[40rem] max-w-screen max-h-screen bg-blue-200 dark:bg-blue-900 rounded-full blur-3xl opacity-20"></div>
+        <div class="absolute -bottom-40 -right-40 w-[18rem] h-[18rem] sm:w-[40rem] sm:h-[40rem] max-w-screen max-h-screen bg-purple-200 dark:bg-purple-900 rounded-full blur-3xl opacity-20"></div>
+      </div>
+
+      {/* Main Content Wrapper  */}
+      <div class="relative z-20">
+        <Navbar currentPath={currentPath} />
+        <main class="pt-24 pb-16 px-4 flex-grow min-h-[calc(100vh-theme(spacing.24)-theme(spacing.16))]">
+          <slot />
+        </main>
+        <Footer />
+      </div>
+    </body>
+</html>

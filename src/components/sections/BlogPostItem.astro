@@ -1,0 +1,95 @@
+---
+import Tag from '../Tag.astro';
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  post: CollectionEntry<'blog'>;
+}
+
+const { post } = Astro.props;
+const postUrl = `/blog/${post.slug}`;
+const displayDate = post.data.pubDate.toLocaleDateString('en-US', {
+  month: 'short',
+  day: 'numeric',
+});
+---
+
+<a
+  href={postUrl}
+  class="block group focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400 rounded-xl transition"
+>
+  <div
+    class:list={[
+      'relative overflow-hidden rounded-xl',
+      'bg-white/80 dark:bg-slate-800/75 backdrop-blur-md border border-slate-200/40 dark:border-slate-700/40 shadow-sm',
+      'transition-all duration-200 hover:-translate-y-1 hover:shadow-lg',
+      'p-5 flex flex-col gap-2',
+      'min-h-[120px]',
+    ]}
+  >
+    {/* Top row: Date and Featured */}
+    <div class="flex items-center justify-between mb-1">
+      <span class="text-sm text-slate-500 dark:text-slate-400">
+        {displayDate}
+      </span>
+      {post.data.featured && (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="currentColor"
+          class="w-5 h-5 text-blue-600 dark:text-blue-400"
+          aria-label="Featured"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.006z"
+            clip-rule="evenodd"
+          ></path>
+        </svg>
+      )}
+    </div>
+
+    {/* Title */}
+    <h3
+      class="
+        text-lg font-bold
+        text-slate-800 dark:text-slate-100
+        group-hover:text-blue-600 dark:group-hover:text-blue-400
+        transition-colors
+        mb-1
+      "
+    >
+      {post.data.title}
+    </h3>
+
+    {/* Description */}
+    <p class="text-sm text-slate-600 dark:text-slate-300 mb-1 line-clamp-2">
+      {post.data.description}
+    </p>
+
+    {/* Tags */}
+    {post.data.tags && post.data.tags.length > 0 && (
+      <div class="flex flex-wrap gap-1.5 mt-1">
+        {post.data.tags.map((tag) => (
+          <Tag label={tag.label} color={tag.color} />
+        ))}
+      </div>
+    )}
+
+    {/* Arrow icon that shows only on hover (desktop) */}
+    <div class="absolute bottom-3 right-4 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 20 20"
+        fill="currentColor"
+        class="w-4 h-4 text-blue-600 dark:text-blue-400"
+      >
+        <path
+          fill-rule="evenodd"
+          d="M2 10a.75.75 0 01.75-.75h12.59l-2.1-1.95a.75.75 0 111.02-1.1l3.5 3.25a.75.75 0 010 1.1l-3.5 3.25a.75.75 0 11-1.02-1.1l2.1-1.95H2.75A.75.75 0 012 10z"
+          clip-rule="evenodd"
+        ></path>
+      </svg>
+    </div>
+  </div>
+</a>

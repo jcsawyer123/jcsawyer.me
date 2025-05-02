@@ -1,0 +1,183 @@
+---
+// This component wraps content to provide glossary term tooltip functionality
+---
+
+<div class="glossary-content">
+    <slot />
+  </div>
+  
+  <script>
+    // Fetch glossary terms from the glossary collection
+    // This is a simplified example and should be adapted to your data structure
+    async function loadGlossaryTerms() {
+      try {
+        // In a real implementation, you might fetch this from your content
+        // or precompile it at build time
+        return {
+          // Example glossary entries
+          'astro': 'A modern static site builder with a focus on performance',
+          'obsidian': 'A powerful knowledge base that works on top of a local folder of plain text Markdown files',
+          'frontmatter': 'Metadata at the beginning of a Markdown file, written in YAML format'
+          // Add more terms as needed
+        };
+      } catch (error) {
+        console.error('Error loading glossary terms:', error);
+        return {};
+      }
+    }
+  
+    // Process Obsidian-style wiki links
+    async function processGlossaryTerms() {
+      const terms = await loadGlossaryTerms();
+      
+      // Process text content for glossary terms
+      const content = document.querySelector('.glossary-content');
+      if (!content) return;
+  
+      // First, handle explicit wiki-links: [[term]]
+      const wikiLinkRegex = /\[\[(.*?)\]\]/g;
+      const textNodes = [];
+      
+      // Get all text nodes in the content
+      const walker = document.createTreeWalker(
+        content,
+        NodeFilter.SHOW_TEXT,
+        null,
+        false
+      );
+      
+      let node;
+      while ((node = walker.nextNode())) {
+        // Skip nodes in pre, code, and script elements
+        if (['PRE', 'CODE', 'SCRIPT', 'STYLE'].includes(node.parentNode.nodeName)) {
+          continue;
+        }
+        textNodes.push(node);
+      }
+      
+      // Process each text node for wiki links
+      textNodes.forEach(textNode => {
+        if (wikiLinkRegex.test(textNode.nodeValue)) {
+          const fragment = document.createDocumentFragment();
+          let lastIndex = 0;
+          let match;
+          
+          // Reset regex to start from beginning
+          wikiLinkRegex.lastIndex = 0;
+          
+          while ((match = wikiLinkRegex.exec(textNode.nodeValue)) !== null) {
+            // Add text before the match
+            if (match.index > lastIndex) {
+              fragment.appendChild(
+                document.createTextNode(textNode.nodeValue.substring(lastIndex, match.index))
+              );
+            }
+            
+            const termName = match[1].trim();
+            const definition = terms[termName.toLowerCase()];
+            
+            if (definition) {
+              // Create glossary term span
+              const glossarySpan = document.createElement('span');
+              glossarySpan.className = 'glossary-term';
+              glossarySpan.setAttribute('data-term', termName);
+              glossarySpan.setAttribute('tabindex', '0');
+              glossarySpan.textContent = termName;
+              
+              // Create tooltip
+              const tooltip = document.createElement('span');
+              tooltip.className = 'glossary-tooltip';
+              tooltip.textContent = definition;
+              glossarySpan.appendChild(tooltip);
+              
+              fragment.appendChild(glossarySpan);
+            } else {
+              // If term not found, just add the text without wiki brackets
+              fragment.appendChild(document.createTextNode(termName));
+            }
+            
+            lastIndex = match.index + match[0].length;
+          }
+          
+          // Add any remaining text
+          if (lastIndex < textNode.nodeValue.length) {
+            fragment.appendChild(
+              document.createTextNode(textNode.nodeValue.substring(lastIndex))
+            );
+          }
+          
+          // Replace original text node with fragment
+          textNode.parentNode.replaceChild(fragment, textNode);
+        }
+      });
+    }
+  
+    // Initialize when the document is ready
+    document.addEventListener('DOMContentLoaded', processGlossaryTerms);
+  </script>
+  
+  <style is:global>
+    /* Glossary term styling */
+    .glossary-term {
+      position: relative;
+      border-bottom: 1px dashed #cbd5e1;
+      cursor: help;
+      color: inherit;
+    }
+  
+    .glossary-term:hover,
+    .glossary-term:focus {
+      border-bottom-color: #60a5fa;
+      outline: none;
+    }
+  
+    .glossary-tooltip {
+      visibility: hidden;
+      position: absolute;
+      z-index: 100;
+      bottom: calc(100% + 12px);
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: white;
+      color: #334155;
+      padding: 0.5rem 0.75rem;
+      border-radius: 0.375rem;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      width: max-content;
+      max-width: 300px;
+      font-size: 0.875rem;
+      opacity: 0;
+      transition: opacity 0.2s, visibility 0.2s;
+      pointer-events: none;
+    }
+  
+    /* Arrow for tooltip */
+    .glossary-tooltip::after {
+      content: "";
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      border-width: 6px;
+      border-style: solid;
+      border-color: white transparent transparent transparent;
+    }
+  
+    .glossary-term:hover .glossary-tooltip,
+    .glossary-term:focus .glossary-tooltip {
+      visibility: visible;
+      opacity: 1;
+    }
+  
+    /* Dark mode support */
+    @media (prefers-color-scheme: dark) {
+      .glossary-tooltip {
+        background-color: #1e293b;
+        color: #e2e8f0;
+      }
+      
+      .glossary-tooltip::after {
+        border-color: #1e293b transparent transparent transparent;
+      }
+    }
+  </style>
