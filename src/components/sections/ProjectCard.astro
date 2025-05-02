@@ -2,7 +2,7 @@
 import type { CollectionEntry } from 'astro:content';
 
 interface Props {
-	// Assuming you use a 'projects' data collection as defined before
+	// Using the 'projects' data collection
 	project: CollectionEntry<'projects'>['data'];
 }
 
@@ -17,12 +17,12 @@ const { project } = Astro.props;
 >
 	<div
 	class:list={[
-		'relative overflow-hidden rounded-lg',
-		'bg-white dark:bg-slate-800',
-		'border border-slate-300 dark:border-slate-700',
-		'h-full flex flex-col', // Ensure cards have same height in a grid
-		'transition-all duration-300',
+		'frosted',
+		'panel',
+		'h-full flex flex-col',
+		'transition-standard',
 		'pr-4 lg:pr-2',
+		'rounded-lg',
 		'group-hover:shadow-sm group-hover:border-slate-500 dark:group-hover:border-slate-600',
 	]}
 	>
@@ -39,12 +39,12 @@ const { project } = Astro.props;
 			<h3 class="text-base font-bold text-slate-800 dark:text-slate-100 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
 				{project.name}
             </h3>
-			<p class="text-sm text-slate-600 dark:text-slate-300 mt-1 mb-2 line-clamp-2">
+			<p class="body-text text-sm mt-1 mb-2 line-clamp-2">
             	{project.description}
             </p>
         </div>
 
-		<!-- Arrow icon that shows only on hover -->
+		{/* Arrow icon that shows only on hover */}
 		<div class="absolute bottom-2 right-3 opacity-0 group-hover:opacity-100 transition-opacity">
 			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4 text-blue-600 dark:text-blue-400">
 				<path fill-rule="evenodd" d="M2 10a.75.75 0 01.75-.75h12.59l-2.1-1.95a.75.75 0 111.02-1.1l3.5 3.25a.75.75 0 010 1.1l-3.5 3.25a.75.75 0 11-1.02-1.1l2.1-1.95H2.75A.75.75 0 012 10z" clip-rule="evenodd"></path>

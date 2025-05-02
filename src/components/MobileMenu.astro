@@ -1,0 +1,75 @@
+---
+import NavLink from './NavLink.astro';
+
+interface Props {
+  currentPath: string;
+}
+
+const { currentPath } = Astro.props;
+
+// Helper function to check if a path is active
+const isActive = (path: string) => {
+  if (path === '/') return currentPath === '/';
+  // Handle anchor links on homepage more robustly if needed
+  if (path.startsWith('/#')) return currentPath === '/' || currentPath === path.substring(1);
+  return currentPath.startsWith(path);
+};
+---
+
+<div class="md:hidden">
+  <button
+    id="mobile-menu-button"
+    aria-label="Toggle mobile menu"
+    aria-expanded="false"
+    aria-controls="mobile-menu"
+    class="p-1.5 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-slate-400 dark:focus:ring-slate-500 transition-colors duration-200"
+  >
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+    </svg>
+  </button>
+
+  <!-- Mobile Menu (Hidden by default) -->
+  <div 
+    id="mobile-menu" 
+    class="hidden absolute top-full left-0 right-0 bg-white dark:bg-slate-800 border-x-2 border-b-2 border-slate-700 dark:border-slate-600 rounded-b-xl p-4 md:hidden shadow-lg flex flex-col space-y-2"
+  >
+    <NavLink href="/" active={isActive('/')}>Home</NavLink>
+    <NavLink href="/blog" active={isActive('/blog')}>Blog</NavLink>
+    <NavLink href="/#contact" active={isActive('/#contact')}>Contact</NavLink>
+  </div>
+</div>
+
+<script>
+  const initMobileMenu = () => {
+    const menuButton = document.getElementById('mobile-menu-button');
+    const mobileMenu = document.getElementById('mobile-menu');
+    
+    if (!menuButton || !mobileMenu) return;
+    
+    // Toggle menu visibility
+    menuButton.addEventListener('click', (e) => {
+      e.stopPropagation(); // Prevent closing immediately if clicking outside logic runs
+      
+      const isExpanded = mobileMenu.classList.toggle('hidden') === false;
+      menuButton.setAttribute('aria-expanded', isExpanded.toString());
+    });
+    
+    // Close menu if clicking outside
+    document.addEventListener('click', (event) => {
+      const navbar = document.getElementById('main-navbar');
+      if (navbar && 
+          !navbar.contains(event.target as Node) && 
+          !mobileMenu.classList.contains('hidden')) {
+        mobileMenu.classList.add('hidden');
+        menuButton.setAttribute('aria-expanded', 'false');
+      }
+    });
+  };
+  
+  // Initialize on page load
+  document.addEventListener('DOMContentLoaded', initMobileMenu);
+  
+  // Re-initialize after page transitions
+  document.addEventListener('astro:after-swap', initMobileMenu);
+</script>
