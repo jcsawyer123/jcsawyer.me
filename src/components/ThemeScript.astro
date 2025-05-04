@@ -1,0 +1,36 @@
+---
+// This component provides the inline scripts needed for theme handling
+// It should be included in the <head> section of your layout
+---
+
+{/* Initial theme detection script - runs immediately */}
+<script is:inline>
+  const theme = (() => {
+    if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
+      return localStorage.getItem('theme');
+    }
+    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      return 'dark';
+    }
+    return 'light';
+  })();
+  
+  if (theme === 'dark') {
+    document.documentElement.classList.add('dark');
+  } else {
+    document.documentElement.classList.remove('dark');
+  }
+</script>
+
+{/* Script for View Transitions support */}
+<script>
+  document.addEventListener('astro:after-swap', () => {
+    const theme = localStorage.getItem('theme');
+    if (theme === 'dark') {
+      document.documentElement.classList.add('dark');
+    } else {
+      // Explicitly remove if needed, though swap might do it
+      document.documentElement.classList.remove('dark');
+    }
+  });
+</script>

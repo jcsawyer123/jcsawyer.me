@@ -1,0 +1,69 @@
+---
+import Button from '../Button.astro';
+import GradientAccent from '../GradientAccent.astro';
+import Container from '../Container.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+  actionButton?: {
+    text: string;
+    href: string;
+    variant?: 'primary' | 'secondary' | 'outline' | 'highlight';
+  };
+  accent?: 'top' | 'bottom' | 'left' | 'right';
+  accentSize?: 'sm' | 'md' | 'lg';
+  class?: string;
+  rounded?: 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | 'full';
+}
+
+const { 
+  title, 
+  description, 
+  actionButton, 
+  accent = 'top',
+  accentSize = 'md', 
+  class: className,
+  rounded = 'xl'
+} = Astro.props;
+
+// Map rounded to class
+const roundedMap = {
+  'sm': 'rounded-sm',
+  'md': 'rounded-md',
+  'lg': 'rounded-lg',
+  'xl': 'rounded-xl',
+  '2xl': 'rounded-2xl',
+  '3xl': 'rounded-3xl',
+  'full': 'rounded-full',
+};
+const roundedClass = roundedMap[rounded];
+---
+
+<Container
+  frosted
+  panel
+  padding="md"
+  class={`mb-6 relative overflow-hidden ${roundedClass} ${className ?? ''}`}
+>
+  <GradientAccent position={accent} size={accentSize} />
+  <div class="relative z-10 pt-2">
+    <h2 class="heading-2 mb-1">
+      {title}
+    </h2>
+    {description && (
+      <p class="body-text mb-0">
+        {description}
+      </p>
+    )}
+  </div>
+  {actionButton && (
+    <Button
+      href={actionButton.href}
+      variant={actionButton.variant || 'outline'}
+      class="text-xs md:text-sm px-1 lg:px-3 py-1 absolute top-4 right-4 z-10 focus-ring backdrop-blur-sm border-slate-500/80 dark:border-slate-400/80 text-slate-700 dark:text-slate-200 hover:bg-slate-300/30 dark:hover:bg-slate-700/40"
+    >
+      {actionButton.text}
+    </Button>
+  )}
+</Container>

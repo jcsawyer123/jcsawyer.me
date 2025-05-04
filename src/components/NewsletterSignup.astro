@@ -1,0 +1,25 @@
+---
+import Button from './Button.astro';
+import GradientAccent from './GradientAccent.astro';
+const { className = '' } = Astro.props;
+---
+<div class={`relative rounded-lg overflow-hidden p-6 md:p-8 frosted panel border border-slate-300 dark:border-slate-700 ${className}`}>
+  <GradientAccent position="top" size="md" />
+  <div class="relative z-10 pt-2">
+    <h3 class="heading-3 mb-2 md:mb-3">Stay updated</h3>
+    <p class="text-sm body-text mb-3 md:mb-4">
+      Get notified when new articles are published
+    </p>
+    <form class="space-y-2">
+      <label for="newsletter-email" class="sr-only">Email address</label>
+      <input
+        id="newsletter-email"
+        type="email"
+        placeholder="Your email"
+        class="w-full px-3 py-2 border-2 border-slate-300 dark:border-slate-600 rounded-md bg-white/80 dark:bg-slate-800/75 text-slate-800 dark:text-slate-200 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-sky-400 dark:focus:ring-blue-500"
+        required
+      />
+      <Button type="submit" variant="primary" class="w-full">Subscribe</Button>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,62 @@
+---
+// SVG Icons for the toggle
+const sunIcon = `
+<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-6.364-.386l1.591-1.591M3 12h2.25m.386-6.364l1.591 1.591M12 6.75a5.25 5.25 0 100 10.5 5.25 5.25 0 000-10.5z" />
+</svg>
+`;
+const moonIcon = `
+<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z" />
+</svg>
+`;
+---
+
+<button
+  id="theme-toggle"
+  type="button"
+  aria-label="Toggle dark mode"
+  class="p-1.5 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-slate-400 dark:focus:ring-slate-500 transition-colors duration-200"
+>
+  <span id="theme-toggle-light-icon" class="hidden" set:html={sunIcon} />
+  <span id="theme-toggle-dark-icon" class="hidden" set:html={moonIcon} />
+</button>
+
+<script>
+  // Get the theme toggle button and icons
+  const themeToggle = document.getElementById('theme-toggle');
+  const lightIcon = document.getElementById('theme-toggle-light-icon');
+  const darkIcon = document.getElementById('theme-toggle-dark-icon');
+  
+  // Function to update icon visibility
+  function updateIcons() {
+    const isDark = document.documentElement.classList.contains('dark');
+    if (isDark) {
+      if (lightIcon) lightIcon.classList.remove('hidden');
+      if (darkIcon) darkIcon.classList.add('hidden');
+    } else {
+      if (lightIcon) lightIcon.classList.add('hidden');
+      if (darkIcon) darkIcon.classList.remove('hidden');
+    }
+  }
+  
+  // Set initial icon state
+  updateIcons();
+  
+  // Toggle theme on click
+  if (themeToggle) {
+    themeToggle.addEventListener('click', () => {
+      // Toggle the dark class on the html element
+      const isDark = document.documentElement.classList.toggle('dark');
+      
+      // Update localStorage
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+      
+      // Update icons
+      updateIcons();
+    });
+  }
+  
+  // Update icons on page transitions
+  document.addEventListener('astro:after-swap', updateIcons);
+</script>

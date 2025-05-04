@@ -1,27 +1,57 @@
 ---
-interface Props {
-	borderColor?: string;
-	rounded?: 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | 'full';
-	class?: string;
-}
+import type { ContainerProps } from '../types/props';
+
+type Props = ContainerProps;
+
 const {
-	borderColor = 'border-slate-700 dark:border-slate-600',
-	rounded = 'xl',
-	class: className,
+  frosted = false,
+  panel = false,
+  borderColor,
+  rounded = 'xl',
+  padding = 'md',
+  class: className,
+  id,
 } = Astro.props;
-const roundedClass = `rounded-${rounded}`;
+
+// Mapping for rounded classes
+const roundedMap = {
+  'sm': 'rounded-sm',
+  'md': 'rounded-md',
+  'lg': 'rounded-lg',
+  'xl': 'rounded-xl',
+  '2xl': 'rounded-2xl',
+  '3xl': 'rounded-3xl',
+  'full': 'rounded-full',
+};
+
+// Mapping for padding classes
+const paddingMap = {
+  'none': 'p-0',
+  'sm': 'p-3',
+  'md': 'p-6',
+  'lg': 'p-8',
+  'xl': 'p-10',
+};
+
+const roundedClass = roundedMap[rounded];
+const paddingClass = paddingMap[padding];
+
+// Default border color if panel is true and borderColor is not provided
+const effectiveBorderColor =
+  panel && !borderColor ? 'border-slate-300 dark:border-slate-700' : borderColor;
 ---
 
 <div
-	class:list={[
-		'bg-white dark:bg-slate-800',
-		'border-2',
-		borderColor,
-		roundedClass,
-		'p-6',
-		'transition-colors duration-300',
-		className,
-	]}
+  id={id}
+  class:list={[
+    panel && 'panel',
+    frosted && 'frosted',
+    effectiveBorderColor,
+    roundedClass,
+    paddingClass,
+    'transition-standard',
+    className,
+  ]}
 >
-	<slot />
+  <slot />
 </div>

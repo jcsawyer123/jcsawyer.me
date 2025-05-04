@@ -1,51 +1,42 @@
 ---
 import NavLink from './NavLink.astro';
+import ThemeToggle from './ThemeToggle.astro';
+import MobileMenu from './MobileMenu.astro';
 
 interface Props {
     currentPath: string;
 }
 const { currentPath } = Astro.props;
 
+// Helper function to check if a path is active
 const isActive = (path: string) => {
     if (path === '/') return currentPath === '/';
     // Handle anchor links on homepage more robustly if needed
     if (path.startsWith('/#')) return currentPath === '/' || currentPath === path.substring(1);
     return currentPath.startsWith(path);
 }
-
-// SVG Icons for the toggle
-const sunIcon = `
-<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-  <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-6.364-.386l1.591-1.591M3 12h2.25m.386-6.364l1.591 1.591M12 6.75a5.25 5.25 0 100 10.5 5.25 5.25 0 000-10.5z" />
-</svg>
-`;
-const moonIcon = `
-<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-  <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z" />
-</svg>
-`;
 ---
 
 <div class="fixed top-0 left-0 right-0 z-50 flex justify-center">
     <nav
-    id="main-navbar"
-    class="
-      bg-white/80 dark:bg-slate-900/80
-      border border-slate-300 dark:border-slate-700
-      rounded-b-2xl
-      px-4 sm:px-6 py-3
-      w-full max-w-4xl
-      flex items-center justify-between
-      shadow-lg
-      backdrop-blur-md
-      transition-all duration-300
-    "
-  >
-		<!-- Logo -->
-		<a href="/" class="font-bold text-xl text-slate-800 dark:text-slate-100">JCS</a>
+        id="main-navbar"
+        class="
+            bg-white/80 dark:bg-slate-900/80
+            border border-slate-300 dark:border-slate-700
+            rounded-b-2xl
+            px-4 sm:px-6 py-3
+            w-full max-w-4xl
+            flex items-center justify-between
+            shadow-lg
+            backdrop-blur-md
+            transition-all duration-300
+        "
+    >
+        <!-- Logo -->
+        <a href="/" class="font-bold text-xl text-slate-800 dark:text-slate-100">JCS</a>
 
-		<!-- Nav Links & Theme Toggle Container -->
-		<div class="flex items-center gap-2 sm:gap-4">
+        <!-- Nav Links & Theme Toggle Container -->
+        <div class="flex items-center gap-2 sm:gap-4">
             <!-- Nav Links - Desktop -->
             <div class="hidden md:flex items-center">
                 <NavLink href="/" active={isActive('/')}>Home</NavLink>
@@ -56,116 +47,40 @@ const moonIcon = `
             </div>
 
             <!-- Theme Toggle Button -->
-            <button
-                id="theme-toggle"
-                type="button"
-                aria-label="Toggle dark mode"
-                class="p-1.5 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-slate-400 dark:focus:ring-slate-500 transition-colors duration-200"
-            >
-                <!-- Icons will be set by script -->
-                <span id="theme-toggle-light-icon" class="hidden" set:html={sunIcon} />
-                <span id="theme-toggle-dark-icon" class="hidden" set:html={moonIcon} />
-            </button>
+            <ThemeToggle />
 
-            <!-- Mobile Menu Toggle -->
-            <div class="md:hidden">
-                <button
-                    id="mobile-menu-button"
-                    class="p-1.5 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-slate-400 dark:focus:ring-slate-500 transition-colors duration-200"
-                >
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-                    </svg>
-                </button>
-            </div>
+            <!-- Mobile Menu -->
+            <MobileMenu currentPath={currentPath} />
         </div>
-
-		<!-- Mobile Menu (Hidden by default) -->
-		<div id="mobile-menu" class="hidden absolute top-full left-0 right-0 bg-white dark:bg-slate-800 border-x-2 border-b-2 border-slate-700 dark:border-slate-600 rounded-b-xl p-4 md:hidden shadow-lg flex flex-col space-y-2">
-			<NavLink href="/" active={isActive('/')}>Home</NavLink>
-			<NavLink href="/blog" active={isActive('/blog')}>Blog</NavLink>
-		</div>
-	</nav>
+    </nav>
 </div>
 
-{/* Client-side script for Navbar interactivity */}
 <script>
-	// --- Navbar Scroll Effect ---
-	const navbar = document.getElementById('main-navbar');
-	let scrollHandler = null;
-	if (navbar) {
-		scrollHandler = () => {
-			if (window.scrollY > 10) {
-				navbar.classList.add('shadow-lg');
-			} else {
-				navbar.classList.remove('shadow-lg');
-			}
-		};
-		window.addEventListener('scroll', scrollHandler);
-		scrollHandler(); // Initial check
-	}
-
-	// --- Mobile Menu Toggle ---
-	const menuButton = document.getElementById('mobile-menu-button');
-	const mobileMenu = document.getElementById('mobile-menu');
-	if (menuButton && mobileMenu) {
-		menuButton.addEventListener('click', (e) => {
-            e.stopPropagation(); // Prevent closing immediately if clicking outside logic runs
-			mobileMenu.classList.toggle('hidden');
-		});
-        // Close menu if clicking outside
-        document.addEventListener('click', (event) => {
-            if (navbar && !navbar.contains(event.target as Node) && !mobileMenu.classList.contains('hidden')) {
-                mobileMenu.classList.add('hidden');
+    // Navbar scroll effect
+    const initNavbarScroll = () => {
+        const navbar = document.getElementById('main-navbar');
+        if (!navbar) return;
+        
+        const scrollHandler = () => {
+            if (window.scrollY > 10) {
+                navbar.classList.add('shadow-lg');
+            } else {
+                navbar.classList.remove('shadow-lg');
             }
+        };
+        
+        window.addEventListener('scroll', scrollHandler);
+        scrollHandler(); // Initial check
+        
+        // Cleanup on page transition
+        document.addEventListener('astro:before-swap', () => {
+            window.removeEventListener('scroll', scrollHandler);
         });
-	}
-
-    // --- Theme Toggle ---
-    const themeToggleButton = document.getElementById('theme-toggle');
-    const lightIcon = document.getElementById('theme-toggle-light-icon');
-    const darkIcon = document.getElementById('theme-toggle-dark-icon');
-
-    // Function to update icon visibility
-    const updateIcons = (theme: string) => {
-        if (theme === 'dark') {
-            lightIcon?.classList.remove('hidden'); // Show sun when dark
-            darkIcon?.classList.add('hidden');
-        } else {
-            lightIcon?.classList.add('hidden');
-            darkIcon?.classList.remove('hidden'); // Show moon when light
-        }
     };
 
-    // Set initial icon based on script in <head>
-    const currentTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-    updateIcons(currentTheme);
-
-    // Add click listener
-    if (themeToggleButton) {
-        themeToggleButton.addEventListener('click', () => {
-            // Check current theme by class on <html>
-            const isDark = document.documentElement.classList.toggle('dark');
-            const newTheme = isDark ? 'dark' : 'light';
-            localStorage.setItem('theme', newTheme); // Save preference
-            updateIcons(newTheme); // Update icons
-        });
-    }
-
-	// --- Cleanup Listeners on Page Transition ---
-	document.addEventListener('astro:page-load', () => {
-		// Re-run initial checks or re-attach listeners if needed after page load
-        if (scrollHandler) scrollHandler(); // Check scroll state on new page
-        if (mobileMenu) mobileMenu.classList.add('hidden'); // Ensure mobile menu is closed
-        // Re-set theme toggle icons (should be correct from <head> script, but good practice)
-        const theme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-        updateIcons(theme);
-	});
-
-	document.addEventListener('astro:before-swap', () => {
-		// Remove listeners that might cause issues during transition
-		if (scrollHandler) window.removeEventListener('scroll', scrollHandler);
-        // No need to remove theme toggle listener as the button persists or gets replaced
-        // No need to remove mobile menu listener for the same reason
-	});
+    // Initialize on page load
+    document.addEventListener('DOMContentLoaded', initNavbarScroll);
+    
+    // Re-initialize after page transitions
+    document.addEventListener('astro:after-swap', initNavbarScroll);
 </script>

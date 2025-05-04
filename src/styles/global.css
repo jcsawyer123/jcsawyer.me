@@ -2,8 +2,73 @@
 @tailwind components;
 @tailwind utilities;
 
-
+/* --- Base styles --- */
 html, body {
-    overflow-x: hidden;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}
+
+/* --- Focus styles for accessibility --- */
+:focus-visible {
+  @apply outline-none ring-2 ring-sky-400 dark:ring-blue-500;
+}
+
+/* --- Typography --- */
+h1, h2, h3, h4, h5, h6 {
+  @apply text-slate-800 dark:text-slate-100 font-bold;
+}
+
+/* --- Frosted Glass Utility --- */
+@layer components {
+  .frosted {
+    @apply bg-white/80 dark:bg-slate-800/75 backdrop-blur-md;
   }
-  
+}
+
+@layer components {
+  .panel {
+    @apply border border-slate-300 dark:border-slate-700 shadow-sm relative overflow-hidden;
+  }
+  .panel-padding {
+    @apply p-8;
+  }
+}
+
+/* --- Section Panel (for headers, etc) --- */
+@layer components {
+  .section-panel {
+    @apply panel panel-padding mb-6;
+  }
+}
+
+/* --- Content Container --- */
+@layer components {
+  .content-container {
+    @apply max-w-4xl mx-auto px-4;
+  }
+}
+
+/* --- Interactive States --- */
+@layer components {
+  .hover-lift {
+    @apply transition-transform duration-200 hover:-translate-y-1 hover:shadow-md;
+  }
+  .focus-ring {
+    @apply focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400 dark:focus-visible:ring-blue-500;
+  }
+}
+
+/* --- Text Styles --- */
+@layer components {
+  .heading-1 { @apply text-3xl sm:text-4xl lg:text-5xl font-bold; }
+  .heading-2 { @apply text-2xl sm:text-3xl font-bold; }
+  .heading-3 { @apply text-xl sm:text-2xl font-bold; }
+  .body-text { @apply text-slate-600 dark:text-slate-300; }
+  .caption-text { @apply text-sm text-slate-500 dark:text-slate-400; }
+}
+
+/* --- Utilities --- */
+@layer utilities {
+  .clip-path-slant { clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%); }
+  .grid-auto-fit { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
+}

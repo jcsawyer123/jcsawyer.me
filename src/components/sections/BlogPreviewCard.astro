@@ -13,11 +13,12 @@ const postUrl = `/blog/${post.slug}`;
 <a href={postUrl} class="block group">
 	<div
 		class:list={[
-			'relative overflow-hidden rounded-lg',
-			'bg-white dark:bg-slate-800',
+			'frosted panel',
+			'overflow-hidden',
+			'rounded-lg',
 			'border border-slate-300 dark:border-slate-700',
 			'h-full flex flex-col', // Ensure cards have same height in a grid
-			'transition-all duration-300',
+			'transition-standard',
 			'pr-4 lg:pr-2',
 			'group-hover:shadow-sm group-hover:border-slate-500 dark:group-hover:border-slate-600',
 		]}
@@ -36,12 +37,12 @@ const postUrl = `/blog/${post.slug}`;
 				<h3 class="text-base font-bold text-slate-800 dark:text-slate-100 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
 					{post.data.title}
 				</h3>
-				<div class="text-xs text-slate-500 dark:text-slate-400 ml-2 flex-shrink-0 pt-0.5">
+				<div class="caption-text ml-2 flex-shrink-0 pt-0.5">
 					{post.data.pubDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
 				</div>
 			</div>
 
-			<p class="text-sm text-slate-600 dark:text-slate-300 mt-1 mb-2 line-clamp-2">
+			<p class="body-text text-sm mt-1 mb-2 line-clamp-2">
 				{post.data.description}
 			</p>
 
