@@ -8,6 +8,22 @@ html, body {
   scroll-behavior: smooth;
 }
 
+/* --- Background -- */
+/* Use a pseudo-element for the gradient background */
+body::before {
+  content: "";
+  position: fixed; /* Fixed position ensures it covers during overscroll */
+  width: 100%;
+  height: 100%;
+  z-index: -1; /* Behind all content */
+  background: linear-gradient(to bottom right, #ffffff, #e0f2fe);
+}
+
+/* Dark mode gradient */
+html.dark body::before {
+  background: linear-gradient(to bottom right, #0f172a, #1e293b);
+}
+
 /* --- Focus styles for accessibility --- */
 :focus-visible {
   @apply outline-none ring-2 ring-sky-400 dark:ring-blue-500;
@@ -18,57 +34,71 @@ h1, h2, h3, h4, h5, h6 {
   @apply text-slate-800 dark:text-slate-100 font-bold;
 }
 
-/* --- Frosted Glass Utility --- */
+/* --- Layer Components --- */
 @layer components {
+  /* Frosted Glass */
   .frosted {
     @apply bg-white/80 dark:bg-slate-800/75 backdrop-blur-md;
   }
-}
 
-@layer components {
+  /* Panel */
   .panel {
     @apply border border-slate-300 dark:border-slate-700 shadow-sm relative overflow-hidden;
   }
-  .panel-padding {
-    @apply p-8;
-  }
-}
 
-/* --- Section Panel (for headers, etc) --- */
-@layer components {
+  /* Section Panel */
   .section-panel {
     @apply panel panel-padding mb-6;
   }
-}
 
-/* --- Content Container --- */
-@layer components {
-  .content-container {
-    @apply max-w-4xl mx-auto px-4;
+  /* Padding Utilities */
+  .panel-padding {
+    @apply p-4 sm:p-6 md:p-8;
   }
-}
 
-/* --- Interactive States --- */
-@layer components {
+  /* Content Container */
+  .content-container {
+    @apply max-w-4xl mx-auto px-4 w-full;
+  }
+
+  /* Section */
+  .section {
+    @apply w-full mb-16;
+  }
+
+  /* Interactive States */
   .hover-lift {
     @apply transition-transform duration-200 hover:-translate-y-1 hover:shadow-md;
   }
+
   .focus-ring {
     @apply focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400 dark:focus-visible:ring-blue-500;
   }
-}
 
-/* --- Text Styles --- */
-@layer components {
-  .heading-1 { @apply text-3xl sm:text-4xl lg:text-5xl font-bold; }
-  .heading-2 { @apply text-2xl sm:text-3xl font-bold; }
-  .heading-3 { @apply text-xl sm:text-2xl font-bold; }
-  .body-text { @apply text-slate-600 dark:text-slate-300; }
-  .caption-text { @apply text-sm text-slate-500 dark:text-slate-400; }
+  /* Text Styles */
+  .heading-1 { 
+    @apply text-3xl sm:text-4xl lg:text-5xl font-bold; 
+  }
+  .heading-2 { 
+    @apply text-2xl sm:text-3xl font-bold; 
+  }
+  .heading-3 { 
+    @apply text-xl sm:text-2xl font-bold; 
+  }
+  .body-text { 
+    @apply text-slate-600 dark:text-slate-300; 
+  }
+  .caption-text { 
+    @apply text-sm text-slate-500 dark:text-slate-400; 
+  }
 }
 
 /* --- Utilities --- */
 @layer utilities {
-  .clip-path-slant { clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%); }
-  .grid-auto-fit { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
-}
+  .clip-path-slant { 
+    clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%); 
+  }
+  .grid-auto-fit { 
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); 
+  }
+} 
