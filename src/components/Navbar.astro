@@ -1,17 +1,15 @@
 ---
 import NavLink from './NavLink.astro';
-import ThemeToggle from './ThemeToggle.astro';
 import MobileMenu from './MobileMenu.astro';
+import ThemeToggle from './ThemeToggle.astro';
 
 interface Props {
     currentPath: string;
 }
 const { currentPath } = Astro.props;
 
-// Helper function to check if a path is active
 const isActive = (path: string) => {
     if (path === '/') return currentPath === '/';
-    // Handle anchor links on homepage more robustly if needed
     if (path.startsWith('/#')) return currentPath === '/' || currentPath === path.substring(1);
     return currentPath.startsWith(path);
 }
@@ -21,23 +19,22 @@ const isActive = (path: string) => {
     <nav
         id="main-navbar"
         class="
-            bg-white/80 dark:bg-slate-900/80
+            bg-white/80 dark:bg-slate-900/75 backdrop-blur-md
             border border-slate-300 dark:border-slate-700
             rounded-b-2xl
             px-4 sm:px-6 py-3
             w-full max-w-4xl
             flex items-center justify-between
             shadow-lg
-            backdrop-blur-md
             transition-all duration-300
         "
-    >
-        <!-- Logo -->
+    > 
+        {/* Logo */}
         <a href="/" class="font-bold text-xl text-slate-800 dark:text-slate-100">JCS</a>
 
-        <!-- Nav Links & Theme Toggle Container -->
+        {/* Nav Links & Theme Toggle Container */}
         <div class="flex items-center gap-2 sm:gap-4">
-            <!-- Nav Links - Desktop -->
+            {/* Nav Links - Desktop */}
             <div class="hidden md:flex items-center">
                 <NavLink href="/" active={isActive('/')}>Home</NavLink>
                 <span class="text-slate-300 dark:text-slate-600 mx-1">|</span>
@@ -46,10 +43,10 @@ const isActive = (path: string) => {
                 <NavLink href="/#contact" active={isActive('/contact')}>Contact</NavLink>
             </div>
 
-            <!-- Theme Toggle Button -->
+            {/* Theme Toggle Button */}
             <ThemeToggle />
 
-            <!-- Mobile Menu -->
+            {/* Mobile Menu */}
             <MobileMenu currentPath={currentPath} />
         </div>
     </nav>
@@ -70,7 +67,7 @@ const isActive = (path: string) => {
         };
         
         window.addEventListener('scroll', scrollHandler);
-        scrollHandler(); // Initial check
+        scrollHandler();
         
         // Cleanup on page transition
         document.addEventListener('astro:before-swap', () => {

@@ -10,7 +10,6 @@ const { currentPath } = Astro.props;
 // Helper function to check if a path is active
 const isActive = (path: string) => {
   if (path === '/') return currentPath === '/';
-  // Handle anchor links on homepage more robustly if needed
   if (path.startsWith('/#')) return currentPath === '/' || currentPath === path.substring(1);
   return currentPath.startsWith(path);
 };
@@ -22,7 +21,7 @@ const isActive = (path: string) => {
     aria-label="Toggle mobile menu"
     aria-expanded="false"
     aria-controls="mobile-menu"
-    class="p-1.5 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-slate-400 dark:focus:ring-slate-500 transition-colors duration-200"
+    class="p-1.5 rounded-lg text-adaptive hover:bg-slate-100 dark:hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-sky-400 dark:focus:ring-blue-500 transition-colors-standard"
   >
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
       <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
@@ -32,7 +31,7 @@ const isActive = (path: string) => {
   <!-- Mobile Menu (Hidden by default) -->
   <div 
     id="mobile-menu" 
-    class="hidden absolute top-full left-0 right-0 bg-white dark:bg-slate-800 border-x-2 border-b-2 border-slate-700 dark:border-slate-600 rounded-b-xl p-4 md:hidden shadow-lg flex flex-col space-y-2"
+    class="hidden absolute top-full left-0 right-0 panel frosted frosted-heavy rounded-b-xl p-4 md:hidden shadow-lg flex flex-col space-y-2"
   >
     <NavLink href="/" active={isActive('/')}>Home</NavLink>
     <NavLink href="/blog" active={isActive('/blog')}>Blog</NavLink>
@@ -49,8 +48,7 @@ const isActive = (path: string) => {
     
     // Toggle menu visibility
     menuButton.addEventListener('click', (e) => {
-      e.stopPropagation(); // Prevent closing immediately if clicking outside logic runs
-      
+      e.stopPropagation();
       const isExpanded = mobileMenu.classList.toggle('hidden') === false;
       menuButton.setAttribute('aria-expanded', isExpanded.toString());
     });

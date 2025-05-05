@@ -2,20 +2,36 @@
 @tailwind components;
 @tailwind utilities;
 
-/* --- Base styles --- */
-html, body {
-  overflow-x: hidden;
-  scroll-behavior: smooth;
+/**
+ * Base Styles
+ */
+ @layer base {
+  html, body {
+    @apply overflow-x-hidden scroll-smooth;
+  }
+
+  :focus-visible {
+    @apply outline-none ring-2 ring-sky-400 dark:ring-blue-500;
+  }
+
+  /* Add scroll margin for all headings and elements that might be anchor targets */
+  :target {
+    @apply scroll-mt-24; /* Matches the navbar height (96px) */
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply scroll-mt-20; /* Ensures offset even when not targeted directly */
+  }
 }
 
 /* --- Background -- */
 /* Use a pseudo-element for the gradient background */
 body::before {
   content: "";
-  position: fixed; /* Fixed position ensures it covers during overscroll */
+  position: fixed;
   width: 100%;
   height: 100%;
-  z-index: -1; /* Behind all content */
+  z-index: -1;
   background: linear-gradient(to bottom right, #ffffff, #e0f2fe);
 }
 
@@ -24,81 +40,197 @@ html.dark body::before {
   background: linear-gradient(to bottom right, #0f172a, #1e293b);
 }
 
-/* --- Focus styles for accessibility --- */
-:focus-visible {
-  @apply outline-none ring-2 ring-sky-400 dark:ring-blue-500;
-}
-
-/* --- Typography --- */
-h1, h2, h3, h4, h5, h6 {
-  @apply text-slate-800 dark:text-slate-100 font-bold;
-}
-
-/* --- Layer Components --- */
+/**
+ * Layout Components
+ */
 @layer components {
-  /* Frosted Glass */
-  .frosted {
-    @apply bg-white/80 dark:bg-slate-800/75 backdrop-blur-md;
-  }
-
-  /* Panel */
-  .panel {
-    @apply border border-slate-300 dark:border-slate-700 shadow-sm relative overflow-hidden;
-  }
-
-  /* Section Panel */
-  .section-panel {
-    @apply panel panel-padding mb-6;
-  }
-
-  /* Padding Utilities */
-  .panel-padding {
-    @apply p-4 sm:p-6 md:p-8;
-  }
-
-  /* Content Container */
+  /* Container patterns */
   .content-container {
     @apply max-w-4xl mx-auto px-4 w-full;
   }
 
-  /* Section */
+  .content-container-narrow {
+    @apply max-w-3xl mx-auto px-4 w-full;
+  }
+
+  .content-container-wide {
+    @apply max-w-6xl mx-auto px-4 w-full;
+  }
+
+  /* Panel variations */
+  .panel {
+    @apply border border-slate-300 dark:border-slate-700 shadow-sm relative overflow-hidden;
+  }
+
+  /* Panel padding variations */
+  .panel-padding-xs {
+    @apply p-2 sm:p-3 md:p-4;
+  }
+
+  .panel-padding-sm {
+    @apply p-3 sm:p-4 md:p-6;
+  }
+
+  .panel-padding-md {
+    @apply p-4 sm:p-6 md:p-8;
+  }
+
+  /* Frosted glass effects */
+  .frosted {
+    @apply backdrop-blur-md;
+  }
+
+  .frosted-light {
+    @apply bg-white/80 dark:bg-slate-800/75;
+  }
+
+  .frosted-heavy {
+    @apply bg-white/90 dark:bg-slate-800/90;
+  }
+
+  /* Section patterns */
   .section {
     @apply w-full mb-16;
   }
 
-  /* Interactive States */
+  .section-sm {
+    @apply w-full mb-8;
+  }
+
+  /* Typography styles for prose content */
+  .prose {
+    @apply prose-slate dark:prose-invert max-w-none;
+    
+    & h1, & h2, & h3, & h4 {
+      @apply text-slate-800 dark:text-slate-50 font-bold scroll-mt-24;
+    }
+    
+    & p, & li {
+      @apply text-slate-600 dark:text-slate-300;
+    }
+    
+    & a {
+      @apply text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300;
+      @apply no-underline hover:underline;
+    }
+    
+    & strong {
+      @apply text-slate-800 dark:text-slate-50 font-bold;
+    }
+    
+    & blockquote {
+      @apply border-slate-300 dark:border-slate-600;
+      & p {
+        @apply text-slate-600 dark:text-slate-300;
+      }
+    }
+    
+    & code {
+      @apply bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-100;
+      @apply px-1.5 py-0.5 rounded;
+    }
+    
+    & pre {
+      @apply bg-slate-100 dark:bg-slate-800;
+      & code {
+        @apply bg-transparent p-0;
+      }
+    }
+  }
+}
+
+/**
+ * Typography System
+ */
+@layer components {
+  /* Headings */
+  .heading-1 {
+    @apply text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-800 dark:text-slate-50;
+  }
+
+  .heading-2 {
+    @apply text-2xl sm:text-3xl font-bold text-slate-800 dark:text-slate-50;
+  }
+
+  .heading-3 {
+    @apply text-xl sm:text-2xl font-bold text-slate-800 dark:text-slate-50;
+  }
+
+  .heading-4 {
+    @apply text-lg sm:text-xl font-semibold text-slate-800 dark:text-slate-50;
+  }
+
+  /* Body text variations */
+  .body-text {
+    @apply text-slate-600 dark:text-slate-300;
+  }
+
+  .body-text-large {
+    @apply text-lg text-slate-600 dark:text-slate-300;
+  }
+
+  .body-text-small {
+    @apply text-sm text-slate-600 dark:text-slate-300;
+  }
+
+  /* Caption and metadata text */
+  .caption-text {
+    @apply text-sm text-slate-500 dark:text-slate-400;
+  }
+
+  .meta-text {
+    @apply text-xs text-slate-500 dark:text-slate-400;
+  }
+}
+
+/**
+ * Interactive Elements
+ */
+@layer components {
+  .link-primary {
+    @apply text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300;
+    @apply transition-colors duration-200;
+  }
+
+  .link-muted {
+    @apply text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-200;
+    @apply transition-colors duration-200;
+  }
+
   .hover-lift {
     @apply transition-transform duration-200 hover:-translate-y-1 hover:shadow-md;
+  }
+
+  .hover-lift-sm {
+    @apply transition-all duration-200 hover:-translate-y-0.5 hover:shadow-sm;
   }
 
   .focus-ring {
     @apply focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400 dark:focus-visible:ring-blue-500;
   }
-
-  /* Text Styles */
-  .heading-1 { 
-    @apply text-3xl sm:text-4xl lg:text-5xl font-bold; 
-  }
-  .heading-2 { 
-    @apply text-2xl sm:text-3xl font-bold; 
-  }
-  .heading-3 { 
-    @apply text-xl sm:text-2xl font-bold; 
-  }
-  .body-text { 
-    @apply text-slate-600 dark:text-slate-300; 
-  }
-  .caption-text { 
-    @apply text-sm text-slate-500 dark:text-slate-400; 
-  }
 }
 
-/* --- Utilities --- */
+/**
+ * Decorative Elements
+ */
 @layer utilities {
+  .gradient-primary {
+    @apply bg-gradient-to-r from-sky-300 to-blue-400 dark:from-blue-600 dark:to-purple-700;
+  }
+
+  .transition-standard {
+    @apply transition-all duration-200;
+  }
+
+  .transition-colors-standard {
+    @apply transition-colors duration-200;
+  }
+
   .clip-path-slant { 
     clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%); 
   }
+  
   .grid-auto-fit { 
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); 
   }
-} 
+}

@@ -88,7 +88,7 @@ const relatedPosts = shuffle(
       {/* Mobile Table of Contents (Collapsible) */}
       <div class="mb-8 xl:hidden max-w-4xl mx-auto">
         <details class="group">
-          <summary class="flex justify-between rounded-lg items-center cursor-pointer frosted panel border border-slate-300 dark:border-slate-700 p-4 text-slate-800 dark:text-slate-100 font-semibold">
+          <summary class="flex justify-between rounded-lg items-center cursor-pointer frosted panel frosted-light border border-slate-300 dark:border-slate-700 p-4 text-slate-800 dark:text-slate-100 font-semibold">
             <span>Table of Contents</span>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -116,7 +116,7 @@ const relatedPosts = shuffle(
       <div class="grid grid-cols-1 xl:grid-cols-[minmax(0,1fr)_330px] gap-6 xl:gap-10 mb-2">
         {/* Main column */}
         <div>
-          <div class="relative overflow-hidden p-3 sm:p-6 md:p-8 xl:p-10 rounded-xl shadow-sm max-w-4xl mx-auto xl:max-w-none frosted panel border border-slate-300 dark:border-slate-700">
+          <div class="relative overflow-hidden p-3 sm:p-6 md:p-8 xl:p-10 rounded-xl shadow-sm max-w-4xl mx-auto xl:max-w-none frosted frosted-light panel border border-slate-300 dark:border-slate-700">
             {/* Post header */}
             <div class="mb-6 md:mb-8 relative pt-4 z-10">
               {post.data.image && (
@@ -212,7 +212,7 @@ const relatedPosts = shuffle(
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
                 {relatedPosts.map((relatedPost) => (
                   <a href={`/blog/${relatedPost.slug}`} class="group hover-lift">
-                    <div class="frosted panel border border-slate-300 dark:border-slate-700 h-full p-4 md:p-5">
+                    <div class="frosted frosted-light panel border border-slate-300 dark:border-slate-700 h-full p-4 md:p-5">
                       {relatedPost.data.image && (
                         <div class="mb-3 md:mb-4 overflow-hidden rounded-lg">
                           <img
@@ -239,13 +239,13 @@ const relatedPosts = shuffle(
           )}
 
           {/* Mobile Newsletter Signup */}
-          <NewsletterSignup className="xl:hidden max-w-4xl mx-auto mb-10 md:mb-4 mt-6 md:mt-8" />
+          <NewsletterSignup className="xl:hidden max-w-4xl mx-auto mb-10 md:mb-4 mt-6 md:mt-8 p-4" />
         </div>
 
         {/* Sidebar column */}
         <aside class="hidden xl:block">
           <div class="sticky top-24 space-y-6">
-            <div class="relative overflow-hidden p-6 rounded-xl mb-6 frosted panel border border-slate-300 dark:border-slate-700">
+            <div class="relative overflow-hidden p-6 rounded-xl mb-6 frosted frosted-light panel border border-slate-300 dark:border-slate-700">
               <GradientAccent position="top" size="md" />
               <div class="relative z-10 pt-2">
                 <h3 class="heading-3 mb-4">
@@ -289,62 +289,3 @@ const relatedPosts = shuffle(
   });
 </script>
 
-<style>
-  .toc-link.active {
-    @apply text-blue-600 dark:text-blue-400 font-medium;
-  }
-  
-  /* Improved dark mode text readability */
-  .dark .prose p,
-  .dark .prose li,
-  .dark .prose td {
-    @apply text-slate-200;
-  }
-  
-  .dark .prose a {
-    @apply text-blue-300 hover:text-blue-200;
-  }
-  
-  .dark .prose strong {
-    @apply text-slate-100;
-  }
-  
-  .dark .prose h2,
-  .dark .prose h3,
-  .dark .prose h4 {
-    @apply text-slate-100;
-  }
-  
-  .dark .prose blockquote {
-    @apply border-slate-600 text-slate-300;
-  }
-  
-  .dark .prose code {
-    @apply bg-slate-700 text-slate-200;
-  }
-  
-  /* Optimize article content for mobile readability */
-  @media (max-width: 640px) {
-    .mobile-article-content {
-      padding-left: 0;
-      padding-right: 0;
-    }
-    .mobile-article-content h2,
-    .mobile-article-content h3,
-    .mobile-article-content h4 {
-      margin-top: 1.5em;
-      margin-bottom: 0.75em;
-    }
-    .mobile-article-content p,
-    .mobile-article-content ul,
-    .mobile-article-content ol {
-      margin-top: 0.75em;
-      margin-bottom: 0.75em;
-    }
-    .mobile-article-content pre {
-      margin: 1em -0.5em;
-      padding: 1em 0.5em;
-      border-radius: 0.25rem;
-    }
-  }
-</style>

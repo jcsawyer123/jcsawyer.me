@@ -40,11 +40,13 @@ const roundedMap = {
 const roundedClass = roundedMap[rounded];
 ---
 
+<!-- <div class="panel frosted border-slate-300 dark:border-slate-700 rounded-xl p-6 transition-standard mb-6 relative overflow-hidden rounded-xl ">  <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-sky-300 to-blue-400 dark:from-blue-600 dark:to-purple-700" aria-hidden="true"></div> <div class="relative z-10 pt-2"> <h2 class="heading-2 mb-1"> Projects &amp; Repositories </h2> <p class="body-text mb-0"> A selection of my recent work. </p> </div>  </div> -->
+
 <Container
   frosted
   panel
-  padding="md"
-  class={`mb-6 relative overflow-hidden ${roundedClass} ${className ?? ''}`}
+  padding="sm"
+  class={`mb-6 relative overflow-hidden p-6 ${roundedClass} ${className ?? ''}`}
 >
   <GradientAccent position={accent} size={accentSize} />
   <div class="relative z-10 pt-2">

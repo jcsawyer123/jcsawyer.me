@@ -24,34 +24,24 @@ const roundedMap = {
   'full': 'rounded-full',
 };
 
-// Mapping for padding classes
-const paddingMap = {
-  'none': 'p-0',
-  'sm': 'p-3',
-  'md': 'p-6',
-  'lg': 'p-8',
-  'xl': 'p-10',
-};
-
 const roundedClass = roundedMap[rounded];
-const paddingClass = paddingMap[padding];
+const paddingClass = `panel-padding-${padding}`;
 
-// Default border color if panel is true and borderColor is not provided
-const effectiveBorderColor =
-  panel && !borderColor ? 'border-slate-300 dark:border-slate-700' : borderColor;
+// Build conditional classes
+const containerClasses = [
+  panel && 'panel',
+  frosted && 'frosted frosted-light',
+  borderColor || (panel && 'border-adaptive'),
+  roundedClass,
+  paddingClass,
+  'transition-standard',
+  className
+];
 ---
 
 <div
   id={id}
-  class:list={[
-    panel && 'panel',
-    frosted && 'frosted',
-    effectiveBorderColor,
-    roundedClass,
-    paddingClass,
-    'transition-standard',
-    className,
-  ]}
+  class:list={containerClasses}
 >
   <slot />
 </div>

@@ -16,20 +16,12 @@ const displayDate = post.data.pubDate.toLocaleDateString('en-US', {
 
 <a
   href={postUrl}
-  class="block group focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400 rounded-xl transition"
+  class="block group focus-ring rounded-xl transition-standard"
 >
-  <div
-    class:list={[
-      'relative overflow-hidden rounded-xl',
-      'bg-white/80 dark:bg-slate-800/75 backdrop-blur-md border border-slate-200/40 dark:border-slate-700/40 shadow-sm',
-      'transition-all duration-200 hover:-translate-y-1 hover:shadow-lg',
-      'p-5 flex flex-col gap-2',
-      'min-h-[120px]',
-    ]}
-  >
+  <div class="panel forested frosted-light hover-lift rounded-xl panel-padding-md min-h-[120px]">
     {/* Top row: Date and Featured */}
     <div class="flex items-center justify-between mb-1">
-      <span class="text-sm text-slate-500 dark:text-slate-400">
+      <span class="caption-text">
         {displayDate}
       </span>
       {post.data.featured && (
@@ -50,20 +42,12 @@ const displayDate = post.data.pubDate.toLocaleDateString('en-US', {
     </div>
 
     {/* Title */}
-    <h3
-      class="
-        text-lg font-bold
-        text-slate-800 dark:text-slate-100
-        group-hover:text-blue-600 dark:group-hover:text-blue-400
-        transition-colors
-        mb-1
-      "
-    >
+    <h3 class="heading-3 mb-1 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors-standard">
       {post.data.title}
     </h3>
 
     {/* Description */}
-    <p class="text-sm text-slate-600 dark:text-slate-300 mb-1 line-clamp-2">
+    <p class="body-text-small mb-1 line-clamp-2">
       {post.data.description}
     </p>
 
@@ -76,8 +60,8 @@ const displayDate = post.data.pubDate.toLocaleDateString('en-US', {
       </div>
     )}
 
-    {/* Arrow icon that shows only on hover (desktop) */}
-    <div class="absolute bottom-3 right-4 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+    {/* Arrow icon that shows only on hover */}
+    <div class="absolute bottom-3 right-4 opacity-0 group-hover:opacity-100 transition-standard pointer-events-none">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 20 20"

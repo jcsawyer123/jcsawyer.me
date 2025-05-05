@@ -2,7 +2,6 @@
 import type { CollectionEntry } from 'astro:content';
 
 interface Props {
-	// Using the 'projects' data collection
 	project: CollectionEntry<'projects'>['data'];
 }
 
@@ -13,19 +12,9 @@ const { project } = Astro.props;
 	href={project.link}
 	target="_blank"
 	rel="noopener noreferrer"
-	class="block group"
+	class="block group focus-ring"
 >
-	<div
-	class:list={[
-		'frosted',
-		'panel',
-		'h-full flex flex-col',
-		'transition-standard',
-		'pr-4 lg:pr-2',
-		'rounded-lg',
-		'group-hover:shadow-sm group-hover:border-slate-500 dark:group-hover:border-slate-600',
-	]}
-	>
+	<div class="panel frosted frosted-light rounded-lg hover-lift h-full">
 		{project.featured && (
 			<div class="absolute top-0 right-0 z-10">
 				<div class="w-12 h-12 bg-blue-300 dark:bg-blue-500 rotate-45 transform origin-bottom-right"></div>
@@ -36,16 +25,17 @@ const { project } = Astro.props;
 		)}
 
 		<div class="px-4 py-3 flex-grow">
-			<h3 class="text-base font-bold text-slate-800 dark:text-slate-100 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+			<h3 class="text-adaptive-strong  font-bold group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors-standard">
 				{project.name}
-            </h3>
-			<p class="body-text text-sm mt-1 mb-2 line-clamp-2">
-            	{project.description}
-            </p>
-        </div>
+			</h3>
+			<p class="body-text-small mt-1 mb-2 line-clamp-2">
+				{project.description}
+			</p>
+		</div>
+
 
 		{/* Arrow icon that shows only on hover */}
-		<div class="absolute bottom-2 right-3 opacity-0 group-hover:opacity-100 transition-opacity">
+		<div class="absolute bottom-2 right-3 opacity-0 group-hover:opacity-100 transition-standard">
 			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4 text-blue-600 dark:text-blue-400">
 				<path fill-rule="evenodd" d="M2 10a.75.75 0 01.75-.75h12.59l-2.1-1.95a.75.75 0 111.02-1.1l3.5 3.25a.75.75 0 010 1.1l-3.5 3.25a.75.75 0 11-1.02-1.1l2.1-1.95H2.75A.75.75 0 012 10z" clip-rule="evenodd"></path>
 			</svg>
