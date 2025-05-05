@@ -6,6 +6,11 @@
 import { initThemeToggle, setTheme, getCurrentTheme } from './theme';
 import { initNavigation } from './navigation';
 import { initGlossary } from './glossary';
+import { initTableOfContentsHighlighting } from '../utils/toc';
+
+// Flag to track initialization state
+let isInitialized = false;
+let cleanupFunctions: Array<(() => void) | null> = [];
 
 // Initialize accessibility features
 function initAccessibility() {
@@ -23,48 +28,52 @@ function initAccessibility() {
     mainContent.id = 'main-content';
     mainContent.setAttribute('tabindex', '-1');
   }
+  
+  // No cleanup needed
+  return null;
 }
 
 // Initialize table of contents highlighting
 function initTableOfContents() {
-  const toc = document.querySelector('.toc');
-  if (!toc) return;
+  const tocHighlighting = initTableOfContentsHighlighting();
+  tocHighlighting.init();
   
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          const id = entry.target.getAttribute('id');
-          document.querySelectorAll('.toc-link').forEach((link) => {
-            link.classList.remove('active');
-          });
-          document
-            .querySelector(`.toc-link[href="#${id}"]`)
-            ?.classList.add('active');
-        }
-      });
-    },
-    { rootMargin: '0px 0px -80% 0px', threshold: 0.1 }
-  );
-  
-  // Observe all headings
-  document.querySelectorAll('article h2, article h3').forEach((heading) => {
-    observer.observe(heading);
-  });
+  return () => {
+    tocHighlighting.cleanup();
+  };
 }
 
 // Main initialization function
 function init() {
+  // Prevent multiple initializations
+  if (isInitialized) {
+    // Just update theme without re-initializing everything
+    const theme = getCurrentTheme();
+    setTheme(theme);
+    return;
+  }
+  
+  isInitialized = true;
+  
   // Initialize theme first to avoid flicker
   const theme = getCurrentTheme();
   setTheme(theme);
   
-  // Initialize UI components
-  initThemeToggle();
-  initNavigation();
-  initGlossary();
-  initAccessibility();
-  initTableOfContents();
+  // Clean up any previous functions
+  cleanupFunctions.forEach(cleanup => {
+    if (typeof cleanup === 'function') {
+      cleanup();
+    }
+  });
+  
+  // Store cleanup functions
+  cleanupFunctions = [
+    initThemeToggle(),
+    initNavigation(),
+    initGlossary(),
+    initAccessibility(),
+    initTableOfContents()
+  ];
   
   // Initialize any page-specific features
   const pageInit = window.__pageInit;
@@ -73,16 +82,25 @@ function init() {
   }
 }
 
+// Handle cleanup on page transitions
+function cleanup() {
+  cleanupFunctions.forEach(cleanup => {
+    if (typeof cleanup === 'function') {
+      cleanup();
+    }
+  });
+  cleanupFunctions = [];
+  isInitialized = false;
+}
+
 // Initialize on DOMContentLoaded
 document.addEventListener('DOMContentLoaded', init);
 
 // Re-initialize on page transitions (for Astro View Transitions)
-document.addEventListener('astro:page-load', init);
+document.addEventListener('astro:after-swap', init);
 
 // Cleanup before page transitions
-document.addEventListener('astro:before-swap', () => {
-  // Any cleanup needed before page transition
-});
+document.addEventListener('astro:before-swap', cleanup);
 
 // Type declaration for global namespace
 declare global {

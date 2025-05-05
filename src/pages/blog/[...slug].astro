@@ -263,29 +263,21 @@ const relatedPosts = shuffle(
 </BaseLayout>
 
 <script>
-  // Highlight current section in Table of Contents based on scroll position
+  import { initTableOfContentsHighlighting } from '../../utils/toc';
+  
+  const tocHighlighting = initTableOfContentsHighlighting();
+  
   document.addEventListener('DOMContentLoaded', () => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const id = entry.target.getAttribute('id');
-            document.querySelectorAll('.toc-link').forEach((link) => {
-              link.classList.remove('active');
-            });
-            document
-              .querySelector(`.toc-link[href="#${id}"]`)
-              ?.classList.add('active');
-          }
-        });
-      },
-      { rootMargin: '0px 0px -80% 0px', threshold: 0.1 },
-    );
-
-    // Observe all headings
-    document.querySelectorAll('article h2, article h3').forEach((heading) => {
-      observer.observe(heading);
-    });
+    tocHighlighting.init();
+  });
+  
+  // Clean up on page transitions
+  document.addEventListener('astro:before-swap', () => {
+    tocHighlighting.cleanup();
+  });
+  
+  // Reinitialize after page transitions
+  document.addEventListener('astro:after-swap', () => {
+    tocHighlighting.init();
   });
 </script>
-

@@ -5,13 +5,18 @@
 // Store the theme key in a constant for consistency
 const THEME_STORAGE_KEY = 'theme-preference';
 
+// Cache element references for performance
+let lightIcon: HTMLElement | null = null;
+let darkIcon: HTMLElement | null = null;
+let themeToggleButton: HTMLElement | null = null;
+
 // Function to update icon visibility based on current theme
 export function updateThemeIcons(theme: string) {
-  const lightIcon = document.getElementById('theme-toggle-light-icon');
-  const darkIcon = document.getElementById('theme-toggle-dark-icon');
+  // Get elements only if not already cached
+  if (!lightIcon) lightIcon = document.getElementById('theme-toggle-light-icon');
+  if (!darkIcon) darkIcon = document.getElementById('theme-toggle-dark-icon');
   
   if (!lightIcon || !darkIcon) {
-    console.warn('Theme icons not found in the DOM');
     return;
   }
   
@@ -68,28 +73,56 @@ export function toggleTheme() {
 
 // Initialize theme toggle functionality
 export function initThemeToggle() {
-  // Delay execution slightly to ensure DOM is fully loaded
-  setTimeout(() => {
-    const themeToggleButton = document.getElementById('theme-toggle');
-    
-    if (!themeToggleButton) {
-      console.warn('Theme toggle button not found in the DOM');
-      return;
+  // Clear cached elements to ensure fresh references
+  lightIcon = null;
+  darkIcon = null;
+  
+  // Cache the button element
+  themeToggleButton = document.getElementById('theme-toggle');
+  
+  if (!themeToggleButton) {
+    return null;
+  }
+  
+  // Set initial icon
+  const currentTheme = getCurrentTheme();
+  setTheme(currentTheme);
+  
+  // Create a bound event handler for the toggle
+  const toggleHandler = () => {
+    toggleTheme();
+  };
+  
+  // Add click listener
+  themeToggleButton.addEventListener('click', toggleHandler);
+  
+  // Make the button visible now that it's functional
+  themeToggleButton.classList.remove('opacity-0');
+  themeToggleButton.classList.add('opacity-100');
+  
+  // Return cleanup function
+  return () => {
+    if (themeToggleButton) {
+      themeToggleButton.removeEventListener('click', toggleHandler);
     }
-    
-    // Set initial icon
-    const currentTheme = getCurrentTheme();
-    setTheme(currentTheme);
-    
-    // Add click listener
-    themeToggleButton.addEventListener('click', () => {
-      toggleTheme();
-    });
-    
-    // Make the button visible now that it's functional
-    themeToggleButton.classList.remove('opacity-0');
-    themeToggleButton.classList.add('opacity-100');
-    
-    console.log('Theme toggle initialized with theme:', currentTheme);
-  }, 50);
+  };
+}
+
+// Add listener for system theme changes
+export function initSystemThemeListener() {
+  const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+  
+  const systemThemeChangeHandler = (e: MediaQueryListEvent) => {
+    // Only apply if no user preference is stored
+    if (!localStorage.getItem(THEME_STORAGE_KEY)) {
+      setTheme(e.matches ? 'dark' : 'light');
+    }
+  };
+  
+  mediaQuery.addEventListener('change', systemThemeChangeHandler);
+  
+  // Return cleanup function
+  return () => {
+    mediaQuery.removeEventListener('change', systemThemeChangeHandler);
+  };
 }
