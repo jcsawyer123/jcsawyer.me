@@ -125,11 +125,6 @@ html.dark body::before {
       }
     }
     
-    & code {
-      @apply bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-100;
-      @apply px-1.5 py-0.5 rounded;
-    }
-    
     & pre {
       @apply bg-slate-100 dark:bg-slate-800;
       & code {

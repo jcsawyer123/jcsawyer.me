@@ -262,6 +262,14 @@ const relatedPosts = shuffle(
   </GlossaryProvider>
 </BaseLayout>
 
+<style is:global>
+  /* Hide pseudo-elements and 'md:' within code blocks rendered by Markdown */
+  .prose :where(code)::before,
+  .prose :where(code)::after {
+    content: none;
+  }
+</style>
+
 <script>
   import { initTableOfContentsHighlighting } from '../../utils/toc';
   
