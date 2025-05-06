@@ -1,33 +1,9 @@
 /**
- * Theme management utilities
+ * Theme management utilities - Simplified and consolidated
  */
 
 // Store the theme key in a constant for consistency
-const THEME_STORAGE_KEY = 'theme-preference';
-
-// Cache element references for performance
-let lightIcon: HTMLElement | null = null;
-let darkIcon: HTMLElement | null = null;
-let themeToggleButton: HTMLElement | null = null;
-
-// Function to update icon visibility based on current theme
-export function updateThemeIcons(theme: string) {
-  // Get elements only if not already cached
-  if (!lightIcon) lightIcon = document.getElementById('theme-toggle-light-icon');
-  if (!darkIcon) darkIcon = document.getElementById('theme-toggle-dark-icon');
-  
-  if (!lightIcon || !darkIcon) {
-    return;
-  }
-  
-  if (theme === 'dark') {
-    lightIcon.classList.remove('hidden'); // Show sun when dark
-    darkIcon.classList.add('hidden');
-  } else {
-    lightIcon.classList.add('hidden');
-    darkIcon.classList.remove('hidden'); // Show moon when light
-  }
-}
+const THEME_STORAGE_KEY = 'theme';
 
 // Function to get the current theme
 export function getCurrentTheme(): string {
@@ -57,7 +33,25 @@ export function setTheme(theme: string) {
   localStorage.setItem(THEME_STORAGE_KEY, theme);
   
   // Update icons if they exist
-  updateThemeIcons(theme);
+  updateIcons(theme);
+}
+
+// Function to update icon visibility based on current theme
+function updateIcons(theme: string) {
+  const lightIcon = document.getElementById('theme-toggle-light-icon');
+  const darkIcon = document.getElementById('theme-toggle-dark-icon');
+  
+  if (!lightIcon || !darkIcon) {
+    return;
+  }
+  
+  if (theme === 'dark') {
+    lightIcon.classList.remove('hidden'); // Show sun when dark
+    darkIcon.classList.add('hidden');
+  } else {
+    lightIcon.classList.add('hidden');
+    darkIcon.classList.remove('hidden'); // Show moon when light
+  }
 }
 
 // Function to toggle the theme
@@ -71,45 +65,29 @@ export function toggleTheme() {
   return newTheme;
 }
 
-// Initialize theme toggle functionality
-export function initThemeToggle() {
-  // Clear cached elements to ensure fresh references
-  lightIcon = null;
-  darkIcon = null;
-  
-  // Cache the button element
-  themeToggleButton = document.getElementById('theme-toggle');
-  
-  if (!themeToggleButton) {
-    return null;
-  }
-  
-  // Set initial icon
+// Initialize theme handling
+export function initTheme() {
+  // Set initial theme
   const currentTheme = getCurrentTheme();
   setTheme(currentTheme);
   
-  // Create a bound event handler for the toggle
-  const toggleHandler = () => {
-    toggleTheme();
-  };
+  // Add toggle button handler
+  const themeToggleButton = document.getElementById('theme-toggle');
   
-  // Add click listener
-  themeToggleButton.addEventListener('click', toggleHandler);
-  
-  // Make the button visible now that it's functional
-  themeToggleButton.classList.remove('opacity-0');
-  themeToggleButton.classList.add('opacity-100');
-  
-  // Return cleanup function
-  return () => {
-    if (themeToggleButton) {
+  if (themeToggleButton) {
+    const toggleHandler = () => {
+      toggleTheme();
+    };
+    
+    themeToggleButton.addEventListener('click', toggleHandler);
+    
+    // Return cleanup function
+    return () => {
       themeToggleButton.removeEventListener('click', toggleHandler);
-    }
-  };
-}
-
-// Add listener for system theme changes
-export function initSystemThemeListener() {
+    };
+  }
+  
+  // Add system theme change handler
   const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
   
   const systemThemeChangeHandler = (e: MediaQueryListEvent) => {
@@ -121,8 +99,11 @@ export function initSystemThemeListener() {
   
   mediaQuery.addEventListener('change', systemThemeChangeHandler);
   
-  // Return cleanup function
+  // Return combined cleanup function
   return () => {
+    if (themeToggleButton) {
+      themeToggleButton.removeEventListener('click', toggleHandler);
+    }
     mediaQuery.removeEventListener('change', systemThemeChangeHandler);
   };
 }

@@ -1,12 +1,10 @@
 /**
  * Navigation-related utilities for navbar, mobile menu, and scroll effects
+ * Streamlined to remove duplicated functionality with inline scripts
  */
 
-// Reference to store cleanup functions
-let activeCleanupFunctions: Array<() => void> = [];
-
 // Initialize navbar scroll effect
-export function initNavbarScroll() {
+function initNavbarScroll() {
   const navbar = document.getElementById('main-navbar');
   if (!navbar) return null;
   
@@ -21,14 +19,14 @@ export function initNavbarScroll() {
   window.addEventListener('scroll', scrollHandler);
   scrollHandler(); // Initial check
   
-  // Return cleanup function for event listeners
+  // Return cleanup function
   return () => {
     window.removeEventListener('scroll', scrollHandler);
   };
 }
 
 // Initialize mobile menu functionality
-export function initMobileMenu() {
+function initMobileMenu() {
   const menuButton = document.getElementById('mobile-menu-button');
   const mobileMenu = document.getElementById('mobile-menu');
   
@@ -56,7 +54,7 @@ export function initMobileMenu() {
   menuButton.addEventListener('click', toggleMenu);
   document.addEventListener('click', handleOutsideClick);
   
-  // Return cleanup function for event listeners
+  // Return cleanup function
   return () => {
     menuButton.removeEventListener('click', toggleMenu);
     document.removeEventListener('click', handleOutsideClick);
@@ -64,7 +62,7 @@ export function initMobileMenu() {
 }
 
 // Handle smooth scroll for anchor links
-export function initSmoothScroll() {
+function initSmoothScroll() {
   const anchorLinks = document.querySelectorAll('a[href^="#"]:not([href="#"])');
   const cleanupFunctions: Array<() => void> = [];
   
@@ -102,78 +100,17 @@ export function initSmoothScroll() {
   };
 }
 
-// Initialize active link highlighting based on scroll position
-export function initScrollSpy() {
-  // Get all section elements
-  const sections = document.querySelectorAll('section[id]');
-  
-  if (sections.length === 0) return null;
-  
-  const navbar = document.getElementById('main-navbar');
-  const navbarHeight = navbar ? navbar.offsetHeight : 0;
-  
-  // Scroll event handler
-  const scrollHandler = () => {
-    // Get current scroll position
-    const scrollPosition = window.scrollY + navbarHeight + 10;
-    
-    // Check each section
-    sections.forEach(section => {
-      const sectionTop = section.offsetTop;
-      const sectionHeight = section.offsetHeight;
-      const sectionId = section.getAttribute('id');
-      
-      if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
-        // Find corresponding nav links
-        document.querySelectorAll(`a[href="/#${sectionId}"], a[href="#${sectionId}"]`).forEach(link => {
-          link.classList.add('active');
-        });
-      } else {
-        document.querySelectorAll(`a[href="/#${sectionId}"], a[href="#${sectionId}"]`).forEach(link => {
-          link.classList.remove('active');
-        });
-      }
-    });
-  };
-  
-  window.addEventListener('scroll', scrollHandler);
-  window.addEventListener('load', scrollHandler);
-  
-  // Return cleanup function
-  return () => {
-    window.removeEventListener('scroll', scrollHandler);
-    window.removeEventListener('load', scrollHandler);
-  };
-}
-
-// Clean up all registered listeners
-function cleanupAllListeners() {
-  // Execute all cleanup functions
-  activeCleanupFunctions.forEach(cleanup => {
-    if (typeof cleanup === 'function') {
-      cleanup();
-    }
-  });
-  // Reset the array
-  activeCleanupFunctions = [];
-}
-
 // Initialize all navigation functionality
 export function initNavigation() {
-  // Clean up any existing listeners before adding new ones
-  cleanupAllListeners();
-  
-  // Store new cleanup functions
-  activeCleanupFunctions = [
+  // Collect all cleanup functions that are returned
+  const cleanupFunctions = [
     initNavbarScroll(),
     initMobileMenu(),
-    initSmoothScroll(),
-    initScrollSpy()
+    initSmoothScroll()
   ].filter(Boolean) as Array<() => void>;
   
-  // Ensure cleanup on page transitions
-  document.addEventListener('astro:before-swap', cleanupAllListeners);
-  
   // Return a combined cleanup function
-  return cleanupAllListeners;
-}
+  return () => {
+    cleanupFunctions.forEach(cleanup => cleanup());
+  };
+} 

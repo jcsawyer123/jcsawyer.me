@@ -3,75 +3,30 @@
  * This file serves as the entry point for all client-side scripts
  */
 
-import { initThemeToggle, setTheme, getCurrentTheme } from './theme';
+import { initTheme } from './theme';
 import { initNavigation } from './navigation';
-import { initGlossary } from './glossary';
-import { initTableOfContentsHighlighting } from '../utils/toc';
+import { initTableOfContents } from './toc';
 
 // Flag to track initialization state
 let isInitialized = false;
-let cleanupFunctions: Array<(() => void) | null> = [];
+let cleanupFunctions: Array<(() => void) | undefined> = [];
 
-// Initialize accessibility features
-function initAccessibility() {
-  // Add skip-to-content link for keyboard users
-  const skipLink = document.createElement('a');
-  skipLink.href = '#main-content';
-  skipLink.className = 'sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:p-4 focus:bg-white focus:text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-400';
-  skipLink.textContent = 'Skip to main content';
-  
-  document.body.insertBefore(skipLink, document.body.firstChild);
-  
-  // Ensure main content is marked for screen readers
-  const mainContent = document.querySelector('main');
-  if (mainContent) {
-    mainContent.id = 'main-content';
-    mainContent.setAttribute('tabindex', '-1');
-  }
-  
-  // No cleanup needed
-  return null;
-}
-
-// Initialize table of contents highlighting
-function initTableOfContents() {
-  const tocHighlighting = initTableOfContentsHighlighting();
-  tocHighlighting.init();
-  
-  return () => {
-    tocHighlighting.cleanup();
-  };
-}
-
-// Main initialization function
+// Initialize all functionality
 function init() {
   // Prevent multiple initializations
   if (isInitialized) {
-    // Just update theme without re-initializing everything
-    const theme = getCurrentTheme();
-    setTheme(theme);
     return;
   }
   
   isInitialized = true;
   
-  // Initialize theme first to avoid flicker
-  const theme = getCurrentTheme();
-  setTheme(theme);
-  
   // Clean up any previous functions
-  cleanupFunctions.forEach(cleanup => {
-    if (typeof cleanup === 'function') {
-      cleanup();
-    }
-  });
+  cleanup();
   
   // Store cleanup functions
   cleanupFunctions = [
-    initThemeToggle(),
+    initTheme(),
     initNavigation(),
-    initGlossary(),
-    initAccessibility(),
     initTableOfContents()
   ];
   
@@ -90,7 +45,6 @@ function cleanup() {
     }
   });
   cleanupFunctions = [];
-  isInitialized = false;
 }
 
 // Initialize on DOMContentLoaded
@@ -108,3 +62,6 @@ declare global {
     __pageInit?: () => void;
   }
 }
+
+// Export the init and cleanup functions for explicit usage
+export { init, cleanup };
