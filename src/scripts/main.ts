@@ -5,7 +5,6 @@
 
 import { initTheme } from './theme';
 import { initNavigation } from './navigation';
-import { initTableOfContents } from './toc';
 
 // Flag to track initialization state
 let isInitialized = false;
@@ -27,7 +26,6 @@ function init() {
   cleanupFunctions = [
     initTheme(),
     initNavigation(),
-    initTableOfContents()
   ];
   
   // Initialize any page-specific features
