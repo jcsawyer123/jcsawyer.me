@@ -11,6 +11,7 @@ const {
   disabled = false,
   ariaLabel,
   type = 'button', // Default value for type
+  id,
 } = Astro.props;
 
 // Base styles for all buttons
@@ -53,6 +54,7 @@ const tagProps = href
     className
   ]}
   aria-label={ariaLabel}
+  id={id}
 >
   <slot />
 </Tag>

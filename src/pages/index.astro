@@ -66,9 +66,9 @@ const blogPosts = (await getCollection('blog'))
         <div class="hidden md:flex absolute bottom-2 right-2">
           <Container borderColor="border-border-emphasis" class="px-1 py-1">
             <div class="flex gap-3">
-              <SocialIcon label="GitHub" href="https://github.com" aria-label="GitHub" />
-              <SocialIcon label="LinkedIn" href="https://linkedin.com" aria-label="LinkedIn" />
-              <SocialIcon label="Twitter" href="https://twitter.com" aria-label="Twitter" />
+              <SocialIcon label="GitHub" href="https://github.com/jcsawyer123" aria-label="GitHub" />
+              <SocialIcon label="LinkedIn" href="https://www.linkedin.com/in/joshua-sawyer/" aria-label="LinkedIn" />
+              <SocialIcon label="Twitter" href="https://twitter.com/jcsawyer123" aria-label="Twitter" />
             </div>
           </Container>
         </div>
@@ -80,8 +80,8 @@ const blogPosts = (await getCollection('blog'))
   <section id="projects" class="w-full mb-16">
     <div class="max-w-4xl mx-auto px-4 w-full">
       <SectionHeader 
-        title="Projects & Repositories"
-        description="A selection of my recent work."
+        title="Featured Work & Contributions"
+        description="A glimpse into some of my recent coding endeavors, personal endeavours and random projects"
         accent="top"
         accentSize="md">
       </SectionHeader>
@@ -89,8 +89,8 @@ const blogPosts = (await getCollection('blog'))
       {/* Project Grid */}
       <div class="max-w-3xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-6">
         {projectsToShow.map(project => (
-        <div class="transition-all duration-200 hover:-translate-y-1 hover:shadow-medium">
-          <ProjectCard project={project.data} />
+        <div>
+          <ProjectCard class="transition-all duration-200 hover:-translate-y-1" project={project.data} />
         </div>
         ))}
       </div>
@@ -122,7 +122,7 @@ const blogPosts = (await getCollection('blog'))
 
       <div class="max-w-3xl mx-auto space-y-4">
         {blogPosts.map(post => (
-        <div class="transition-all duration-200 hover:-translate-y-1 hover:shadow-medium">
+        <div class="transition-all duration-200 hover:-translate-y-1">
           <BlogPreviewCard post={post} />
         </div>
         ))}

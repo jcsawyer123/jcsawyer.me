@@ -31,6 +31,7 @@ export type ButtonProps = {
   disabled?: boolean;
   ariaLabel?: string;
   type?: 'button' | 'submit' | 'reset';
+  id?: string;
 };
 
 // Navigation link props
