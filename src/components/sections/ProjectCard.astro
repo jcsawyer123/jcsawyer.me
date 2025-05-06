@@ -20,8 +20,8 @@ const { project, class: className = '' } = Astro.props;
       </div>
     )}
 
-    <div class="px-4 py-3 pb-6 flex flex-col h-full">
-      <h3 class="text-content-strong font-bold hover:text-theme-600 dark:hover:text-accent-400 transition-colors duration-200">
+    <div class="px-4 py-3 pb-4 flex flex-col h-full">
+      <h3 class="text-content-strong font-bold hover:text-theme-600 dark:hover:text-accent-400 transition-colors duration-200 project-title">
         {project.name}
       </h3>
       
@@ -85,6 +85,7 @@ const { project, class: className = '' } = Astro.props;
       const expandIndicatorContainer = card.querySelector('.expand-indicator-container');
       const expandArrow = card.querySelector('.expand-arrow');
       const linkArrow = card.querySelector('.link-arrow');
+      const projectTitle = card.querySelector('.project-title');
       
       // Check if the description is actually clipped
       setTimeout(() => {
@@ -124,22 +125,48 @@ const { project, class: className = '' } = Astro.props;
             } else {
               collapseText.classList.add('w-28');
             }
+            
+            // Highlight title on hover over either side
+            projectTitle.classList.add('text-theme-600', 'dark:text-accent-400');
           });
           
           readMoreArea.addEventListener('mouseleave', () => {
             expandText.classList.remove('w-24');
             collapseText.classList.remove('w-28');
+            
+            // Remove highlight if not hovering over whole card
+            if (!card.matches(':hover')) {
+              projectTitle.classList.remove('text-theme-600', 'dark:text-accent-400');
+            }
+          });
+          
+          // Handle hover for the right side
+          const visitLinkArea = card.querySelector('.visit-link-area');
+          visitLinkArea.addEventListener('mouseenter', () => {
+            linkArrow.classList.add('opacity-100');
+            projectTitle.classList.add('text-theme-600', 'dark:text-accent-400');
+          });
+          
+          visitLinkArea.addEventListener('mouseleave', () => {
+            linkArrow.classList.remove('opacity-100');
+            
+            // Remove highlight if not hovering over whole card
+            if (!card.matches(':hover')) {
+              projectTitle.classList.remove('text-theme-600', 'dark:text-accent-400');
+            }
+          });
+        } else {
+          // If not clipped, set up hover for the full card
+          nonClippableArea.addEventListener('mouseenter', () => {
+            linkArrow.classList.add('opacity-100');
+            projectTitle.classList.add('text-theme-600', 'dark:text-accent-400');
+          });
+          
+          nonClippableArea.addEventListener('mouseleave', () => {
+            linkArrow.classList.remove('opacity-100');
+            projectTitle.classList.remove('text-theme-600', 'dark:text-accent-400');
           });
         }
-        
-        // Add hover effect for the entire card (shows arrow on hover)
-        card.addEventListener('mouseenter', () => {
-          linkArrow.classList.add('opacity-100');
-        });
-        
-        card.addEventListener('mouseleave', () => {
-          linkArrow.classList.remove('opacity-100');
-        });
       }, 100);
     });
   });
@@ -181,8 +208,9 @@ const { project, class: className = '' } = Astro.props;
     opacity: 1;
   }
   
-  /* Link arrow transition */
-  .link-arrow {
-    transition: opacity 0.2s ease;
+  /* Transitions */
+  .link-arrow,
+  .project-title {
+    transition: opacity 0.2s ease, color 0.2s ease;
   }
 </style>
