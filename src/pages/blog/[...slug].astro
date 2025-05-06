@@ -270,22 +270,3 @@ const relatedPosts = shuffle(
   }
 </style>
 
-<script>
-  import { initTableOfContentsHighlighting } from '../../utils/toc';
-  
-  const tocHighlighting = initTableOfContentsHighlighting();
-  
-  document.addEventListener('DOMContentLoaded', () => {
-    tocHighlighting.init();
-  });
-  
-  // Clean up on page transitions
-  document.addEventListener('astro:before-swap', () => {
-    tocHighlighting.cleanup();
-  });
-  
-  // Reinitialize after page transitions
-  document.addEventListener('astro:after-swap', () => {
-    tocHighlighting.init();
-  });
-</script>

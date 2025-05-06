@@ -1,5 +1,5 @@
 /**
- * Table of Contents utilities - moved from utils to scripts for consistency
+ * Table of Contents utilities
  */
 
 // A reusable module for table of contents highlighting
