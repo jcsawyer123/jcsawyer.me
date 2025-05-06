@@ -12,8 +12,8 @@ const { year, posts } = Astro.props;
 
 <div class="mb-12">
   <div class="flex items-center mb-6">
-    <h2 class="text-3xl font-bold text-slate-800 dark:text-slate-100">{year}</h2>
-    <div class="ml-4 h-0.5 flex-grow bg-slate-200 dark:bg-slate-700"></div>
+    <h2 class="text-3xl font-bold text-content-strong">{year}</h2>
+    <div class="ml-4 h-0.5 flex-grow bg-border-subtle dark:bg-border"></div>
   </div>
   <div class="flex flex-col gap-6">
     {posts.map((post) => <BlogPostItem post={post} />)}

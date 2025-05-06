@@ -15,7 +15,7 @@ const {
 
 // Base styles for all buttons
 const baseStyles =
-  'inline-block font-medium transition-all duration-200 text-center focus:outline-none focus:ring-2 focus:ring-offset-2 dark:focus:ring-offset-slate-900';
+  'inline-block font-medium transition-all duration-200 text-center focus:outline-none focus:ring-2 focus:ring-offset-2 dark:focus:ring-offset-surface';
 
 // Size variations
 const sizeStyles = {
@@ -24,13 +24,13 @@ const sizeStyles = {
   lg: 'px-5 py-2.5 text-lg rounded-xl',
 };
 
-// Variant styles
+// Variant styles with semantic colors
 const variantStyles = {
-  primary: 'bg-slate-800 dark:bg-slate-100 text-white dark:text-slate-800 hover:bg-slate-700 dark:hover:bg-slate-300 focus:ring-slate-500 dark:focus:ring-blue-400',
-  secondary: 'bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-slate-200 hover:bg-slate-300 dark:hover:bg-slate-600 focus:ring-slate-400 dark:focus:ring-slate-500',
+  primary: 'bg-content-strong dark:bg-white text-white dark:text-slate-900 hover:bg-theme-700 dark:hover:bg-theme-50 focus:ring-theme-500 dark:focus:ring-accent-400',
+  secondary: 'bg-surface-subtle dark:bg-surface-emphasis text-content-strong dark:text-content hover:bg-surface-emphasis dark:hover:bg-surface focus:ring-theme-400 dark:focus:ring-accent-500',
   outline:
-    'bg-transparent border-2 border-slate-800 dark:border-slate-300 text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 focus:ring-slate-500 dark:focus:ring-slate-400',
-  highlight: 'bg-blue-200 dark:bg-blue-800/60 text-slate-800 dark:text-slate-200 hover:bg-blue-300 dark:hover:bg-blue-700/60 focus:ring-blue-400 dark:focus:ring-blue-500',
+    'bg-transparent border-2 border-content-strong dark:border-content text-content-strong dark:text-content hover:bg-surface-subtle dark:hover:bg-surface-emphasis focus:ring-theme-500 dark:focus:ring-accent-400',
+  highlight: 'bg-theme-200 dark:bg-theme-800/60 text-content-strong dark:text-content hover:bg-theme-300 dark:hover:bg-theme-700/60 focus:ring-theme-400 dark:focus:ring-accent-500',
 };
 
 // Disabled styles

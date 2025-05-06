@@ -40,8 +40,6 @@ const roundedMap = {
 const roundedClass = roundedMap[rounded];
 ---
 
-<!-- <div class="panel frosted border-slate-300 dark:border-slate-700 rounded-xl p-6 transition-standard mb-6 relative overflow-hidden rounded-xl ">  <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-sky-300 to-blue-400 dark:from-blue-600 dark:to-purple-700" aria-hidden="true"></div> <div class="relative z-10 pt-2"> <h2 class="heading-2 mb-1"> Projects &amp; Repositories </h2> <p class="body-text mb-0"> A selection of my recent work. </p> </div>  </div> -->
-
 <Container
   frosted
   panel
@@ -50,11 +48,11 @@ const roundedClass = roundedMap[rounded];
 >
   <GradientAccent position={accent} size={accentSize} />
   <div class="relative z-10 pt-2">
-    <h2 class="heading-2 mb-1">
+    <h2 class="text-2xl sm:text-3xl font-bold text-content-strong mb-1">
       {title}
     </h2>
     {description && (
-      <p class="body-text mb-0">
+      <p class="text-content mb-0">
         {description}
       </p>
     )}
@@ -63,7 +61,7 @@ const roundedClass = roundedMap[rounded];
     <Button
       href={actionButton.href}
       variant={actionButton.variant || 'outline'}
-      class="text-xs md:text-sm px-1 lg:px-3 py-1 absolute top-4 right-4 z-10 focus-ring backdrop-blur-sm border-slate-500/80 dark:border-slate-400/80 text-slate-700 dark:text-slate-200 hover:bg-slate-300/30 dark:hover:bg-slate-700/40"
+      class="text-xs md:text-sm px-1 lg:px-3 py-1 absolute top-4 right-4 z-10 focus-visible:ring-2 focus-visible:ring-theme-400 dark:focus-visible:ring-accent-400 backdrop-blur-sm border-border-emphasis text-content hover:bg-surface-subtle dark:hover:bg-surface-emphasis"
     >
       {actionButton.text}
     </Button>

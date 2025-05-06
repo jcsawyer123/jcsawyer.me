@@ -21,37 +21,37 @@ const blogPosts = (await getCollection('blog'))
 <BaseLayout title="Joshua Sawyer - Software Engineer">
   {/* --- Hero Section --- */}
   <section id="home" class="w-full mb-16">
-    <div class="content-container space-y-4">
+    <div class="max-w-4xl mx-auto px-4 w-full space-y-4">
       <Container
         frosted
         panel
-        borderColor="border-slate-300 dark:border-slate-700"
+        borderColor="border-border"
         class="relative overflow-hidden p-6"
       >
         {/* Accent Gradient Line */}
         <GradientAccent position="left" size="lg" />
         <div class="py-4 px-4 sm:px-8">
           <div class="mb-6 flex flex-col sm:flex-row items-baseline">
-            <h1 class="heading-1 text-slate-800 dark:text-slate-100">
+            <h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-content-strong">
               Joshua Sawyer
             </h1>
-            <div class="hidden md:flex px-3 text-slate-400 dark:text-slate-500 text-lg">/</div>
-            <div class="body-text text-lg italic mt-2 sm:mt-0 sm:ml-4">
+            <div class="hidden md:flex px-3 text-content-subtle text-lg">/</div>
+            <div class="text-content text-lg italic mt-2 sm:mt-0 sm:ml-4">
               Software Engineer
             </div>
           </div>
-          <div class="border-t-2 border-slate-200 dark:border-slate-700 my-6 max-w-md"></div>
-          <p class="body-text mb-8 max-w-xl">
+          <div class="border-t-2 border-border-subtle dark:border-border my-6 max-w-md"></div>
+          <p class="text-content mb-8 max-w-xl">
             Passionate about engineering elegant and efficient solutions across the stack. Exploring the frontiers of backend systems and large-scale microarchitectures, with a love for hackathons and creative problem-solving.
           </p>
           <div class="flex flex-wrap gap-4">
-            <Button href="#projects" variant="primary" class="focus-ring">View Portfolio</Button>
-            <Button href="#contact" variant="outline" class="focus-ring">Contact Me</Button>
+            <Button href="#projects" variant="primary" class="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-theme-400 dark:focus-visible:ring-accent-400">View Portfolio</Button>
+            <Button href="#contact" variant="outline" class="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-theme-400 dark:focus-visible:ring-accent-400">Contact Me</Button>
           </div>
           {/* Social Icons: static on mobile, absolute on desktop */}
           <div class="flex md:hidden justify-end pt-8">
             <Container
-              borderColor="border-slate-700 dark:border-slate-600"
+              borderColor="border-border-emphasis"
               class="px-1 py-1 mt-4"
             >
               <div class="flex gap-3">
@@ -64,7 +64,7 @@ const blogPosts = (await getCollection('blog'))
         </div>
         {/* Social Icons: absolute in bottom right on desktop */}
         <div class="hidden md:flex absolute bottom-2 right-2">
-          <Container borderColor="border-slate-700 dark:border-slate-600" class="px-1 py-1">
+          <Container borderColor="border-border-emphasis" class="px-1 py-1">
             <div class="flex gap-3">
               <SocialIcon label="GitHub" href="https://github.com" aria-label="GitHub" />
               <SocialIcon label="LinkedIn" href="https://linkedin.com" aria-label="LinkedIn" />
@@ -78,7 +78,7 @@ const blogPosts = (await getCollection('blog'))
 
   {/* --- Projects Section --- */}
   <section id="projects" class="w-full mb-16">
-    <div class="content-container">
+    <div class="max-w-4xl mx-auto px-4 w-full">
       <SectionHeader 
         title="Projects & Repositories"
         description="A selection of my recent work."
@@ -89,7 +89,7 @@ const blogPosts = (await getCollection('blog'))
       {/* Project Grid */}
       <div class="max-w-3xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-6">
         {projectsToShow.map(project => (
-        <div class="hover-lift">
+        <div class="transition-all duration-200 hover:-translate-y-1 hover:shadow-medium">
           <ProjectCard project={project.data} />
         </div>
         ))}
@@ -98,7 +98,7 @@ const blogPosts = (await getCollection('blog'))
       {/* "View More" Button */}
       {projectEntries.length > projectsToShow.length && (
         <div class="mt-8 text-center">
-          <Button href="/projects" variant="primary" class="focus-ring">View More Projects</Button>
+          <Button href="/projects" variant="primary" class="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-theme-400 dark:focus-visible:ring-accent-400">View More Projects</Button>
         </div>
       )}
     </div>
@@ -107,7 +107,7 @@ const blogPosts = (await getCollection('blog'))
 
   {/* --- Blog Section --- */}
   <section id="blog" class="w-full mb-16">
-    <div class="content-container">
+    <div class="max-w-4xl mx-auto px-4 w-full">
       <SectionHeader 
         title="From the Blog"
         description="Recent articles and insights."
@@ -122,7 +122,7 @@ const blogPosts = (await getCollection('blog'))
 
       <div class="max-w-3xl mx-auto space-y-4">
         {blogPosts.map(post => (
-        <div class="hover-lift">
+        <div class="transition-all duration-200 hover:-translate-y-1 hover:shadow-medium">
           <BlogPreviewCard post={post} />
         </div>
         ))}

@@ -5,14 +5,13 @@ import GradientAccent from './GradientAccent.astro';
 const { className = '' } = Astro.props;
 ---
 <div class:list={[
-  'panel frosted frosted-light rounded-xl relative overflow-hidden p-1 md:p-2',
+  'border border-border shadow-default backdrop-blur-md bg-surface-muted rounded-xl relative overflow-hidden p-1 md:p-2',
   className
 ]}>
-<!-- class="relative rounded-lg overflow-hidden p-6 md:p-8 frosted panel border border-slate-300 dark:border-slate-700 " -->
   <GradientAccent position="top" size="md" />
-  <div class="relative z-10 panel-padding-sm">
-    <h3 class="heading-3 mb-2">Stay updated</h3>
-    <p class="body-text-small mb-3">
+  <div class="relative z-10 p-panel-sm">
+    <h3 class="text-xl sm:text-2xl font-bold text-content-strong mb-2">Stay updated</h3>
+    <p class="text-sm text-content mb-3">
       Get notified when new articles are published
     </p>
     <form class="space-y-2">
@@ -21,7 +20,7 @@ const { className = '' } = Astro.props;
         id="newsletter-email"
         type="email"
         placeholder="Your email"
-        class="w-full px-3 py-2 border-2 border-adaptive rounded-md bg-white/50 dark:bg-slate-800/50 text-adaptive placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-sky-400 dark:focus:ring-blue-500"
+        class="w-full px-3 py-2 border-2 border-border rounded-md bg-surface-muted/50 dark:bg-surface-emphasis/50 text-content placeholder-content-subtle focus:outline-none focus:ring-2 focus:ring-theme-400 dark:focus:ring-accent-400"
         required
       />
       <Button type="submit" variant="primary" class="w-full">Subscribe</Button>

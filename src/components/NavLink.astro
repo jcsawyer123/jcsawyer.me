@@ -6,18 +6,18 @@ interface Props {
 const { href, active = false } = Astro.props;
 ---
 
-<a
+	<a
 	href={href}
 	class:list={[
 		'px-2 py-1',
-		'link-muted',
+		'text-content hover:text-content-strong dark:text-content-muted dark:hover:text-content',
 		'font-medium',
-		'transition-colors-standard',
-		{ 'text-adaptive-strong font-semibold': active },
+		'transition-colors duration-200',
+		{ 'text-content-strong font-semibold': active },
 	]}
 >
 	<slot />
 	{active && (
-		<span class="block mt-0.5 h-0.5 gradient-primary rounded-full"></span>
+		<span class="block mt-0.5 h-0.5 bg-gradient-to-r from-theme-300 to-theme-400 dark:from-theme-600 dark:to-accent-700 rounded-full"></span>
 	)}
 </a>

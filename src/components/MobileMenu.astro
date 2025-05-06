@@ -21,7 +21,7 @@ const isActive = (path: string) => {
     aria-label="Toggle mobile menu"
     aria-expanded="false"
     aria-controls="mobile-menu"
-    class="p-1.5 rounded-lg text-adaptive hover:bg-slate-100 dark:hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-sky-400 dark:focus:ring-blue-500 transition-colors-standard"
+    class="p-1.5 rounded-lg text-content hover:bg-surface-subtle dark:hover:bg-surface-emphasis focus:outline-none focus:ring-2 focus:ring-theme-400 dark:focus:ring-accent-400 transition-colors duration-200"
   >
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
       <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
@@ -31,7 +31,7 @@ const isActive = (path: string) => {
   <!-- Mobile Menu (Hidden by default) -->
   <div 
     id="mobile-menu" 
-    class="hidden absolute top-full left-0 right-0 panel frosted frosted-heavy rounded-b-xl p-4 md:hidden shadow-lg flex flex-col space-y-2"
+    class="hidden absolute top-full left-0 right-0 border border-border shadow-medium backdrop-blur-md bg-surface rounded-b-xl p-4 md:hidden flex flex-col space-y-2"
   >
     <NavLink href="/" active={isActive('/')}>Home</NavLink>
     <NavLink href="/blog" active={isActive('/blog')}>Blog</NavLink>

@@ -19,27 +19,27 @@ const isActive = (path: string) => {
     <nav
         id="main-navbar"
         class="
-            bg-white/80 dark:bg-slate-900/75 backdrop-blur-md
-            border border-slate-300 dark:border-slate-700
+            bg-surface-muted backdrop-blur-md
+            border border-border
             rounded-b-2xl
             px-4 sm:px-6 py-3
             w-full max-w-4xl
             flex items-center justify-between
-            shadow-lg
+            shadow-large
             transition-all duration-300
         "
     > 
         {/* Logo */}
-        <a href="/" class="font-bold text-xl text-slate-800 dark:text-slate-100">JCS</a>
+        <a href="/" class="font-bold text-xl text-content-strong">JCS</a>
 
         {/* Nav Links & Theme Toggle Container */}
         <div class="flex items-center gap-2 sm:gap-4">
             {/* Nav Links - Desktop */}
             <div class="hidden md:flex items-center">
                 <NavLink href="/" active={isActive('/')}>Home</NavLink>
-                <span class="text-slate-300 dark:text-slate-600 mx-1">|</span>
+                <span class="text-border mx-1">|</span>
                 <NavLink href="/blog" active={isActive('/blog')}>Blog</NavLink>
-                <span class="text-slate-300 dark:text-slate-600 mx-1">|</span>
+                <span class="text-border mx-1">|</span>
                 <NavLink href="/#contact" active={isActive('/contact')}>Contact</NavLink>
             </div>
 
@@ -60,9 +60,9 @@ const isActive = (path: string) => {
         
         const scrollHandler = () => {
             if (window.scrollY > 10) {
-                navbar.classList.add('shadow-lg');
+                navbar.classList.add('shadow-large');
             } else {
-                navbar.classList.remove('shadow-lg');
+                navbar.classList.remove('shadow-large');
             }
         };
         

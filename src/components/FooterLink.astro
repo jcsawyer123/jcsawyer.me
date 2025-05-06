@@ -5,9 +5,10 @@ interface Props {
 const { href } = Astro.props;
 ---
 
+
 <a
 	href={href}
-	class="link-muted transition-colors-standard"
+	class="text-content hover:text-content-strong dark:text-content-muted dark:hover:text-content transition-colors duration-200"
 >
 	<slot />
 </a>

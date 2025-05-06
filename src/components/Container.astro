@@ -8,7 +8,6 @@ const {
   panel = false,
   borderColor,
   rounded = 'xl',
-  padding = 'md',
   class: className,
   id,
 } = Astro.props;
@@ -25,16 +24,14 @@ const roundedMap = {
 };
 
 const roundedClass = roundedMap[rounded];
-const paddingClass = `panel-padding-${padding}`;
 
 // Build conditional classes
 const containerClasses = [
-  panel && 'panel',
-  frosted && 'frosted frosted-light',
-  borderColor || (panel && 'border-adaptive'),
+  panel && 'border border-border shadow-default relative overflow-hidden',
+  frosted && 'backdrop-blur-md bg-surface-muted',
+  borderColor || (panel && borderColor),
   roundedClass,
-  paddingClass,
-  'transition-standard',
+  'transition-all duration-200',
   className
 ];
 ---

@@ -16,12 +16,12 @@ const displayDate = post.data.pubDate.toLocaleDateString('en-US', {
 
 <a
   href={postUrl}
-  class="block group focus-ring rounded-xl transition-standard"
+  class="block group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-theme-400 dark:focus-visible:ring-accent-400 rounded-xl transition-all duration-200"
 >
-  <div class="panel forested frosted-light hover-lift rounded-xl panel-padding-md min-h-[120px]">
+  <div class="border border-border shadow-default backdrop-blur-md bg-surface-muted transition-all duration-200 hover:-translate-y-1 hover:shadow-medium rounded-xl p-panel-md min-h-[120px] relative">
     {/* Top row: Date and Featured */}
     <div class="flex items-center justify-between mb-1">
-      <span class="caption-text">
+      <span class="text-sm text-content-muted">
         {displayDate}
       </span>
       {post.data.featured && (
@@ -29,7 +29,7 @@ const displayDate = post.data.pubDate.toLocaleDateString('en-US', {
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
           fill="currentColor"
-          class="w-5 h-5 text-blue-600 dark:text-blue-400"
+          class="w-5 h-5 text-theme-600 dark:text-accent-400"
           aria-label="Featured"
         >
           <path
@@ -42,12 +42,12 @@ const displayDate = post.data.pubDate.toLocaleDateString('en-US', {
     </div>
 
     {/* Title */}
-    <h3 class="heading-3 mb-1 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors-standard">
+    <h3 class="text-xl sm:text-2xl font-bold text-content-strong mb-1 group-hover:text-theme-600 dark:group-hover:text-accent-400 transition-colors duration-200">
       {post.data.title}
     </h3>
 
     {/* Description */}
-    <p class="body-text-small mb-1 line-clamp-2">
+    <p class="text-sm text-content mb-1 line-clamp-2">
       {post.data.description}
     </p>
 
@@ -61,12 +61,12 @@ const displayDate = post.data.pubDate.toLocaleDateString('en-US', {
     )}
 
     {/* Arrow icon that shows only on hover */}
-    <div class="absolute bottom-3 right-4 opacity-0 group-hover:opacity-100 transition-standard pointer-events-none">
+    <div class="absolute bottom-3 right-4 opacity-0 group-hover:opacity-100 transition-all duration-200 pointer-events-none">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 20 20"
         fill="currentColor"
-        class="w-4 h-4 text-blue-600 dark:text-blue-400"
+        class="w-4 h-4 text-theme-600 dark:text-accent-400"
       >
         <path
           fill-rule="evenodd"
