@@ -1,11 +1,11 @@
 import { defineCollection, z } from 'astro:content';
 
 const blogCollection = defineCollection({
-  type: 'content', // 'content' for markdown, 'data' for json/yaml
+  type: 'content',
   schema: z.object({
     title: z.string(),
-    description: z.string(), // Used as excerpt
-    pubDate: z.coerce.date(), // Coerces string to Date
+    description: z.string(),
+    pubDate: z.coerce.date(),
     tags: z.array(z.object({
         label: z.string(),
         color: z.enum(['blue', 'green', 'purple', 'yellow', 'red', 'indigo']).optional().default('blue')
@@ -14,18 +14,15 @@ const blogCollection = defineCollection({
   }),
 });
 
-// Example for projects (could be content or data)
 const projectCollection = defineCollection({
-    type: 'content', // Example using data (e.g., src/content/projects/my-project.json)
+    type: 'content',
     schema: z.object({
         name: z.string(),
         description: z.string(),
         link: z.string().url(),
         featured: z.boolean().optional().default(false),
-        // Add tags, image, etc. if needed
     })
 });
-
 
 export const collections = {
   'blog': blogCollection,

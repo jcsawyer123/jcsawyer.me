@@ -12,5 +12,5 @@ export default defineConfig({
     allowedHosts: ['dev.jcsx.me'],
   },  
   integrations: [tailwind()],
-  devToolbar: { enabled: false }
+  devToolbar: { enabled: false },
 });
