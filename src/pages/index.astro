@@ -8,14 +8,19 @@ import BlogPreviewCard from '../components/sections/BlogPreviewCard.astro';
 import { getCollection } from 'astro:content';
 import GradientAccent from '../components/GradientAccent.astro';
 import SectionHeader from '../components/sections/SectionHeader.astro';
+import { features } from '../config/features';
 
 const projectEntries = await getCollection('projects');
 const featuredProjects = projectEntries.filter(p => p.data.featured).slice(0, 2);
 const otherProjects = projectEntries.filter(p => !p.data.featured).slice(0, 4);
 const projectsToShow = [...featuredProjects, ...otherProjects].slice(0, 6);
-const blogPosts = (await getCollection('blog'))
-    .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
-    .slice(0, 4);
+
+// Only fetch blog posts if blog feature is enabled
+const blogPosts = features.blog 
+  ? (await getCollection('blog'))
+      .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+      .slice(0, 4)
+  : [];
 ---
 
 <BaseLayout title="Joshua Sawyer - Software Engineer">
@@ -45,8 +50,8 @@ const blogPosts = (await getCollection('blog'))
             Passionate about engineering elegant and efficient solutions across the stack. Exploring the frontiers of backend systems and large-scale microarchitectures, with a love for hackathons and creative problem-solving.
           </p>
           <div class="flex flex-wrap gap-4">
-            <Button href="blog" variant="primary" class="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-theme-400 dark:focus-visible:ring-accent-400">Blogs</Button>
-            <Button href="contact" variant="outline" class="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-theme-400 dark:focus-visible:ring-accent-400">Contact Me</Button>
+            {features.blog && <Button href="blog" variant="primary" class="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-theme-400 dark:focus-visible:ring-accent-400">Blogs</Button>}
+            {features.contact && <Button href="contact" variant="outline" class="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-theme-400 dark:focus-visible:ring-accent-400">Contact Me</Button>}
           </div>
           {/* Social Icons: static on mobile, absolute on desktop */}
           <div class="flex md:hidden justify-end pt-8">
@@ -55,9 +60,9 @@ const blogPosts = (await getCollection('blog'))
               class="px-1 py-1 mt-4"
             >
               <div class="flex gap-3">
-                <SocialIcon label="GitHub" href="https://github.com" aria-label="GitHub" />
-                <SocialIcon label="LinkedIn" href="https://linkedin.com" aria-label="LinkedIn" />
-                <SocialIcon label="Twitter" href="https://twitter.com" aria-label="Twitter" />
+                <SocialIcon label="GitHub" href="https://github.com/jcsawyer123" aria-label="GitHub" />
+                <SocialIcon label="LinkedIn" href="https://linkedin.com/in/joshua-sawyer" aria-label="LinkedIn" />
+                <SocialIcon label="Twitter" href="https://twitter.com/jcsawyer123" aria-label="Twitter" />
               </div>
             </Container>
           </div>
@@ -106,27 +111,29 @@ const blogPosts = (await getCollection('blog'))
 
 
   {/* --- Blog Section --- */}
-  <section id="blog" class="w-full mb-16">
-    <div class="max-w-4xl mx-auto px-4 w-full">
-      <SectionHeader 
-        title="From the Blog"
-        description="Recent articles and insights."
-        actionButton={{
-          text: 'View All',
-          href: '/blog',
-          variant: 'outline',
-        }}
-        accent="top"
-        accentSize="md">
-      </SectionHeader>
+  {features.blog && (
+    <section id="blog" class="w-full mb-16">
+      <div class="max-w-4xl mx-auto px-4 w-full">
+        <SectionHeader 
+          title="From the Blog"
+          description="Recent articles and insights."
+          actionButton={{
+            text: 'View All',
+            href: '/blog',
+            variant: 'outline',
+          }}
+          accent="top"
+          accentSize="md">
+        </SectionHeader>
 
-      <div class="max-w-3xl mx-auto space-y-4">
-        {blogPosts.map(post => (
-        <div class="transition-all duration-200 hover:-translate-y-1">
-          <BlogPreviewCard post={post} />
+        <div class="max-w-3xl mx-auto space-y-4">
+          {blogPosts.map(post => (
+          <div class="transition-all duration-200 hover:-translate-y-1">
+            <BlogPreviewCard post={post} />
+          </div>
+          ))}
         </div>
-        ))}
       </div>
-    </div>
-  </section>
+    </section>
+  )}
 </BaseLayout>

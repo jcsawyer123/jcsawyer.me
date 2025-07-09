@@ -1,4 +1,5 @@
 ---
+import { features } from '../config/features';
 import Container from './Container.astro';
 import FooterLink from './FooterLink.astro';
 import SocialIcon from './SocialIcon.astro';
@@ -15,16 +16,13 @@ const currentYear = new Date().getFullYear();
 		  </div>
 		  <div class="flex items-center gap-4">
 			<div class="flex gap-4 text-sm text-content-muted">
-			  <FooterLink href="/privacy">Privacy</FooterLink>
-			  <span class="text-border">|</span>
-			  <FooterLink href="/terms">Terms</FooterLink>
-			  <span class="text-border">|</span>
-			  <FooterLink href="/contact">Contact</FooterLink>
+				    {features.contact && <FooterLink href="/contact">Contact</FooterLink>}
+			  
 			</div>
 			<span class="text-border">|</span>
 			<div class="flex gap-2">
-			  <SocialIcon label="GH" href="https://github.com" />
-			  <SocialIcon label="LI" href="https://linkedin.com" />
+			  <SocialIcon label="GH" href="https://github.com/jcsawyer123" />
+			  <SocialIcon label="LI" href="https://www.linkedin.com/in/joshua-sawyer/" />
 			</div>
 		  </div>
 		</div>

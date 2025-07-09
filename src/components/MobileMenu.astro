@@ -1,5 +1,6 @@
 ---
 import NavLink from './NavLink.astro';
+import { features } from '../config/features';
 
 interface Props {
   currentPath: string;
@@ -34,8 +35,8 @@ const isActive = (path: string) => {
     class="hidden absolute top-full left-0 right-0 border border-border shadow-medium backdrop-blur-md bg-surface rounded-b-xl p-4 md:hidden flex flex-col space-y-2"
   >
     <NavLink href="/" active={isActive('/')}>Home</NavLink>
-    <NavLink href="/blog" active={isActive('/blog')}>Blog</NavLink>
-    <NavLink href="/contact" active={isActive('/contact')}>Contact</NavLink>
+    {features.blog && <NavLink href="/blog" active={isActive('/blog')}>Blog</NavLink>}
+    {features.contact && <NavLink href="/contact" active={isActive('/contact')}>Contact</NavLink>}
   </div>
 </div>
 
