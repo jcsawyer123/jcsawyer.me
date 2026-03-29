@@ -4,6 +4,9 @@ import Footer from '../components/Footer.astro';
 import ThemeScript from '../components/ThemeScript.astro';
 import SEO from '../components/SEO.astro';
 import '../styles/global.css'; // Import CSS in the frontmatter
+import { isEnabled } from '../config/flags';
+
+const headingAnchors = isEnabled('enableHeadingAnchors');
 
 interface Props {
   title: string;
@@ -43,17 +46,17 @@ const currentPath = Astro.url.pathname;
     </div>
 
     {/* Main Content Wrapper */}
-    <div class="relative z-20">
+    <div class="relative z-20 flex flex-col min-h-screen">
       <Navbar currentPath={currentPath} />
-      
-      <main class="mt-24 flex-grow ">
+
+      <main class="mt-24 flex-grow">
         <slot />
       </main>
       
       <Footer />
     </div>
 
-    <script>
+    {headingAnchors && <script is:inline>
       const initHeadingAnchors = () => {
         const headings = document.querySelectorAll(
           'main .linkable-heading, main .prose :is(h2, h3, h4)[id]'
@@ -111,6 +114,6 @@ const currentPath = Astro.url.pathname;
 
       document.addEventListener('DOMContentLoaded', initHeadingAnchors);
       document.addEventListener('astro:after-swap', initHeadingAnchors);
-    </script>
+    </script>}
   </body>
 </html>

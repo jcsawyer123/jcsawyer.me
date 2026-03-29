@@ -1,11 +1,14 @@
 ---
 import NavLink from './NavLink.astro';
+import { isEnabled } from '../config/flags';
 
 interface Props {
   currentPath: string;
 }
 
 const { currentPath } = Astro.props;
+const showBlogPage = isEnabled('showBlogPage');
+const showContactPage = isEnabled('showContactPage');
 
 // Helper function to check if a path is active
 const isActive = (path: string) => {
@@ -34,8 +37,8 @@ const isActive = (path: string) => {
     class="hidden absolute top-full left-0 right-0 border border-border shadow-medium backdrop-blur-md bg-surface rounded-b-xl p-4 md:hidden flex flex-col space-y-2"
   >
     <NavLink href="/" active={isActive('/')}>Home</NavLink>
-    <NavLink href="/blog" active={isActive('/blog')}>Blog</NavLink>
-    <NavLink href="/contact" active={isActive('/contact')}>Contact</NavLink>
+    {showBlogPage && <NavLink href="/blog" active={isActive('/blog')}>Blog</NavLink>}
+    {showContactPage && <NavLink href="/contact" active={isActive('/contact')}>Contact</NavLink>}
   </div>
 </div>
 

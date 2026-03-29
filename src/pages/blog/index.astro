@@ -3,10 +3,14 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import YearSection from '../../components/sections/YearSection.astro';
 import { getCollection } from 'astro:content';
 import NewsletterSignup from '../../components/NewsletterSignup.astro';
+import { isEnabled } from '../../config/flags';
 
-const allPosts = (await getCollection('blog')).sort(
-	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
-);
+const showBlogPage = isEnabled('showBlogPage');
+const compactArchive = isEnabled('useCompactBlogArchive');
+
+const allPosts = (await getCollection('blog'))
+  .filter((post) => isEnabled('showDrafts') || !post.data.draft)
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
 // Group posts by year
 const postsByYear: Record<string, typeof allPosts> = {};
@@ -21,6 +25,16 @@ allPosts.forEach(post => {
 const years = Object.keys(postsByYear).sort((a, b) => Number(b) - Number(a));
 ---
 
+{!showBlogPage && (
+  <html>
+    <head>
+      <meta charset="UTF-8" />
+      <meta http-equiv="refresh" content="0;url=/" />
+    </head>
+    <body><script>window.location.replace('/');</script></body>
+  </html>
+)}
+{showBlogPage && (
 <BaseLayout title="Blog" description="Technical writing on engineering practice, system design tradeoffs, and delivery lessons from real-world work">
 	<section class="w-full mb-4">
 		<div class="max-w-5xl mx-auto px-5 sm:px-6 w-full">
@@ -57,13 +71,31 @@ const years = Object.keys(postsByYear).sort((a, b) => Number(b) - Number(a));
 						</a>
 					))}
 				</div>
-				<div class="p-6 sm:p-8 lg:p-10">
-					<div class="space-y-10">
-						{years.map(year => (
-							<YearSection year={year} posts={postsByYear[year]} />
+				{compactArchive ? (
+					<div class="divide-y divide-border">
+						{allPosts.map(post => (
+							<a
+								href={`/blog/${post.slug}`}
+								class="flex items-center justify-between py-3 px-1 group hover:text-theme-600 dark:hover:text-theme-400 transition-colors duration-200"
+							>
+								<span class="text-content-strong group-hover:text-theme-600 dark:group-hover:text-theme-400 transition-colors duration-200 text-sm sm:text-base">
+									{post.data.title}
+								</span>
+								<span class="text-content-muted text-xs sm:text-sm shrink-0 ml-4">
+									{post.data.pubDate.toLocaleDateString('en-GB', { year: 'numeric', month: 'short', day: 'numeric' })}
+								</span>
+							</a>
 						))}
 					</div>
-				</div>
+				) : (
+					<div class="p-6 sm:p-8 lg:p-10">
+						<div class="space-y-10">
+							{years.map(year => (
+								<YearSection year={year} posts={postsByYear[year]} />
+							))}
+						</div>
+					</div>
+				)}
 			</div>
 		</div>
 	</section>
@@ -81,3 +113,4 @@ const years = Object.keys(postsByYear).sort((a, b) => Number(b) - Number(a));
 		</div>
 	</section>
 </BaseLayout>
+)}

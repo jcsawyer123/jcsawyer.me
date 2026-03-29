@@ -6,6 +6,7 @@ const blogCollection = defineCollection({
     title: z.string(),
     description: z.string(),
     pubDate: z.coerce.date(),
+    draft: z.boolean().optional().default(false),
     tags: z.array(z.object({
         label: z.string(),
         color: z.enum(['blue', 'green', 'purple', 'yellow', 'red', 'indigo']).optional().default('blue')

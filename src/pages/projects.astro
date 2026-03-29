@@ -2,13 +2,25 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ProjectCard from '../components/sections/ProjectCard.astro';
 import { getCollection } from 'astro:content';
+import { isEnabled } from '../config/flags';
 
+const enabled = isEnabled('showSelectedWorkPage');
 const projectEntries = await getCollection('projects');
 const featuredProjects = projectEntries.filter(p => p.data.featured);
 const otherProjects = projectEntries.filter(p => !p.data.featured);
 const allProjects = [...featuredProjects, ...otherProjects];
 ---
 
+{!enabled && (
+  <html>
+    <head>
+      <meta charset="UTF-8" />
+      <meta http-equiv="refresh" content="0;url=/" />
+    </head>
+    <body><script>window.location.replace('/');</script></body>
+  </html>
+)}
+{enabled && (
 <BaseLayout title="Selected Work — Joshua Sawyer" description="A mix of professional work, infrastructure, community engineering, and the occasional personal build.">
   <section class="w-full mb-4">
     <div class="max-w-5xl mx-auto px-5 sm:px-6 w-full">
@@ -49,3 +61,4 @@ const allProjects = [...featuredProjects, ...otherProjects];
     </div>
   </section>
 </BaseLayout>
+)}

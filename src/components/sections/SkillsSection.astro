@@ -1,4 +1,10 @@
 ---
+interface Props {
+  sectionNumber: number;
+}
+const { sectionNumber } = Astro.props;
+const n = String(sectionNumber).padStart(2, '0');
+
 const skillGroups = [
   {
     label: "Backend & Services",
@@ -24,7 +30,7 @@ const skillGroups = [
     <div class="max-w-4xl mx-auto pt-12">
 
       <div class="flex items-center gap-4 mb-10">
-        <span class="text-xs font-mono text-theme-500 dark:text-theme-400 tracking-widest shrink-0">02</span>
+        <span class="text-xs font-mono text-theme-500 dark:text-theme-400 tracking-widest shrink-0">{n}</span>
         <h2 class="linkable-heading text-2xl font-bold text-content-strong shrink-0" data-anchor-id="skills">Skills</h2>
         <div class="flex-1 h-px bg-border-subtle"></div>
       </div>

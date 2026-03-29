@@ -7,12 +7,30 @@ import BlogPreviewCard from '../components/sections/BlogPreviewCard.astro';
 import { getCollection } from 'astro:content';
 import ExperienceSection from '../components/sections/ExperienceSection.astro';
 import SkillsSection from '../components/sections/SkillsSection.astro';
+import { isEnabled } from '../config/flags';
+
+const showBlogPage = isEnabled('showBlogPage');
+const showContactPage = isEnabled('showContactPage');
+const showSelectedWorkPage = isEnabled('showSelectedWorkPage');
+const showExperienceSection = isEnabled('showHomepageExperience');
+const showSkillsSection = isEnabled('showHomepageSkills');
+const showSelectedWorkSection = isEnabled('showHomepageSelectedWork');
+const showWritingSection = isEnabled('showHomepageWriting') && isEnabled('showBlogPage');
+
+let _n = 0;
+const next = () => ++_n;
+const expNum = showExperienceSection ? next() : null;
+const skillsNum = showSkillsSection ? next() : null;
+const workNum = showSelectedWorkSection ? next() : null;
+const writingNum = showWritingSection ? next() : null;
+const fmt = (n: number) => String(n).padStart(2, '0');
 
 const projectEntries = await getCollection('projects');
 const featuredProjects = projectEntries.filter(p => p.data.featured).slice(0, 2);
 const otherProjects = projectEntries.filter(p => !p.data.featured).slice(0, 4);
 const projectsToShow = [...featuredProjects, ...otherProjects].slice(0, 6);
 const blogPosts = (await getCollection('blog'))
+    .filter((post) => isEnabled('showDrafts') || !post.data.draft)
     .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
     .slice(0, 4);
 ---
@@ -38,9 +56,9 @@ const blogPosts = (await getCollection('blog'))
           </p>
         </div>
         <div class="flex flex-wrap items-center gap-4">
-          <Button href="/blog" variant="primary">Blog</Button>
-          <Button href="/contact" variant="outline">Contact</Button>
-          <div class="flex gap-3 pl-4 border-l border-border ml-1">
+          {showBlogPage && <Button href="/blog" variant="primary">Blog</Button>}
+          {showContactPage && <Button href="/contact" variant="outline">Contact</Button>}
+          <div class={`flex gap-3 ${(showBlogPage || showContactPage) ? 'pl-4 border-l border-border ml-1' : ''}`}>
             <SocialIcon label="GitHub" href="https://github.com/jcsawyer123" aria-label="GitHub" />
             <SocialIcon label="LinkedIn" href="https://www.linkedin.com/in/joshua-sawyer/" aria-label="LinkedIn" />
             <SocialIcon label="Twitter" href="https://twitter.com/jcsawyer123" aria-label="Twitter" />
@@ -51,20 +69,20 @@ const blogPosts = (await getCollection('blog'))
   </section>
 
   {/* --- Experience --- */}
-  <ExperienceSection />
+  {expNum !== null && <ExperienceSection sectionNumber={expNum} showBullets={isEnabled('showHomepageExperienceBullets')} />}
 
   {/* --- Skills --- */}
-  <SkillsSection />
+  {skillsNum !== null && <SkillsSection sectionNumber={skillsNum} />}
 
   {/* --- Selected Work --- */}
-  <section id="projects" class="w-full mb-16">
+  {showSelectedWorkSection && <section id="projects" class="w-full mb-16">
     <div class="max-w-5xl mx-auto px-5 sm:px-6 w-full">
       <div class="max-w-4xl mx-auto pt-12">
         <div class="flex items-center gap-4 mb-10">
-          <span class="text-xs font-mono text-theme-500 dark:text-theme-400 tracking-widest shrink-0">03</span>
+          <span class="text-xs font-mono text-theme-500 dark:text-theme-400 tracking-widest shrink-0">{fmt(workNum!)}</span>
           <h2 class="linkable-heading text-2xl font-bold text-content-strong shrink-0" data-anchor-id="projects">Selected Work</h2>
           <div class="flex-1 h-px bg-border-subtle"></div>
-          {projectEntries.length > projectsToShow.length && (
+          {showSelectedWorkPage && projectEntries.length > projectsToShow.length && (
             <a href="/projects" class="text-sm text-content-muted hover:text-content transition-colors shrink-0">View all →</a>
           )}
         </div>
@@ -80,17 +98,17 @@ const blogPosts = (await getCollection('blog'))
         </div>
       </div>
     </div>
-  </section>
+  </section>}
 
   {/* --- Writing --- */}
-  <section id="blog" class="w-full mb-20">
+  {writingNum !== null && <section id="blog" class="w-full mb-20">
     <div class="max-w-5xl mx-auto px-5 sm:px-6 w-full">
       <div class="max-w-4xl mx-auto pt-12">
         <div class="flex items-center gap-4 mb-10">
-          <span class="text-xs font-mono text-theme-500 dark:text-theme-400 tracking-widest shrink-0">04</span>
+          <span class="text-xs font-mono text-theme-500 dark:text-theme-400 tracking-widest shrink-0">{fmt(writingNum!)}</span>
           <h2 class="linkable-heading text-2xl font-bold text-content-strong shrink-0" data-anchor-id="blog">Writing</h2>
           <div class="flex-1 h-px bg-border-subtle"></div>
-          <a href="/blog" class="text-sm text-content-muted hover:text-content transition-colors shrink-0">View all →</a>
+          {showBlogPage && <a href="/blog" class="text-sm text-content-muted hover:text-content transition-colors shrink-0">View all →</a>}
         </div>
         <p class="text-sm sm:text-base text-content-muted max-w-2xl leading-7 mb-8">
           Notes on backend engineering, platform practice, and the systems decisions behind reliable software.
@@ -104,6 +122,6 @@ const blogPosts = (await getCollection('blog'))
         </div>
       </div>
     </div>
-  </section>
+  </section>}
 
 </BaseLayout>

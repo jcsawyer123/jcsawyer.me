@@ -2,11 +2,14 @@
 import NavLink from './NavLink.astro';
 import MobileMenu from './MobileMenu.astro';
 import ThemeToggle from './ThemeToggle.astro';
+import { isEnabled } from '../config/flags';
 
 interface Props {
     currentPath: string;
 }
 const { currentPath } = Astro.props;
+const showBlogPage = isEnabled('showBlogPage');
+const showContactPage = isEnabled('showContactPage');
 
 const isActive = (path: string) => {
     if (path === '/') return currentPath === '/';
@@ -37,10 +40,10 @@ const isActive = (path: string) => {
             {/* Nav Links - Desktop */}
             <div class="hidden md:flex items-center">
                 <NavLink href="/" active={isActive('/')}>Home</NavLink>
-                <span class="text-border mx-1">|</span>
-                <NavLink href="/blog" active={isActive('/blog')}>Blog</NavLink>
-                <span class="text-border mx-1">|</span>
-                <NavLink href="/contact" active={isActive('/contact')}>Contact</NavLink>
+                {showBlogPage && <span class="text-border mx-1">|</span>}
+                {showBlogPage && <NavLink href="/blog" active={isActive('/blog')}>Blog</NavLink>}
+                {showContactPage && <span class="text-border mx-1">|</span>}
+                {showContactPage && <NavLink href="/contact" active={isActive('/contact')}>Contact</NavLink>}
             </div>
 
             {/* Theme Toggle Button */}
