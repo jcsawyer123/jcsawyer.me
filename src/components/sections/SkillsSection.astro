@@ -1,0 +1,65 @@
+---
+interface Props {
+  sectionNumber: number;
+}
+const { sectionNumber } = Astro.props;
+const n = String(sectionNumber).padStart(2, '0');
+
+const skillGroups = [
+  {
+    label: "Backend & Services",
+    skills: ["Erlang", "TypeScript", "JavaScript", "Python", "NestJS", "FastAPI"],
+  },
+  {
+    label: "Platform & Cloud",
+    skills: ["AWS", "Docker", "CI/CD", "Jenkins", "Git"],
+  },
+  {
+    label: "Data & Operations",
+    skills: ["MongoDB", "Redis", "DataDog"],
+  },
+  {
+    label: "Frontend (Web)",
+    skills: ["React", "Next.js", "Tailwind CSS", "Gatsby", "Rails", "Flask"],
+  },
+];
+---
+
+<section id="skills" class="w-full mb-16">
+  <div class="max-w-5xl mx-auto px-5 sm:px-6 w-full">
+    <div class="max-w-4xl mx-auto pt-12">
+
+      <div class="flex items-center gap-4 mb-10">
+        <span class="text-xs font-mono text-theme-500 dark:text-theme-400 tracking-widest shrink-0">{n}</span>
+        <h2 class="linkable-heading text-2xl font-bold text-content-strong shrink-0" data-anchor-id="skills">Skills</h2>
+        <div class="flex-1 h-[2px] bg-border"></div>
+      </div>
+
+      <p class="text-sm sm:text-base text-content-muted max-w-2xl leading-7 mb-8">
+        Grouped by the kinds of problems I tend to work on, rather than as a flat list of languages and frameworks.*
+      </p>
+
+      <div class="space-y-5">
+        {skillGroups.map((group) => (
+          <div class="flex flex-col sm:flex-row sm:items-start sm:gap-10">
+            <div class="w-full sm:w-[180px] shrink-0 mb-2 sm:mb-0 sm:pt-1">
+              <span class="text-sm text-content-subtle">{group.label}</span>
+            </div>
+            <div class="flex flex-wrap items-start content-start gap-2">
+              {group.skills.map((skill) => (
+                <span class="inline-block px-2.5 py-1 rounded-md text-xs font-medium bg-theme-100 text-theme-800 dark:bg-theme-700 dark:text-theme-100 dark:border dark:border-theme-600">
+                  {skill}
+                </span>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <p class="text-xs sm:text-sm text-content-subtle max-w-2xl leading-6 mt-6 italic">
+        * Not an exhaustive inventory or a ranking of expertise, but a working overview of tools I&apos;ve used in real work and would be comfortable using again.
+      </p>
+
+    </div>
+  </div>
+</section>

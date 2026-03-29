@@ -1,132 +1,124 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import Container from '../components/Container.astro';
 import Button from '../components/Button.astro';
 import SocialIcon from '../components/SocialIcon.astro';
 import ProjectCard from '../components/sections/ProjectCard.astro';
 import BlogPreviewCard from '../components/sections/BlogPreviewCard.astro';
 import { getCollection } from 'astro:content';
-import GradientAccent from '../components/GradientAccent.astro';
-import SectionHeader from '../components/sections/SectionHeader.astro';
+import ExperienceSection from '../components/sections/ExperienceSection.astro';
+import SkillsSection from '../components/sections/SkillsSection.astro';
+import { isEnabled } from '../config/flags';
+
+const showBlogPage = isEnabled('showBlogPage');
+const showContactPage = isEnabled('showContactPage');
+const showSelectedWorkPage = isEnabled('showSelectedWorkPage');
+const showExperienceSection = isEnabled('showHomepageExperience');
+const showSkillsSection = isEnabled('showHomepageSkills');
+const showSelectedWorkSection = isEnabled('showHomepageSelectedWork');
+const showWritingSection = isEnabled('showHomepageWriting') && isEnabled('showBlogPage');
+
+let _n = 0;
+const next = () => ++_n;
+const expNum = showExperienceSection ? next() : null;
+const skillsNum = showSkillsSection ? next() : null;
+const workNum = showSelectedWorkSection ? next() : null;
+const writingNum = showWritingSection ? next() : null;
+const fmt = (n: number) => String(n).padStart(2, '0');
+const onlyHero = expNum === null && skillsNum === null && workNum === null && writingNum === null;
 
 const projectEntries = await getCollection('projects');
 const featuredProjects = projectEntries.filter(p => p.data.featured).slice(0, 2);
 const otherProjects = projectEntries.filter(p => !p.data.featured).slice(0, 4);
 const projectsToShow = [...featuredProjects, ...otherProjects].slice(0, 6);
 const blogPosts = (await getCollection('blog'))
+    .filter((post) => isEnabled('showDrafts') || !post.data.draft)
     .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
     .slice(0, 4);
 ---
 
 <BaseLayout title="Joshua Sawyer - Software Engineer">
-  {/* --- Hero Section --- */}
-  <section id="home" class="w-full mb-16">
-    <div class="max-w-4xl mx-auto px-4 w-full space-y-4">
-      <Container
-        frosted
-        panel
-        borderColor="border-border"
-        class="relative overflow-hidden p-6"
-      >
-        {/* Accent Gradient Line */}
-        <GradientAccent position="left" size="lg" />
-        <div class="py-4 px-4 sm:px-8">
-          <div class="mb-6 flex flex-col sm:flex-row items-baseline">
-            <h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-content-strong">
-              Joshua Sawyer
-            </h1>
-            <div class="hidden md:flex px-3 text-content-subtle text-lg">/</div>
-            <div class="text-content text-lg italic mt-2 sm:mt-0 sm:ml-4">
-              Software Engineer
-            </div>
-          </div>
-          <div class="border-t-2 border-border-subtle dark:border-border my-6 max-w-md"></div>
-          <p class="text-content mb-8 max-w-xl">
-            Passionate about engineering elegant and efficient solutions across the stack. Exploring the frontiers of backend systems and large-scale microarchitectures, with a love for hackathons and creative problem-solving.
+
+  {/* --- Hero --- */}
+  <section id="home" class={`w-full ${onlyHero ? 'flex items-center min-h-[calc(100svh-16rem)]' : 'mb-4'}`}>
+    <div class="max-w-5xl mx-auto px-5 sm:px-6 w-full">
+      <div class={`max-w-4xl mx-auto ${onlyHero ? 'py-16' : 'py-12 sm:py-20'}`}>
+        <h1 class="text-5xl sm:text-6xl lg:text-7xl font-bold text-content-strong tracking-tight leading-[1.05] mb-5">
+          Joshua<br />Sawyer
+        </h1>
+        <p class="text-sm sm:text-base font-semibold uppercase tracking-[0.22em] text-theme-700 dark:text-theme-400 mb-6">
+          Software Engineer
+        </p>
+        <div class="max-w-2xl mb-10 space-y-4">
+          <p class="text-content text-base sm:text-lg leading-8">
+            Backend and platform-leaning software engineer focused on distributed systems, cloud integrations, and reliable service design.
           </p>
-          <div class="flex flex-wrap gap-4">
-            <Button href="blog" variant="primary" class="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-theme-400 dark:focus-visible:ring-accent-400">Blogs</Button>
-            <Button href="contact" variant="outline" class="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-theme-400 dark:focus-visible:ring-accent-400">Contact Me</Button>
-          </div>
-          {/* Social Icons: static on mobile, absolute on desktop */}
-          <div class="flex md:hidden justify-end pt-8">
-            <Container
-              borderColor="border-border-emphasis"
-              class="px-1 py-1 mt-4"
-            >
-              <div class="flex gap-3">
-                <SocialIcon label="GitHub" href="https://github.com" aria-label="GitHub" />
-                <SocialIcon label="LinkedIn" href="https://linkedin.com" aria-label="LinkedIn" />
-                <SocialIcon label="Twitter" href="https://twitter.com" aria-label="Twitter" />
-              </div>
-            </Container>
+          <p class="text-content-muted text-sm sm:text-base leading-7">
+            I work across Erlang and TypeScript stacks, building and operating production systems with an emphasis on maintainability, observability, and delivery discipline. Outside of work, I am a trustee at Hackathons UK, supporting student communities through practical engineering and long-term organisational stewardship.
+          </p>
+        </div>
+        <div class="flex flex-wrap items-center gap-4">
+          {showBlogPage && <Button href="/blog" variant="primary">Blog</Button>}
+          {showContactPage && <Button href="/contact" variant="outline">Contact</Button>}
+          <div class={`flex gap-3 ${(showBlogPage || showContactPage) ? 'pl-4 border-l border-border ml-1' : ''}`}>
+            <SocialIcon label="GitHub" href="https://github.com/jcsawyer123" aria-label="GitHub" />
+            <SocialIcon label="LinkedIn" href="https://www.linkedin.com/in/joshua-sawyer/" aria-label="LinkedIn" />
+            <SocialIcon label="Twitter" href="https://twitter.com/jcsawyer123" aria-label="Twitter" />
           </div>
         </div>
-        {/* Social Icons: absolute in bottom right on desktop */}
-        <div class="hidden md:flex absolute bottom-2 right-2">
-          <Container borderColor="border-border-emphasis" class="px-1 py-1">
-            <div class="flex gap-3">
-              <SocialIcon label="GitHub" href="https://github.com/jcsawyer123" aria-label="GitHub" />
-              <SocialIcon label="LinkedIn" href="https://www.linkedin.com/in/joshua-sawyer/" aria-label="LinkedIn" />
-              <SocialIcon label="Twitter" href="https://twitter.com/jcsawyer123" aria-label="Twitter" />
-            </div>
-          </Container>
-        </div>
-      </Container>
-    </div>
-  </section>
-
-  {/* --- Projects Section --- */}
-  <section id="projects" class="w-full mb-16">
-    <div class="max-w-4xl mx-auto px-4 w-full">
-      <SectionHeader 
-        title="Featured Work & Contributions"
-        description="A glimpse into some of my recent coding endeavors, personal endeavours and random projects"
-        accent="top"
-        accentSize="md">
-      </SectionHeader>
-
-      {/* Project Grid */}
-      <div class="max-w-3xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-6">
-        {projectsToShow.map(project => (
-        <div>
-          <ProjectCard class="transition-all duration-200 hover:-translate-y-1" project={project.data} />
-        </div>
-        ))}
-      </div>
-
-      {/* "View More" Button */}
-      {projectEntries.length > projectsToShow.length && (
-        <div class="mt-8 text-center">
-          <Button href="/projects" variant="primary" class="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-theme-400 dark:focus-visible:ring-accent-400">View More Projects</Button>
-        </div>
-      )}
-    </div>
-  </section>
-
-
-  {/* --- Blog Section --- */}
-  <section id="blog" class="w-full mb-16">
-    <div class="max-w-4xl mx-auto px-4 w-full">
-      <SectionHeader 
-        title="From the Blog"
-        description="Recent articles and insights."
-        actionButton={{
-          text: 'View All',
-          href: '/blog',
-          variant: 'outline',
-        }}
-        accent="top"
-        accentSize="md">
-      </SectionHeader>
-
-      <div class="max-w-3xl mx-auto space-y-4">
-        {blogPosts.map(post => (
-        <div class="transition-all duration-200 hover:-translate-y-1">
-          <BlogPreviewCard post={post} />
-        </div>
-        ))}
       </div>
     </div>
   </section>
+
+  {/* --- Experience --- */}
+  {expNum !== null && <ExperienceSection sectionNumber={expNum} showBullets={isEnabled('showHomepageExperienceBullets')} />}
+
+  {/* --- Skills --- */}
+  {skillsNum !== null && <SkillsSection sectionNumber={skillsNum} />}
+
+  {/* --- Selected Work --- */}
+  {showSelectedWorkSection && <section id="projects" class="w-full mb-16">
+    <div class="max-w-5xl mx-auto px-5 sm:px-6 w-full">
+      <div class="max-w-4xl mx-auto pt-12">
+        <div class="flex items-center gap-4 mb-10">
+          <span class="text-xs font-mono text-theme-500 dark:text-theme-400 tracking-widest shrink-0">{fmt(workNum!)}</span>
+          <h2 class="linkable-heading text-2xl font-bold text-content-strong shrink-0" data-anchor-id="projects">Selected Work</h2>
+          <div class="flex-1 h-[2px] bg-border"></div>
+          {showSelectedWorkPage && projectEntries.length > projectsToShow.length && (
+            <a href="/projects" class="text-sm text-content-muted hover:text-content transition-colors shrink-0">View all →</a>
+          )}
+        </div>
+        <p class="text-sm sm:text-base text-content-muted max-w-2xl leading-7 mb-8">
+          A mix of professional work, community building, and the occasional personal build when it meaningfully reflects how I like to engineer systems.
+        </p>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          {projectsToShow.map(project => (
+            <ProjectCard project={project.data} />
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>}
+
+  {/* --- Writing --- */}
+  {writingNum !== null && <section id="blog" class="w-full mb-20">
+    <div class="max-w-5xl mx-auto px-5 sm:px-6 w-full">
+      <div class="max-w-4xl mx-auto pt-12">
+        <div class="flex items-center gap-4 mb-10">
+          <span class="text-xs font-mono text-theme-500 dark:text-theme-400 tracking-widest shrink-0">{fmt(writingNum!)}</span>
+          <h2 class="linkable-heading text-2xl font-bold text-content-strong shrink-0" data-anchor-id="blog">Writing</h2>
+          <div class="flex-1 h-[2px] bg-border"></div>
+          {showBlogPage && <a href="/blog" class="text-sm text-content-muted hover:text-content transition-colors shrink-0">View all →</a>}
+        </div>
+        <p class="text-sm sm:text-base text-content-muted max-w-2xl leading-7 mb-8">
+          Notes on backend engineering, platform practice, and the systems decisions behind reliable software.
+        </p>
+        <div class="space-y-4">
+          {blogPosts.map(post => (
+            <BlogPreviewCard post={post} />
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>}
+
 </BaseLayout>

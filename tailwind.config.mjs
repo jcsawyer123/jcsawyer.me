@@ -41,7 +41,7 @@ export default {
         },
         // Background colors (surface layers)
         surface: {
-          DEFAULT: 'var(--color-surface)',
+          DEFAULT: 'rgb(var(--color-surface) / <alpha-value>)',
           muted: 'var(--color-surface-muted)',
           subtle: 'var(--color-surface-subtle)',
           emphasis: 'var(--color-surface-emphasis)',
@@ -56,7 +56,7 @@ export default {
         },
         // Border colors
         border: {
-          DEFAULT: 'var(--color-border)',
+          DEFAULT: 'rgb(var(--color-border) / <alpha-value>)',
           subtle: 'var(--color-border-subtle)',
           emphasis: 'var(--color-border-emphasis)',
         },
@@ -81,11 +81,11 @@ export default {
             maxWidth: 'none',
             color: 'var(--color-content)',
             a: {
-              color: 'var(--color-accent-600)',
+              color: 'var(--color-theme-600)',
               textDecoration: 'none',
               fontWeight: '500',
               '&:hover': {
-                color: 'var(--color-accent-700)',
+                color: 'var(--color-theme-700)',
                 textDecoration: 'underline',
               },
             },
@@ -124,7 +124,7 @@ export default {
               fontStyle: 'normal',
               fontWeight: 'normal',
               color: 'var(--color-content)',
-              borderLeftColor: 'var(--color-accent-200)',
+              borderLeftColor: 'var(--color-theme-200)',
             },
             code: {
               color: 'var(--color-content)',
@@ -154,53 +154,56 @@ export default {
       addBase({
         // Define CSS variables for our theme system
         ':root': {
-          // Theme colors - blue-based
-          '--color-theme-50': '#f0f9ff',
-          '--color-theme-100': '#e0f2fe',
-          '--color-theme-200': '#bae6fd',
-          '--color-theme-300': '#7dd3fc',
-          '--color-theme-400': '#38bdf8',
-          '--color-theme-500': '#0ea5e9',
-          '--color-theme-600': '#0284c7',
-          '--color-theme-700': '#0369a1',
-          '--color-theme-800': '#075985',
-          '--color-theme-900': '#0c4a6e',
-          '--color-theme-950': '#082f49',
-          
-          // Accent colors - indigo-based
-          '--color-accent-50': '#eef2ff',
-          '--color-accent-100': '#e0e7ff',
-          '--color-accent-200': '#c7d2fe',
-          '--color-accent-300': '#a5b4fc',
-          '--color-accent-400': '#818cf8',
-          '--color-accent-500': '#6366f1',
-          '--color-accent-600': '#4f46e5',
-          '--color-accent-700': '#4338ca',
-          '--color-accent-800': '#3730a3',
-          '--color-accent-900': '#312e81',
-          '--color-accent-950': '#1e1b4b',
-          
+          // Theme colors - teal
+          '--color-theme-50': '#edfafa',
+          '--color-theme-100': '#d8f1f1',
+          '--color-theme-200': '#b8e3e3',
+          '--color-theme-300': '#8ecfcf',
+          '--color-theme-400': '#5fb3b3',
+          '--color-theme-500': '#2d9494',
+          '--color-theme-600': '#0f7c7c',
+          '--color-theme-700': '#0c6868',
+          '--color-theme-800': '#0b4d4d',
+          '--color-theme-900': '#083535',
+          '--color-theme-950': '#001a1a',
+
+          // Accent colors - crimson
+          '--color-accent-50': '#fdf2f4',
+          '--color-accent-100': '#f9d9de',
+          '--color-accent-200': '#f1b3be',
+          '--color-accent-300': '#e48192',
+          '--color-accent-400': '#cf596d',
+          '--color-accent-500': '#b64353',
+          '--color-accent-600': '#9d2f40',
+          '--color-accent-700': '#8f1d2c',
+          '--color-accent-800': '#741723',
+          '--color-accent-900': '#5b141d',
+          '--color-accent-950': '#32080e',
+
           // Semantic colors - light mode
-          '--color-surface': '#ffffff',
-          '--color-surface-muted': 'rgba(255, 255, 255, 0.8)',
-          '--color-surface-subtle': '#f8fafc',
-          '--color-surface-emphasis': '#f1f5f9',
-          
-          '--color-content': '#475569',
-          '--color-content-strong': '#1e293b',
-          '--color-content-muted': '#64748b',
-          '--color-content-subtle': '#94a3b8',
+          '--color-surface': '255 255 255',
+          '--color-surface-muted': 'rgba(255, 255, 255, 0.85)',
+          '--color-surface-subtle': '#f8fafa',
+          '--color-surface-emphasis': '#edf4f4',
+
+          '--color-content': '#133131',
+          '--color-content-strong': '#0b2020',
+          '--color-content-muted': '#5f7d7d',
+          '--color-content-subtle': '#7d9898',
           '--color-content-inverse': '#ffffff',
-          
-          '--color-border': '#e2e8f0',
-          '--color-border-subtle': '#f1f5f9',
-          '--color-border-emphasis': '#cbd5e1',
+
+          '--color-border': '215 231 231',
+          '--color-border-subtle': '#e8f1f1',
+          '--color-border-emphasis': '#b8cdcd',
+
+          '--theme-300-rgb': '142, 207, 207',
+          '--border-rgb': '215, 231, 231',
           
           // Shadows
-          '--shadow-subtle': '0 1px 2px rgba(0, 0, 0, 0.04)',
-          '--shadow-default': '0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06)',
-          '--shadow-medium': '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
-          '--shadow-large': '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+          '--shadow-subtle': '0 1px 2px rgba(6, 19, 19, 0.05)',
+          '--shadow-default': '0 8px 24px rgba(8, 29, 29, 0.08), 0 1px 2px rgba(8, 29, 29, 0.04)',
+          '--shadow-medium': '0 16px 36px rgba(8, 29, 29, 0.12), 0 4px 10px rgba(8, 29, 29, 0.06)',
+          '--shadow-large': '0 24px 56px rgba(8, 29, 29, 0.16), 0 8px 18px rgba(8, 29, 29, 0.08)',
           
           // Panel spacing
           '--spacing-panel-sm': '0.75rem',
@@ -209,25 +212,28 @@ export default {
         },
         // Dark mode overrides
         '.dark': {
-          '--color-surface': '#0f172a',
-          '--color-surface-muted': 'rgba(15, 23, 42, 0.8)',
-          '--color-surface-subtle': '#1e293b',
-          '--color-surface-emphasis': '#334155',
-          
-          '--color-content': '#cbd5e1',
-          '--color-content-strong': '#f8fafc',
-          '--color-content-muted': '#94a3b8',
-          '--color-content-subtle': '#64748b',
-          '--color-content-inverse': '#1e293b',
-          
-          '--color-border': '#334155',
-          '--color-border-subtle': '#1e293b',
-          '--color-border-emphasis': '#475569',
+          '--color-surface': '14 17 17',
+          '--color-surface-muted': 'rgba(14, 17, 17, 0.85)',
+          '--color-surface-subtle': '#111515',
+          '--color-surface-emphasis': '#141919',
+
+          '--color-content': '#d7ebeb',
+          '--color-content-strong': '#e6f3f3',
+          '--color-content-muted': '#8daaaa',
+          '--color-content-subtle': '#6f8d8d',
+          '--color-content-inverse': '#081010',
+
+          '--color-border': '31 52 52',
+          '--color-border-subtle': '#162626',
+          '--color-border-emphasis': '#2a4444',
+
+          '--theme-300-rgb': '142, 207, 207',
+          '--border-rgb': '31, 52, 52',
           
           '--shadow-subtle': '0 1px 2px rgba(0, 0, 0, 0.3)',
-          '--shadow-default': '0 1px 3px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2)',
-          '--shadow-medium': '0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -1px rgba(0, 0, 0, 0.2)',
-          '--shadow-large': '0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -2px rgba(0, 0, 0, 0.3)',
+          '--shadow-default': '0 12px 28px rgba(0, 0, 0, 0.28), 0 2px 6px rgba(0, 0, 0, 0.18)',
+          '--shadow-medium': '0 22px 40px rgba(0, 0, 0, 0.34), 0 8px 16px rgba(0, 0, 0, 0.2)',
+          '--shadow-large': '0 30px 64px rgba(0, 0, 0, 0.42), 0 12px 22px rgba(0, 0, 0, 0.26)',
         },
         
         // Base styles
@@ -238,7 +244,7 @@ export default {
         ':focus-visible': {
           outline: 'none',
           ring: '2px',
-          ringColor: 'var(--color-accent-400)',
+          ringColor: 'var(--color-theme-400)',
         },
         ':target': {
           scrollMarginTop: '6rem',

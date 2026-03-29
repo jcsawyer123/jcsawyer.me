@@ -6,14 +6,21 @@
  * Base Styles
  */
  @layer base {
-  /* Base styles now mostly handled by Tailwind config */
-  /* These styles don't need to be removed since they're minimal */
   html, body {
     @apply overflow-x-hidden scroll-smooth;
   }
 
+  html {
+    scrollbar-gutter: stable;
+    background-color: #ffffff;
+  }
+
+  html.dark {
+    background-color: #0b0d0d;
+  }
+
   :focus-visible {
-    @apply outline-none ring-2 ring-theme-400 dark:ring-accent-400;
+    @apply outline-none ring-2 ring-theme-400 dark:ring-theme-400;
   }
 
   /* Add scroll margin for all headings and elements that might be anchor targets */
@@ -26,30 +33,26 @@
   }
 }
 
-/* --- Background -- */
-/* Use a pseudo-element for the gradient background */
-/* --- Background -- */
-/* Use a pseudo-element for the gradient background */
+/* Background gradient via pseudo-element */
 body::before {
   content: "";
   position: fixed;
   width: 100%;
   height: 100%;
   z-index: -1;
-  /* Updated to use CSS variables */
-  background: linear-gradient(to bottom right, var(--color-surface), var(--color-theme-100));
+  background: linear-gradient(to bottom right, #fafaf8, #ffffff 60%);
 }
 
-/* Dark mode gradient handled through direct values to match the old style */
 html.dark body::before {
-  background: linear-gradient(to bottom right, #0f172a, #1e293b);
+  background: linear-gradient(to bottom right, #0b0d0d, #121515 72%);
 }
+
+
 
 /**
  * Layout Components
  */
 @layer components {
-  /* Container patterns - these are fine to keep */
   .content-container {
     @apply max-w-4xl mx-auto px-4 w-full;
   }
@@ -62,39 +65,15 @@ html.dark body::before {
     @apply max-w-6xl mx-auto px-4 w-full;
   }
 
-  /* Panel variations - simplified to use semantic colors */
   .panel {
     @apply border border-border shadow-default relative overflow-hidden;
   }
 
-  /* Panel padding variations - commented out in favor of Tailwind's spacing system */
-  /* .panel-padding-xs {
-    @apply p-2 sm:p-3 md:p-4;
-  }
-
-  .panel-padding-sm {
-    @apply p-3 sm:p-4 md:p-6;
-  }
-
-  .panel-padding-md {
-    @apply p-4 sm:p-6 md:p-8;
-  } */
-
-  /* Frosted glass effects - simplified */
   .frosted {
     @apply backdrop-blur-md;
   }
 
-  /* Removed color-specific variants in favor of surface colors */
-  /* .frosted-light {
-    @apply bg-white/80 dark:bg-slate-800/75;
-  }
-
-  .frosted-heavy {
-    @apply bg-white/90 dark:bg-slate-800/90;
-  } */
-
-  /* Section patterns - these are fine to keep */
+  /* Section patterns */
   .section {
     @apply w-full mb-16;
   }
@@ -103,48 +82,12 @@ html.dark body::before {
     @apply w-full mb-8;
   }
 
-  /* Typography styles for prose content - now handled by Tailwind Typography plugin */
-  /* .prose {
-    @apply prose-slate dark:prose-invert max-w-none;
-    
-    & h1, & h2, & h3, & h4 {
-      @apply text-slate-800 dark:text-slate-50 font-bold scroll-mt-24;
-    }
-    
-    & p, & li {
-      @apply text-slate-600 dark:text-slate-300;
-    }
-    
-    & a {
-      @apply text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300;
-      @apply no-underline hover:underline;
-    }
-    
-    & strong {
-      @apply text-slate-800 dark:text-slate-50 font-bold;
-    }
-    
-    & blockquote {
-      @apply border-slate-300 dark:border-slate-600;
-      & p {
-        @apply text-slate-600 dark:text-slate-300;
-      }
-    }
-    
-    & pre {
-      @apply bg-slate-100 dark:bg-slate-800;
-      & code {
-        @apply bg-transparent p-0;
-      }
-    }
-  } */
 }
 
 /**
- * Typography System - Simplified
+ * Typography System
  */
 @layer components {
-  /* Headings - simplified to use content-strong */
   .heading-1 {
     @apply text-3xl sm:text-4xl lg:text-5xl font-bold text-content-strong;
   }
@@ -161,7 +104,6 @@ html.dark body::before {
     @apply text-lg sm:text-xl font-semibold text-content-strong;
   }
 
-  /* Body text variations - simplified to use content colors */
   .body-text {
     @apply text-content;
   }
@@ -174,7 +116,6 @@ html.dark body::before {
     @apply text-sm text-content;
   }
 
-  /* Caption and metadata text - simplified to use content-muted */
   .caption-text {
     @apply text-sm text-content-muted;
   }
@@ -185,12 +126,11 @@ html.dark body::before {
 }
 
 /**
- * Interactive Elements - Most of these can be handled directly with Tailwind
+ * Interactive Elements
  */
 @layer components {
-  /* Link styles - simplified to use theme colors */
   .link-primary {
-    @apply text-theme-600 hover:text-theme-800 dark:text-accent-400 dark:hover:text-accent-300;
+    @apply text-theme-600 hover:text-theme-700 dark:text-theme-400 dark:hover:text-theme-300;
     @apply transition-colors duration-200;
   }
 
@@ -199,45 +139,50 @@ html.dark body::before {
     @apply transition-colors duration-200;
   }
 
-  /* Commented out in favor of direct Tailwind utilities */
-  /* .hover-lift {
-    @apply transition-transform duration-200 hover:-translate-y-1 hover:shadow-md;
+  .heading-anchor-target {
+    @apply relative inline-flex items-center gap-2;
   }
 
-  .hover-lift-sm {
-    @apply transition-all duration-200 hover:-translate-y-0.5 hover:shadow-sm;
+  .heading-anchor {
+    @apply relative inline-flex h-6 w-6 items-center justify-center rounded-md text-content-subtle opacity-0 transition-all duration-200;
   }
 
-  .focus-ring {
-    @apply focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400 dark:focus-visible:ring-blue-500;
-  } */
+  .heading-anchor::after {
+    content: attr(data-tooltip);
+    @apply pointer-events-none absolute left-1/2 top-full mt-2 -translate-x-1/2 rounded-md border border-border bg-surface px-2 py-1 text-[11px] font-medium text-content shadow-subtle opacity-0 transition-all duration-200 whitespace-nowrap;
+  }
+
+  .heading-anchor svg {
+    @apply h-4 w-4;
+  }
+
+  .heading-anchor-target:hover .heading-anchor,
+  .heading-anchor-target:focus-within .heading-anchor {
+    @apply opacity-100 text-theme-600 dark:text-theme-400;
+  }
+
+  .heading-anchor:hover::after,
+  .heading-anchor:focus-visible::after,
+  .heading-anchor[data-copied='true']::after {
+    @apply opacity-100;
+  }
+
+  .heading-anchor[data-copied='true'] {
+    @apply opacity-100 text-theme-700 dark:text-theme-300;
+  }
+
 }
 
 /**
  * Decorative Elements
  */
 @layer utilities {
-  /* Updated to use theme colors */
   .gradient-primary {
-    @apply bg-gradient-to-r from-theme-300 to-theme-400 dark:from-theme-600 dark:to-accent-700;
+    @apply bg-gradient-to-r from-theme-300 to-theme-500 dark:from-theme-700 dark:to-theme-500;
   }
 
-  /* Commented out in favor of direct Tailwind utilities */
-  /* .transition-standard {
-    @apply transition-all duration-200;
-  }
-
-  .transition-colors-standard {
-    @apply transition-colors duration-200;
-  } */
-
-  /* These are fine to keep */
-  .clip-path-slant { 
+  .clip-path-slant {
     clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%); 
   }
   
-  /* Commented out in favor of direct Tailwind utilities */
-  /* .grid-auto-fit { 
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); 
-  } */
 }

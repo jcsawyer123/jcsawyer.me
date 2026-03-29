@@ -1,0 +1,112 @@
+---
+interface Props {
+  sectionNumber: number;
+  showBullets: boolean;
+}
+const { sectionNumber, showBullets } = Astro.props;
+const n = String(sectionNumber).padStart(2, '0');
+
+const experiences = [
+  {
+    role: "Software Engineer III",
+    company: "LevelBlue",
+    period: "Apr 2026 – Present",
+    bullets: [
+      "Development of core analytics pipeline services for the MDR product",
+      "Working across teams to define and deliver key engineering initiatives",
+      "Improving service reliability and observability across the analytics subsystems",
+    ],
+  },
+  {
+    role: "Software Engineer III",
+    company: "Fortra",
+    period: "Mar 2023 – Apr 2026",
+    bullets: [
+      "Led the Developer Advocacy Initiative",
+      "Reduced DataDog spend by ~30% across the Business Unit",
+
+      "Drove modernisation of the internal erlcloud fork used in deployment tooling",
+    ],
+  },
+  {
+    role: "Software Engineer",
+    company: "Alert Logic",
+    period: "Mar 2022 – Mar 2023",
+    bullets: [
+      "Worked in Deployment Configuration Services on backend systems primarily written in Erlang",
+      "Led MDR integration into AWS Control Tower and owned its continued development",
+    ],
+  },
+  {
+    role: "Junior Software Engineer",
+    company: "Oxbury Bank",
+    period: "Aug 2021 – Mar 2022",
+    bullets: [
+      "Worked in a NestJS microservice environment integrated with a PHP core banking platform",
+      "Supported AWS deployment and maintenance of the wider microservice architecture",
+    ],
+  },
+  {
+    role: "Freelance Web Developer",
+    company: "Self-Employed",
+    period: "2017 – 2020",
+    bullets: [
+      "Delivered UI mockups and front-end builds for client work",
+      "Improved performance and maintainability across client codebases",
+    ],
+  },
+  {
+    role: "Front-End Web Developer",
+    company: "Terrabase",
+    period: "2017 – 2018",
+    bullets: [],
+  },
+];
+---
+
+<section id="experience" class="w-full mb-16">
+  <div class="max-w-5xl mx-auto px-5 sm:px-6 w-full">
+    <div class="max-w-4xl mx-auto pt-12">
+
+      <div class="flex items-center gap-4 mb-10">
+        <span class="text-xs font-mono text-theme-500 dark:text-theme-400 tracking-widest shrink-0">{n}</span>
+        <h2 class="linkable-heading text-2xl font-bold text-content-strong shrink-0" data-anchor-id="experience">Experience</h2>
+        <div class="flex-1 h-[2px] bg-border"></div>
+      </div>
+
+      <div class="relative space-y-8 sm:space-y-9">
+        {experiences.map((exp, index) => (
+          <div class="grid grid-cols-1 sm:grid-cols-[180px_1fr] gap-2 sm:gap-x-10">
+            <div class="sm:pt-[0.2rem]">
+              <div class="text-xs font-medium uppercase tracking-[0.14em] text-content-subtle">{exp.period}</div>
+              <div class="text-sm font-medium text-content mt-2">{exp.company}</div>
+            </div>
+            <div class="relative sm:pl-2">
+              <div class="hidden sm:block absolute -left-6 -top-0.5 bottom-0 w-3">
+                {index > 0 && (
+                  <div class="absolute left-1/2 -top-8 h-[38px] -translate-x-1/2 w-[2px] bg-border"></div>
+                )}
+                <div class="absolute left-1/2 top-2 h-3 w-3 -translate-x-1/2 rounded-full bg-theme-400"></div>
+                {index < experiences.length - 1 && (
+                  <div class="absolute left-1/2 top-[22px] -bottom-8 -translate-x-1/2 w-[2px] bg-border"></div>
+                )}
+              </div>
+              <div class="text-lg font-semibold leading-tight text-content-strong mb-3">{exp.role}</div>
+              {showBullets && exp.bullets.length > 0 && (
+                <ul class="space-y-2">
+                  {exp.bullets.map((bullet) => (
+                    <li class="text-sm text-content-muted flex gap-3 leading-relaxed">
+                      <span class="mt-[0.42rem] h-1.5 w-1.5 shrink-0 rounded-full bg-theme-400 dark:bg-theme-400"></span>
+                      <span>{bullet}</span>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
+
+    </div>
+  </div>
+</section>

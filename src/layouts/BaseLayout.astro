@@ -2,7 +2,11 @@
 import Navbar from '../components/Navbar.astro';
 import Footer from '../components/Footer.astro';
 import ThemeScript from '../components/ThemeScript.astro';
+import SEO from '../components/SEO.astro';
 import '../styles/global.css'; // Import CSS in the frontmatter
+import { isEnabled } from '../config/flags';
+
+const headingAnchors = isEnabled('enableHeadingAnchors');
 
 interface Props {
   title: string;
@@ -22,47 +26,104 @@ const currentPath = Astro.url.pathname;
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta charset="UTF-8" />
-    <meta name="description" content={description} />
-
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-    <link rel="manifest" href="/site.webmanifest">
-
-    <title>{title}</title>
+    <SEO title={title} description={description} />
 
     {/* Theme handling scripts */}
     <ThemeScript />
   </head>
   
   <body class="relative overflow-x-hidden min-h-screen text-content">
-    {/* Grid Pattern - Fixed Position */}
-    <div aria-hidden="true" class="pointer-events-none fixed inset-0 z-0">
-      <svg class="w-full h-full opacity-50 dark:opacity-20 text-border dark:text-border" width="100%" height="100%">
-        <defs>
-          <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
-            <path d="M 40 0 L 0 0 0 40" fill="none" stroke="currentColor" stroke-width="1" />
-          </pattern>
-        </defs>
-        <rect width="100%" height="100%" fill="url(#grid)" />
+    {/* Noise Texture - Light Mode */}
+    <div aria-hidden="true" class="pointer-events-none fixed inset-0 z-0 dark:hidden" style="mix-blend-mode: multiply">
+      <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+        <filter id="noise-light">
+          <feTurbulence type="fractalNoise" baseFrequency="0.55" numOctaves="4" stitchTiles="stitch" />
+          <feColorMatrix type="saturate" values="0" />
+        </filter>
+        <rect width="100%" height="100%" filter="url(#noise-light)" opacity="0.3" />
       </svg>
     </div>
 
-    {/* Blobs - Fixed Position */}
-    <div aria-hidden="true" class="pointer-events-none fixed inset-0 z-10">
-      <div class="absolute -top-40 -left-40 w-[18rem] h-[18rem] sm:w-[40rem] sm:h-[40rem] max-w-screen max-h-screen bg-theme-200 dark:bg-theme-900 rounded-full blur-3xl opacity-20"></div>
-      <div class="absolute -bottom-40 -right-40 w-[18rem] h-[18rem] sm:w-[40rem] sm:h-[40rem] max-w-screen max-h-screen bg-accent-200 dark:bg-accent-900 rounded-full blur-3xl opacity-20"></div>
+    {/* Noise Texture - Dark Mode */}
+    <div aria-hidden="true" class="pointer-events-none fixed inset-0 z-0 hidden dark:block" style="mix-blend-mode: overlay">
+      <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+        <filter id="noise-dark">
+          <feTurbulence type="fractalNoise" baseFrequency="0.5" numOctaves="3" stitchTiles="stitch" />
+          <feColorMatrix type="saturate" values="0" />
+        </filter>
+        <rect width="100%" height="100%" filter="url(#noise-dark)" opacity="0.8" />
+      </svg>
     </div>
 
     {/* Main Content Wrapper */}
-    <div class="relative z-20">
+    <div class="relative z-20 flex flex-col min-h-screen">
       <Navbar currentPath={currentPath} />
-      
-      <main class="mt-24 flex-grow ">
+
+      <main class="mt-24 flex-grow">
         <slot />
       </main>
       
       <Footer />
     </div>
+
+    {headingAnchors && <script is:inline>
+      const initHeadingAnchors = () => {
+        const headings = document.querySelectorAll(
+          'main .linkable-heading, main .prose :is(h2, h3, h4)[id]'
+        );
+
+        headings.forEach((heading) => {
+          if (heading.querySelector('.heading-anchor')) {
+            return;
+          }
+
+          const anchorId =
+            heading.dataset.anchorId ||
+            heading.id ||
+            heading.closest('[id]')?.id;
+
+          if (!anchorId) {
+            return;
+          }
+
+          heading.classList.add('heading-anchor-target');
+
+          const link = document.createElement('a');
+          link.href = `#${anchorId}`;
+          link.className = 'heading-anchor';
+          link.setAttribute('aria-label', `Copy link to ${heading.textContent?.trim() || 'section'}`);
+          link.dataset.tooltip = 'Copy link';
+          link.innerHTML =
+            '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M12.59 7.41a2 2 0 0 1 2.82 0l1.18 1.18a2 2 0 0 1 0 2.82l-3.41 3.41a2 2 0 0 1-2.82 0l-.47-.47a.75.75 0 1 1 1.06-1.06l.47.47a.5.5 0 0 0 .7 0l3.41-3.41a.5.5 0 0 0 0-.7l-1.18-1.18a.5.5 0 0 0-.7 0l-1.47 1.47a.75.75 0 0 1-1.06-1.06l1.47-1.47Zm-5.18 5.18a2 2 0 0 1-2.82 0L3.41 11.4a2 2 0 0 1 0-2.82l3.41-3.41a2 2 0 0 1 2.82 0l.47.47a.75.75 0 1 1-1.06 1.06l-.47-.47a.5.5 0 0 0-.7 0L4.47 9.64a.5.5 0 0 0 0 .7l1.18 1.18a.5.5 0 0 0 .7 0l1.47-1.47a.75.75 0 0 1 1.06 1.06l-1.47 1.47Z"/></svg>';
+
+          link.addEventListener('click', async (event) => {
+            if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) {
+              return;
+            }
+
+            event.preventDefault();
+
+            const url = `${window.location.origin}${window.location.pathname}#${anchorId}`;
+
+            try {
+              await navigator.clipboard.writeText(url);
+              link.dataset.copied = 'true';
+              link.dataset.tooltip = 'Copied';
+              window.setTimeout(() => {
+                delete link.dataset.copied;
+                link.dataset.tooltip = 'Copy link';
+              }, 1200);
+            } catch {
+              window.location.hash = anchorId;
+            }
+          });
+
+          heading.append(link);
+        });
+      };
+
+      document.addEventListener('DOMContentLoaded', initHeadingAnchors);
+      document.addEventListener('astro:after-swap', initHeadingAnchors);
+    </script>}
   </body>
 </html>

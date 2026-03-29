@@ -5,11 +5,11 @@ export default defineConfig({
   site: 'https://dev.jcsawyer.me',
   vite: {
     server: {
-      allowedHosts: ['dev.jcsx.me'],
+      allowedHosts: ['.jcsx.me'],
     },
   },
   preview: {
-    allowedHosts: ['dev.jcsx.me'],
+    allowedHosts: ['.jcsx.me'],
   },  
   integrations: [tailwind()],
   devToolbar: { enabled: false },

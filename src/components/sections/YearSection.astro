@@ -10,12 +10,12 @@ interface Props {
 const { year, posts } = Astro.props;
 ---
 
-<div class="mb-12">
+<div id={`year-${year}`} class="mb-10 scroll-mt-28">
   <div class="flex items-center mb-6">
-    <h2 class="text-3xl font-bold text-content-strong">{year}</h2>
+    <h2 class="text-2xl sm:text-3xl font-bold text-content-strong">{year}</h2>
     <div class="ml-4 h-0.5 flex-grow bg-border-subtle dark:bg-border"></div>
   </div>
-  <div class="flex flex-col gap-6">
+  <div class="flex flex-col gap-4">
     {posts.map((post) => <BlogPostItem post={post} />)}
   </div>
 </div>

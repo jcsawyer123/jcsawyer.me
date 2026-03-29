@@ -6,6 +6,7 @@ const blogCollection = defineCollection({
     title: z.string(),
     description: z.string(),
     pubDate: z.coerce.date(),
+    draft: z.boolean().optional().default(false),
     tags: z.array(z.object({
         label: z.string(),
         color: z.enum(['blue', 'green', 'purple', 'yellow', 'red', 'indigo']).optional().default('blue')
@@ -18,8 +19,10 @@ const projectCollection = defineCollection({
     type: 'content',
     schema: z.object({
         name: z.string(),
+        context: z.string().optional(),
         description: z.string(),
-        link: z.string().url(),
+        link: z.string().url().optional(),
+        linkLabel: z.string().optional(),
         featured: z.boolean().optional().default(false),
     })
 });
