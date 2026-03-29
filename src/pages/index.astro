@@ -21,17 +21,22 @@ const blogPosts = (await getCollection('blog'))
 
   {/* --- Hero --- */}
   <section id="home" class="w-full mb-4">
-    <div class="max-w-4xl mx-auto px-4 w-full">
-      <div class="max-w-3xl py-12 sm:py-20">
+    <div class="max-w-5xl mx-auto px-5 sm:px-6 w-full">
+      <div class="max-w-4xl mx-auto py-12 sm:py-20">
         <h1 class="text-5xl sm:text-6xl lg:text-7xl font-bold text-content-strong tracking-tight leading-[1.05] mb-5">
           Joshua<br />Sawyer
         </h1>
         <p class="text-sm sm:text-base font-semibold uppercase tracking-[0.22em] text-theme-700 dark:text-theme-400 mb-6">
           Software Engineer
         </p>
-        <p class="text-content max-w-2xl text-base sm:text-lg leading-8 mb-10">
-          Software engineer at LevelBlue, where I work on distributed backend systems primarily in Erlang — building analytics pipeline services, owning AWS integrations, and modernising internal Erlang tooling. I have full-stack range across JavaScript, TypeScript, and various frameworks. Outside of work, I'm a trustee at Hackathons UK, a charity I helped build to support student hackathons and tech societies across the UK.
-        </p>
+        <div class="max-w-2xl mb-10 space-y-4">
+          <p class="text-content text-base sm:text-lg leading-8">
+            Backend and platform-leaning software engineer focused on distributed systems, cloud integrations, and reliable service design.
+          </p>
+          <p class="text-content-muted text-sm sm:text-base leading-7">
+            I work across Erlang and TypeScript stacks, building and operating production systems with an emphasis on maintainability, observability, and delivery discipline. Outside of work, I am a trustee at Hackathons UK, supporting student communities through practical engineering and long-term organisational stewardship.
+          </p>
+        </div>
         <div class="flex flex-wrap items-center gap-4">
           <Button href="/blog" variant="primary">Blog</Button>
           <Button href="/contact" variant="outline">Contact</Button>
@@ -53,11 +58,11 @@ const blogPosts = (await getCollection('blog'))
 
   {/* --- Selected Work --- */}
   <section id="projects" class="w-full mb-16">
-    <div class="max-w-4xl mx-auto px-4 w-full">
-      <div class="max-w-3xl mx-auto pt-12">
+    <div class="max-w-5xl mx-auto px-5 sm:px-6 w-full">
+      <div class="max-w-4xl mx-auto pt-12">
         <div class="flex items-center gap-4 mb-10">
           <span class="text-xs font-mono text-theme-500 dark:text-theme-400 tracking-widest shrink-0">03</span>
-          <h2 class="text-2xl font-bold text-content-strong shrink-0">Selected Work</h2>
+          <h2 class="linkable-heading text-2xl font-bold text-content-strong shrink-0" data-anchor-id="projects">Selected Work</h2>
           <div class="flex-1 h-px bg-border-subtle"></div>
           {projectEntries.length > projectsToShow.length && (
             <a href="/projects" class="text-sm text-content-muted hover:text-content transition-colors shrink-0">View all →</a>
@@ -79,14 +84,17 @@ const blogPosts = (await getCollection('blog'))
 
   {/* --- Writing --- */}
   <section id="blog" class="w-full mb-20">
-    <div class="max-w-4xl mx-auto px-4 w-full">
-      <div class="max-w-3xl mx-auto pt-12">
+    <div class="max-w-5xl mx-auto px-5 sm:px-6 w-full">
+      <div class="max-w-4xl mx-auto pt-12">
         <div class="flex items-center gap-4 mb-10">
           <span class="text-xs font-mono text-theme-500 dark:text-theme-400 tracking-widest shrink-0">04</span>
-          <h2 class="text-2xl font-bold text-content-strong shrink-0">Writing</h2>
+          <h2 class="linkable-heading text-2xl font-bold text-content-strong shrink-0" data-anchor-id="blog">Writing</h2>
           <div class="flex-1 h-px bg-border-subtle"></div>
           <a href="/blog" class="text-sm text-content-muted hover:text-content transition-colors shrink-0">View all →</a>
         </div>
+        <p class="text-sm sm:text-base text-content-muted max-w-2xl leading-7 mb-8">
+          Notes on backend engineering, platform practice, and the systems decisions behind reliable software.
+        </p>
         <div class="space-y-4">
           {blogPosts.map(post => (
             <div class="transition-all duration-200 hover:-translate-y-1">

@@ -1,156 +1,103 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import Container from '../components/Container.astro';
 import Button from '../components/Button.astro';
-import GradientAccent from '../components/GradientAccent.astro';
 ---
 
-<BaseLayout title="Contact Me" description="Get in touch with me for projects, collaborations, or just to say hello!">
-  <div class="max-w-4xl mx-auto px-4 w-full mb-2">
-    <Container
-      panel
-      frosted
-      borderColor="border-border"
-      class="relative overflow-hidden p-8 mb-2"
-    >
-      <GradientAccent position="top" size="md" />
-      
-      <div class="relative z-10 pt-2">
-        <h1 class="text-3xl sm:text-4xl font-bold text-content-strong mb-6">Get in Touch</h1>
-        
-        <p class="text-content mb-8">
-          Have a question, project idea, or want to collaborate? Fill out the form below,
-          and I'll get back to you as soon as possible.
-        </p>
-        
-        <form id="contact-form" class="space-y-6">
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-              <label for="name" class="block text-content-strong font-medium mb-1">Name</label>
-              <input 
-                type="text" 
-                id="name" 
-                name="name" 
-                required
-                class="w-full px-4 py-2 border border-border rounded-lg bg-surface-subtle dark:bg-surface-emphasis focus:outline-none focus:ring-2 focus:ring-theme-400 dark:focus:ring-accent-400 text-content"
-              />
-            </div>
-            
-            <div>
-              <label for="email" class="block text-content-strong font-medium mb-1">Email</label>
-              <input 
-                type="email" 
-                id="email" 
-                name="email" 
-                required
-                class="w-full px-4 py-2 border border-border rounded-lg bg-surface-subtle dark:bg-surface-emphasis focus:outline-none focus:ring-2 focus:ring-theme-400 dark:focus:ring-accent-400 text-content"
-              />
-            </div>
-          </div>
-          
-          <div>
-            <label for="subject" class="block text-content-strong font-medium mb-1">Subject</label>
-            <input 
-              type="text" 
-              id="subject" 
-              name="subject"
-              class="w-full px-4 py-2 border border-border rounded-lg bg-surface-subtle dark:bg-surface-emphasis focus:outline-none focus:ring-2 focus:ring-theme-400 dark:focus:ring-accent-400 text-content"
-            />
-          </div>
-          
-          <div>
-            <label for="message" class="block text-content-strong font-medium mb-1">Message</label>
-            <textarea 
-              id="message" 
-              name="message" 
-              rows="6" 
-              required
-              class="w-full px-4 py-2 border border-border rounded-lg bg-surface-subtle dark:bg-surface-emphasis focus:outline-none focus:ring-2 focus:ring-theme-400 dark:focus:ring-accent-400 text-content resize-none"
-            ></textarea>
-          </div>
-          
-          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-            <div id="form-status" class="text-content-muted hidden">
-              <!-- Status messages will appear here -->
-            </div>
-            
-            <Button 
-              type="submit" 
-              variant="primary" 
-              size="lg"
-              class="self-end"
-              id="submit-button"
-            >
-              Send Message
-            </Button>
-          </div>
-        </form>
-      </div>
-    </Container>
-    
-    <!-- <Container
-      panel
-      frosted
-      borderColor="border-border"
-      class="relative overflow-hidden p-8"
-    >
-      <GradientAccent position="left" size="md" />
-      
-      <div class="relative z-10 pt-2">
-        <h2 class="text-2xl sm:text-3xl font-bold text-content-strong mb-4">Other Ways to Reach Me</h2>
-        
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div class="flex items-start">
-            <div class="bg-theme-100 dark:bg-theme-800 rounded-full p-3 mr-4">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-theme-600 dark:text-accent-400">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
-              </svg>
-            </div>
-            <div>
-              <h3 class="text-lg font-semibold text-content-strong">Email</h3>
-              <a href="mailto:hello@example.com" class="text-theme-600 hover:text-theme-800 dark:text-accent-400 dark:hover:text-accent-300 transition-colors duration-200">hello@example.com</a>
-            </div>
-          </div>
-          
-          <div class="flex items-start">
-            <div class="bg-theme-100 dark:bg-theme-800 rounded-full p-3 mr-4">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-theme-600 dark:text-accent-400">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 7.5l3 2.25-3 2.25m4.5 0h3m-9 8.25h13.5A2.25 2.25 0 0021 18V6a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 6v12a2.25 2.25 0 002.25 2.25z" />
-              </svg>
-            </div>
-            <div>
-              <h3 class="text-lg font-semibold text-content-strong">GitHub</h3>
-              <a href="https://github.com/yourusername" target="_blank" rel="noopener noreferrer" class="text-theme-600 hover:text-theme-800 dark:text-accent-400 dark:hover:text-accent-300 transition-colors duration-200">@yourusername</a>
-            </div>
-          </div>
-          
-          <div class="flex items-start">
-            <div class="bg-theme-100 dark:bg-theme-800 rounded-full p-3 mr-4">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-theme-600 dark:text-accent-400">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 14.15v4.25c0 1.094-.787 2.036-1.872 2.18-2.087.277-4.216.42-6.378.42s-4.291-.143-6.378-.42c-1.085-.144-1.872-1.086-1.872-2.18v-4.25m16.5 0a2.18 2.18 0 00.75-1.661V8.706c0-1.081-.768-2.015-1.837-2.175a48.114 48.114 0 00-3.413-.387m4.5 8.006c-.194.165-.42.295-.673.38A23.978 23.978 0 0112 15.75c-2.648 0-5.195-.429-7.577-1.22a2.016 2.016 0 01-.673-.38m0 0A2.18 2.18 0 013 12.489V8.706c0-1.081.768-2.015 1.837-2.175a48.111 48.111 0 013.413-.387m7.5 0V5.25A2.25 2.25 0 0013.5 3h-3a2.25 2.25 0 00-2.25 2.25v.894m7.5 0a48.667 48.667 0 00-7.5 0M12 12.75h.008v.008H12v-.008z" />
-              </svg>
-            </div>
-            <div>
-              <h3 class="text-lg font-semibold text-content-strong">LinkedIn</h3>
-              <a href="https://linkedin.com/in/yourprofile" target="_blank" rel="noopener noreferrer" class="text-theme-600 hover:text-theme-800 dark:text-accent-400 dark:hover:text-accent-300 transition-colors duration-200">Your Name</a>
-            </div>
-          </div>
-          
-          <div class="flex items-start">
-            <div class="bg-theme-100 dark:bg-theme-800 rounded-full p-3 mr-4">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-theme-600 dark:text-accent-400">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 01.865-.501 48.172 48.172 0 003.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z" />
-              </svg>
-            </div>
-            <div>
-              <h3 class="text-lg font-semibold text-content-strong">Twitter</h3>
-              <a href="https://twitter.com/yourhandle" target="_blank" rel="noopener noreferrer" class="text-theme-600 hover:text-theme-800 dark:text-accent-400 dark:hover:text-accent-300 transition-colors duration-200">@yourhandle</a>
-            </div>
-          </div>
+<BaseLayout title="Contact" description="Get in touch to discuss engineering work, collaborations, or community projects.">
+  <section class="w-full mb-4">
+    <div class="max-w-5xl mx-auto px-5 sm:px-6 w-full">
+      <div class="max-w-4xl mx-auto py-12 sm:py-16">
+        <h1 class="text-5xl sm:text-6xl lg:text-7xl font-bold text-content-strong tracking-tight leading-[1.05] mb-5">
+          Get in Touch
+        </h1>
+        <div class="max-w-2xl space-y-4">
+          <p class="text-content text-base sm:text-lg leading-8">
+            For engineering work, collaborations, or community projects, send me a message and I will get back to you when I can.
+          </p>
+          <p class="text-content-muted text-sm sm:text-base leading-7">
+            The form is the easiest route. If you are reaching out about backend, platform, or systems-oriented work, a little context upfront helps.
+          </p>
         </div>
       </div>
-    </Container> -->
-  </div>
+    </div>
+  </section>
+
+  <section class="w-full mb-20">
+    <div class="max-w-5xl mx-auto px-5 sm:px-6 w-full">
+      <div class="max-w-4xl mx-auto">
+        <div class="flex items-center gap-4 mb-8">
+          <span class="text-xs font-mono text-theme-500 dark:text-theme-400 tracking-widest shrink-0">01</span>
+          <h2 class="text-2xl font-bold text-content-strong shrink-0">Message</h2>
+          <div class="flex-1 h-px bg-border-subtle"></div>
+        </div>
+
+        <div class="rounded-2xl border border-border bg-surface/90 p-6 shadow-default backdrop-blur-sm sm:p-8 lg:p-10">
+          <form id="contact-form" class="max-w-3xl space-y-6">
+            <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+              <div>
+                <label for="name" class="mb-2 block text-sm font-medium text-content-strong">Name</label>
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  required
+                  class="w-full appearance-none rounded-lg border border-border bg-white px-4 py-2.5 text-content transition-colors duration-200 placeholder:text-content-subtle focus:outline-none focus:ring-2 focus:ring-theme-400 dark:bg-[#111515] dark:focus:ring-theme-400"
+                />
+              </div>
+
+              <div>
+                <label for="email" class="mb-2 block text-sm font-medium text-content-strong">Email</label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  required
+                  class="w-full appearance-none rounded-lg border border-border bg-white px-4 py-2.5 text-content transition-colors duration-200 placeholder:text-content-subtle focus:outline-none focus:ring-2 focus:ring-theme-400 dark:bg-[#111515] dark:focus:ring-theme-400"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label for="subject" class="mb-2 block text-sm font-medium text-content-strong">Subject</label>
+              <input
+                type="text"
+                id="subject"
+                name="subject"
+                class="w-full appearance-none rounded-lg border border-border bg-white px-4 py-2.5 text-content transition-colors duration-200 placeholder:text-content-subtle focus:outline-none focus:ring-2 focus:ring-theme-400 dark:bg-[#111515] dark:focus:ring-theme-400"
+              />
+            </div>
+
+            <div>
+              <label for="message" class="mb-2 block text-sm font-medium text-content-strong">Message</label>
+              <textarea
+                id="message"
+                name="message"
+                rows="6"
+                required
+                class="w-full appearance-none resize-none rounded-lg border border-border bg-white px-4 py-2.5 text-content transition-colors duration-200 placeholder:text-content-subtle focus:outline-none focus:ring-2 focus:ring-theme-400 dark:bg-[#111515] dark:focus:ring-theme-400"
+              ></textarea>
+            </div>
+
+            <div class="flex flex-col gap-4 border-t border-border-subtle pt-6 sm:flex-row sm:items-center sm:justify-between">
+              <div id="form-status" class="hidden text-sm text-content-muted">
+                <!-- Status messages will appear here -->
+              </div>
+
+              <Button
+                type="submit"
+                variant="primary"
+                size="lg"
+                class="self-end"
+                id="submit-button"
+              >
+                Send Message
+              </Button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
 </BaseLayout>
 
 <script>

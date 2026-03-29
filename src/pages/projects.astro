@@ -1,7 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ProjectCard from '../components/sections/ProjectCard.astro';
-import SectionHeader from '../components/sections/SectionHeader.astro';
 import { getCollection } from 'astro:content';
 
 const projectEntries = await getCollection('projects');
@@ -11,19 +10,42 @@ const allProjects = [...featuredProjects, ...otherProjects];
 ---
 
 <BaseLayout title="Selected Work — Joshua Sawyer" description="A mix of professional work, infrastructure, community engineering, and the occasional personal build.">
-  <div class="max-w-4xl mx-auto px-4 w-full">
-    <SectionHeader
-      title="Selected Work"
-      description="Professional work, community engineering, infrastructure, and occasional personal builds that reflect how I like to work."
-      accent="top"
-      accentSize="md"
-    />
-    <div class="max-w-3xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-6">
-      {allProjects.map(project => (
-        <div>
-          <ProjectCard class="transition-all duration-200 hover:-translate-y-1" project={project.data} />
+  <section class="w-full mb-4">
+    <div class="max-w-5xl mx-auto px-5 sm:px-6 w-full">
+      <div class="max-w-4xl mx-auto py-12 sm:py-16">
+        <h1 class="text-5xl sm:text-6xl lg:text-7xl font-bold text-content-strong tracking-tight leading-[1.05] mb-5">
+          Selected Work
+        </h1>
+        <div class="max-w-2xl space-y-4">
+          <p class="text-content text-base sm:text-lg leading-8">
+            A mix of professional work, infrastructure, community engineering, and the occasional personal build.
+          </p>
+          <p class="text-content-muted text-sm sm:text-base leading-7">
+            This section is closer to a working portfolio than a list of hobby projects. The aim is to show the kinds of systems, responsibilities, and technical problems I tend to care about.
+          </p>
         </div>
-      ))}
+      </div>
     </div>
-  </div>
+  </section>
+
+  <section class="w-full mb-20">
+    <div class="max-w-5xl mx-auto px-5 sm:px-6 w-full">
+      <div class="max-w-4xl mx-auto">
+        <div class="flex items-center gap-4 mb-8">
+          <span class="text-xs font-mono text-theme-500 dark:text-theme-400 tracking-widest shrink-0">01</span>
+          <h2 class="text-2xl font-bold text-content-strong shrink-0">Work Index</h2>
+          <div class="flex-1 h-px bg-border-subtle"></div>
+          <div class="text-sm text-content-muted shrink-0">{allProjects.length} entries</div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          {allProjects.map(project => (
+            <div>
+              <ProjectCard class="transition-all duration-200 hover:-translate-y-1" project={project.data} />
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
 </BaseLayout>

@@ -1,10 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import Container from '../../components/Container.astro';
-import BlogPostItem from '../../components/sections/BlogPostItem.astro';
 import YearSection from '../../components/sections/YearSection.astro';
 import { getCollection } from 'astro:content';
-import Button from '../../components/Button.astro';
 import NewsletterSignup from '../../components/NewsletterSignup.astro';
 
 const allPosts = (await getCollection('blog')).sort(
@@ -24,43 +21,63 @@ allPosts.forEach(post => {
 const years = Object.keys(postsByYear).sort((a, b) => Number(b) - Number(a));
 ---
 
-<BaseLayout title="Blog" description="Thoughts, tutorials, and insights about web development and design">
-	<div class="max-w-4xl mx-auto">
-        {/* --- Blog Header --- */}
-		<Container
-			borderColor="border-border"
-			class="p-8 mb-10 bg-surface-muted shadow-default"
-		>
-			<div class="relative z-10">
-				<h1 class="text-3xl font-bold text-content-strong mb-2">Blog</h1>
-				<p class="text-content mb-0">
-					Thoughts, tutorials, and insights about web development and design
-				</p>
-			</div>
-		</Container>
-
-        {/* --- Main Content --- */}
-		<Container
-			borderColor="border-border"
-			class="p-8 mb-10 bg-surface-muted shadow-default"
-		>
-			{/* Filter/Search Section */}
-			<div class="mb-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-4">
-				<div class="text-sm text-content-muted">
-					{allPosts.length} articles published
+<BaseLayout title="Blog" description="Technical writing on engineering practice, system design tradeoffs, and delivery lessons from real-world work">
+	<section class="w-full mb-4">
+		<div class="max-w-5xl mx-auto px-5 sm:px-6 w-full">
+			<div class="max-w-4xl mx-auto py-12 sm:py-16">
+				<h1 class="text-5xl sm:text-6xl lg:text-7xl font-bold text-content-strong tracking-tight leading-[1.05] mb-5">
+					Blog
+				</h1>
+				<div class="max-w-2xl space-y-4">
+					<p class="text-content text-base sm:text-lg leading-8">
+						A place for notes, ramblings, and the occasional useful write-up.
+					</p>
+					<p class="text-content-muted text-sm sm:text-base leading-7">
+						Mostly software, systems, and things I have been thinking about, with a few more informal posts mixed in when they seem worth writing down.
+					</p>
 				</div>
 			</div>
+		</div>
+	</section>
 
-			{/* YearSection and BlogPostItem components handle their own dark styles */}
-			<div class="space-y-10">
-				{years.map(year => (
-					<YearSection year={year} posts={postsByYear[year]} />
-				))}
+	<section class="w-full mb-16">
+		<div class="max-w-5xl mx-auto px-5 sm:px-6 w-full">
+			<div class="max-w-4xl mx-auto">
+				<div class="flex items-center gap-4 mb-8">
+					<span class="text-xs font-mono text-theme-500 dark:text-theme-400 tracking-widest shrink-0">01</span>
+					<h2 class="text-2xl font-bold text-content-strong shrink-0">Archive</h2>
+					<div class="flex-1 h-px bg-border-subtle"></div>
+					<div class="text-sm text-content-muted shrink-0">{allPosts.length} articles</div>
+				</div>
+				<div class="mb-6 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm">
+					<span class="text-content-muted">Jump to</span>
+					{years.map(year => (
+						<a href={`#year-${year}`} class="text-content-muted transition-colors hover:text-content">
+							{year}
+						</a>
+					))}
+				</div>
+				<div class="p-6 sm:p-8 lg:p-10">
+					<div class="space-y-10">
+						{years.map(year => (
+							<YearSection year={year} posts={postsByYear[year]} />
+						))}
+					</div>
+				</div>
 			</div>
-		</Container>
+		</div>
+	</section>
 
-		{/* --- Newsletter Signup --- */}
-		<NewsletterSignup className="max-w-4xl mx-auto mb-10 md:mb-4 mt-6 md:mt-8" />
-
-	</div>
+	<section class="w-full mb-20">
+		<div class="max-w-5xl mx-auto px-5 sm:px-6 w-full">
+			<div class="max-w-4xl mx-auto">
+				<div class="flex items-center gap-4 mb-8">
+					<span class="text-xs font-mono text-theme-500 dark:text-theme-400 tracking-widest shrink-0">02</span>
+					<h2 class="text-2xl font-bold text-content-strong shrink-0">Updates</h2>
+					<div class="flex-1 h-px bg-border-subtle"></div>
+				</div>
+				<NewsletterSignup />
+			</div>
+		</div>
+	</section>
 </BaseLayout>

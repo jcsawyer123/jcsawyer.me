@@ -12,6 +12,10 @@
     @apply overflow-x-hidden scroll-smooth;
   }
 
+  html {
+    scrollbar-gutter: stable;
+  }
+
   :focus-visible {
     @apply outline-none ring-2 ring-theme-400 dark:ring-theme-400;
   }
@@ -197,6 +201,38 @@ html.dark body::before {
   .link-muted {
     @apply text-content hover:text-content-strong dark:text-content-muted dark:hover:text-content;
     @apply transition-colors duration-200;
+  }
+
+  .heading-anchor-target {
+    @apply relative inline-flex items-center gap-2;
+  }
+
+  .heading-anchor {
+    @apply relative inline-flex h-6 w-6 items-center justify-center rounded-md text-content-subtle opacity-0 transition-all duration-200;
+  }
+
+  .heading-anchor::after {
+    content: attr(data-tooltip);
+    @apply pointer-events-none absolute left-1/2 top-full mt-2 -translate-x-1/2 rounded-md border border-border bg-surface px-2 py-1 text-[11px] font-medium text-content shadow-subtle opacity-0 transition-all duration-200 whitespace-nowrap;
+  }
+
+  .heading-anchor svg {
+    @apply h-4 w-4;
+  }
+
+  .heading-anchor-target:hover .heading-anchor,
+  .heading-anchor-target:focus-within .heading-anchor {
+    @apply opacity-100 text-theme-600 dark:text-theme-400;
+  }
+
+  .heading-anchor:hover::after,
+  .heading-anchor:focus-visible::after,
+  .heading-anchor[data-copied='true']::after {
+    @apply opacity-100;
+  }
+
+  .heading-anchor[data-copied='true'] {
+    @apply opacity-100 text-theme-700 dark:text-theme-300;
   }
 
   /* Commented out in favor of direct Tailwind utilities */

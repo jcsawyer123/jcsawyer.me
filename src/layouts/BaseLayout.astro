@@ -52,5 +52,65 @@ const currentPath = Astro.url.pathname;
       
       <Footer />
     </div>
+
+    <script>
+      const initHeadingAnchors = () => {
+        const headings = document.querySelectorAll(
+          'main .linkable-heading, main .prose :is(h2, h3, h4)[id]'
+        );
+
+        headings.forEach((heading) => {
+          if (heading.querySelector('.heading-anchor')) {
+            return;
+          }
+
+          const anchorId =
+            heading.dataset.anchorId ||
+            heading.id ||
+            heading.closest('[id]')?.id;
+
+          if (!anchorId) {
+            return;
+          }
+
+          heading.classList.add('heading-anchor-target');
+
+          const link = document.createElement('a');
+          link.href = `#${anchorId}`;
+          link.className = 'heading-anchor';
+          link.setAttribute('aria-label', `Copy link to ${heading.textContent?.trim() || 'section'}`);
+          link.dataset.tooltip = 'Copy link';
+          link.innerHTML =
+            '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M12.59 7.41a2 2 0 0 1 2.82 0l1.18 1.18a2 2 0 0 1 0 2.82l-3.41 3.41a2 2 0 0 1-2.82 0l-.47-.47a.75.75 0 1 1 1.06-1.06l.47.47a.5.5 0 0 0 .7 0l3.41-3.41a.5.5 0 0 0 0-.7l-1.18-1.18a.5.5 0 0 0-.7 0l-1.47 1.47a.75.75 0 0 1-1.06-1.06l1.47-1.47Zm-5.18 5.18a2 2 0 0 1-2.82 0L3.41 11.4a2 2 0 0 1 0-2.82l3.41-3.41a2 2 0 0 1 2.82 0l.47.47a.75.75 0 1 1-1.06 1.06l-.47-.47a.5.5 0 0 0-.7 0L4.47 9.64a.5.5 0 0 0 0 .7l1.18 1.18a.5.5 0 0 0 .7 0l1.47-1.47a.75.75 0 0 1 1.06 1.06l-1.47 1.47Z"/></svg>';
+
+          link.addEventListener('click', async (event) => {
+            if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) {
+              return;
+            }
+
+            event.preventDefault();
+
+            const url = `${window.location.origin}${window.location.pathname}#${anchorId}`;
+
+            try {
+              await navigator.clipboard.writeText(url);
+              link.dataset.copied = 'true';
+              link.dataset.tooltip = 'Copied';
+              window.setTimeout(() => {
+                delete link.dataset.copied;
+                link.dataset.tooltip = 'Copy link';
+              }, 1200);
+            } catch {
+              window.location.hash = anchorId;
+            }
+          });
+
+          heading.append(link);
+        });
+      };
+
+      document.addEventListener('DOMContentLoaded', initHeadingAnchors);
+      document.addEventListener('astro:after-swap', initHeadingAnchors);
+    </script>
   </body>
 </html>

@@ -5,23 +5,23 @@ interface Props {
 }
 const { label, color = 'blue' } = Astro.props;
 
-// Define separate maps for light and dark for clarity
+// Keep the existing color API, but constrain the output to the site palette.
 const lightColorMap = {
 	blue: 'bg-theme-100 text-theme-800 border border-theme-200',
 	green: 'bg-theme-50 text-theme-800 border border-theme-200',
-	purple: 'bg-theme-50 text-content border border-border',
-	yellow: 'bg-theme-50 text-content border border-border',
-	red: 'bg-accent-50 text-accent-800 border border-accent-200',
-	indigo: 'bg-surface-subtle text-content border border-border',
+	purple: 'bg-surface-subtle text-content border border-border',
+	yellow: 'bg-surface-subtle text-content border border-border',
+	red: 'bg-surface-subtle text-content border border-border',
+	indigo: 'bg-theme-50 text-theme-800 border border-theme-200',
 };
 const darkColorMap = {
     blue: 'dark:bg-surface-emphasis dark:text-content dark:border-border',
-    green: 'dark:bg-theme-900/30 dark:text-theme-300 dark:border-theme-800',
+    green: 'dark:bg-surface-emphasis dark:text-content dark:border-border',
     purple: 'dark:bg-surface-emphasis dark:text-content dark:border-border',
     yellow: 'dark:bg-surface-emphasis dark:text-content dark:border-border',
-    red: 'dark:bg-accent-950/60 dark:text-accent-300 dark:border-accent-900',
+    red: 'dark:bg-surface-emphasis dark:text-content dark:border-border',
     indigo: 'dark:bg-surface-emphasis dark:text-content dark:border-border',
-}
+};
 
 const lightClass = lightColorMap[color] || lightColorMap.blue;
 const darkClass = darkColorMap[color] || darkColorMap.blue;
