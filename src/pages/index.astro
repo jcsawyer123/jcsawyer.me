@@ -24,6 +24,7 @@ const skillsNum = showSkillsSection ? next() : null;
 const workNum = showSelectedWorkSection ? next() : null;
 const writingNum = showWritingSection ? next() : null;
 const fmt = (n: number) => String(n).padStart(2, '0');
+const onlyHero = expNum === null && skillsNum === null && workNum === null && writingNum === null;
 
 const projectEntries = await getCollection('projects');
 const featuredProjects = projectEntries.filter(p => p.data.featured).slice(0, 2);
@@ -38,9 +39,9 @@ const blogPosts = (await getCollection('blog'))
 <BaseLayout title="Joshua Sawyer - Software Engineer">
 
   {/* --- Hero --- */}
-  <section id="home" class="w-full mb-4">
+  <section id="home" class={`w-full ${onlyHero ? 'flex items-center min-h-[calc(100svh-16rem)]' : 'mb-4'}`}>
     <div class="max-w-5xl mx-auto px-5 sm:px-6 w-full">
-      <div class="max-w-4xl mx-auto py-12 sm:py-20">
+      <div class={`max-w-4xl mx-auto ${onlyHero ? 'py-16' : 'py-12 sm:py-20'}`}>
         <h1 class="text-5xl sm:text-6xl lg:text-7xl font-bold text-content-strong tracking-tight leading-[1.05] mb-5">
           Joshua<br />Sawyer
         </h1>

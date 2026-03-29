@@ -31,7 +31,7 @@ const years = Object.keys(postsByYear).sort((a, b) => Number(b) - Number(a));
       <meta charset="UTF-8" />
       <meta http-equiv="refresh" content="0;url=/" />
     </head>
-    <body><script>window.location.replace('/');</script></body>
+    <body><script is:inline>window.location.replace('/');</script></body>
   </html>
 )}
 {showBlogPage && (
