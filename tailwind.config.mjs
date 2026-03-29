@@ -41,7 +41,7 @@ export default {
         },
         // Background colors (surface layers)
         surface: {
-          DEFAULT: 'var(--color-surface)',
+          DEFAULT: 'rgb(var(--color-surface) / <alpha-value>)',
           muted: 'var(--color-surface-muted)',
           subtle: 'var(--color-surface-subtle)',
           emphasis: 'var(--color-surface-emphasis)',
@@ -56,7 +56,7 @@ export default {
         },
         // Border colors
         border: {
-          DEFAULT: 'var(--color-border)',
+          DEFAULT: 'rgb(var(--color-border) / <alpha-value>)',
           subtle: 'var(--color-border-subtle)',
           emphasis: 'var(--color-border-emphasis)',
         },
@@ -181,10 +181,10 @@ export default {
           '--color-accent-950': '#32080e',
 
           // Semantic colors - light mode
-          '--color-surface': '#ffffff',
-          '--color-surface-muted': 'rgba(255, 255, 255, 0.88)',
-          '--color-surface-subtle': '#f8fcfc',
-          '--color-surface-emphasis': '#edf6f6',
+          '--color-surface': '255 255 255',
+          '--color-surface-muted': 'rgba(255, 255, 255, 0.85)',
+          '--color-surface-subtle': '#f8fafa',
+          '--color-surface-emphasis': '#edf4f4',
 
           '--color-content': '#133131',
           '--color-content-strong': '#0b2020',
@@ -192,7 +192,7 @@ export default {
           '--color-content-subtle': '#7d9898',
           '--color-content-inverse': '#ffffff',
 
-          '--color-border': '#d7e7e7',
+          '--color-border': '215 231 231',
           '--color-border-subtle': '#e8f1f1',
           '--color-border-emphasis': '#b8cdcd',
 
@@ -212,10 +212,10 @@ export default {
         },
         // Dark mode overrides
         '.dark': {
-          '--color-surface': '#0d1717',
-          '--color-surface-muted': 'rgba(13, 23, 23, 0.88)',
-          '--color-surface-subtle': '#102020',
-          '--color-surface-emphasis': '#132626',
+          '--color-surface': '14 17 17',
+          '--color-surface-muted': 'rgba(14, 17, 17, 0.85)',
+          '--color-surface-subtle': '#111515',
+          '--color-surface-emphasis': '#141919',
 
           '--color-content': '#d7ebeb',
           '--color-content-strong': '#e6f3f3',
@@ -223,7 +223,7 @@ export default {
           '--color-content-subtle': '#6f8d8d',
           '--color-content-inverse': '#081010',
 
-          '--color-border': '#1f3434',
+          '--color-border': '31 52 52',
           '--color-border-subtle': '#162626',
           '--color-border-emphasis': '#2a4444',
 

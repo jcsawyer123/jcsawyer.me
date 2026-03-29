@@ -34,7 +34,7 @@ const isActive = (path: string) => {
   <!-- Mobile Menu (Hidden by default) -->
   <div 
     id="mobile-menu" 
-    class="hidden absolute top-full left-0 right-0 border border-border shadow-medium backdrop-blur-md bg-surface rounded-b-xl p-4 md:hidden flex flex-col space-y-2"
+    class="hidden absolute top-full left-0 right-0 border border-border shadow-medium backdrop-blur-md bg-surface/85 rounded-b-xl p-4 md:hidden flex flex-col space-y-2"
   >
     <NavLink href="/" active={isActive('/')}>Home</NavLink>
     {showBlogPage && <NavLink href="/blog" active={isActive('/blog')}>Blog</NavLink>}

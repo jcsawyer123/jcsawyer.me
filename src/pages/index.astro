@@ -82,7 +82,7 @@ const blogPosts = (await getCollection('blog'))
         <div class="flex items-center gap-4 mb-10">
           <span class="text-xs font-mono text-theme-500 dark:text-theme-400 tracking-widest shrink-0">{fmt(workNum!)}</span>
           <h2 class="linkable-heading text-2xl font-bold text-content-strong shrink-0" data-anchor-id="projects">Selected Work</h2>
-          <div class="flex-1 h-px bg-border-subtle"></div>
+          <div class="flex-1 h-[2px] bg-border"></div>
           {showSelectedWorkPage && projectEntries.length > projectsToShow.length && (
             <a href="/projects" class="text-sm text-content-muted hover:text-content transition-colors shrink-0">View all →</a>
           )}
@@ -108,7 +108,7 @@ const blogPosts = (await getCollection('blog'))
         <div class="flex items-center gap-4 mb-10">
           <span class="text-xs font-mono text-theme-500 dark:text-theme-400 tracking-widest shrink-0">{fmt(writingNum!)}</span>
           <h2 class="linkable-heading text-2xl font-bold text-content-strong shrink-0" data-anchor-id="blog">Writing</h2>
-          <div class="flex-1 h-px bg-border-subtle"></div>
+          <div class="flex-1 h-[2px] bg-border"></div>
           {showBlogPage && <a href="/blog" class="text-sm text-content-muted hover:text-content transition-colors shrink-0">View all →</a>}
         </div>
         <p class="text-sm sm:text-base text-content-muted max-w-2xl leading-7 mb-8">

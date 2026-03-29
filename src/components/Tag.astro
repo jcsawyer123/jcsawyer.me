@@ -5,22 +5,22 @@ interface Props {
 }
 const { label, color = 'blue' } = Astro.props;
 
-// Keep the existing color API, but constrain the output to the site palette.
+// Light: light fill, dark text. Dark: inverted — saturated fill, light text.
 const lightColorMap = {
-	blue: 'bg-theme-100 text-theme-800 border border-theme-200',
-	green: 'bg-theme-50 text-theme-800 border border-theme-200',
+	blue:   'bg-theme-100 text-theme-800 border border-theme-200',
+	green:  'bg-theme-50 text-theme-800 border border-theme-200',
 	purple: 'bg-surface-subtle text-content border border-border',
 	yellow: 'bg-surface-subtle text-content border border-border',
-	red: 'bg-surface-subtle text-content border border-border',
+	red:    'bg-surface-subtle text-content border border-border',
 	indigo: 'bg-theme-50 text-theme-800 border border-theme-200',
 };
 const darkColorMap = {
-    blue: 'dark:bg-surface-emphasis dark:text-content dark:border-border',
-    green: 'dark:bg-surface-emphasis dark:text-content dark:border-border',
-    purple: 'dark:bg-surface-emphasis dark:text-content dark:border-border',
-    yellow: 'dark:bg-surface-emphasis dark:text-content dark:border-border',
-    red: 'dark:bg-surface-emphasis dark:text-content dark:border-border',
-    indigo: 'dark:bg-surface-emphasis dark:text-content dark:border-border',
+    blue:   'dark:bg-theme-700 dark:text-theme-100 dark:border-theme-600',
+    green:  'dark:bg-theme-700 dark:text-theme-100 dark:border-theme-600',
+    purple: 'dark:bg-theme-800 dark:text-theme-200 dark:border-theme-700',
+    yellow: 'dark:bg-theme-800 dark:text-theme-200 dark:border-theme-700',
+    red:    'dark:bg-theme-800 dark:text-theme-200 dark:border-theme-700',
+    indigo: 'dark:bg-theme-700 dark:text-theme-100 dark:border-theme-600',
 };
 
 const lightClass = lightColorMap[color] || lightColorMap.blue;

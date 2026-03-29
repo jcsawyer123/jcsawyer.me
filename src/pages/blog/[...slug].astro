@@ -54,7 +54,7 @@ const tocHeadings = headings.filter((heading) => heading.depth === 2 || heading.
 
     <div class="max-w-4xl mx-auto">
       {tocHeadings.length > 0 && (
-        <details class="group mb-6 rounded-2xl border border-border bg-surface/90 shadow-default backdrop-blur-sm xl:hidden">
+        <details class="group mb-6 rounded-2xl border border-border bg-surface/85 shadow-subtle dark:shadow-none xl:hidden">
           <summary class="flex cursor-pointer items-center justify-between px-5 py-4 text-sm font-semibold text-content-strong sm:px-6">
             <span>Table of Contents</span>
             <svg
@@ -79,7 +79,7 @@ const tocHeadings = headings.filter((heading) => heading.depth === 2 || heading.
     </div>
 
     <div class="relative max-w-4xl mx-auto">
-      <div class="rounded-2xl border border-border bg-surface/90 p-6 shadow-default backdrop-blur-sm sm:p-8 lg:p-10">
+      <div class="rounded-2xl border border-border bg-surface/85 p-6 shadow-subtle dark:shadow-none sm:p-8 lg:p-10">
         <header class="mb-6 md:mb-8">
           <h1 class="text-3xl font-bold leading-tight text-content-strong sm:text-4xl lg:text-5xl">
             {post.data.title}
@@ -118,14 +118,14 @@ const tocHeadings = headings.filter((heading) => heading.depth === 2 || heading.
         </article>
       </div>
 
-      <div class="mt-6 rounded-2xl border border-border bg-surface/90 p-5 shadow-default backdrop-blur-sm sm:p-6">
+      <div class="mt-6 rounded-2xl border border-border bg-surface/85 p-5 shadow-subtle dark:shadow-none sm:p-6">
         <ShareButtons title={post.data.title} url={`/blog/${post.slug}`} />
       </div>
 
       {tocHeadings.length > 0 && (
         <aside class="absolute top-0 hidden xl:block" style="left: calc(100% + 2.5rem); width: 24rem;">
           <div class="sticky top-24">
-            <div class="rounded-2xl border border-border bg-surface/90 p-6 shadow-default backdrop-blur-sm">
+            <div class="rounded-2xl border border-border bg-surface/85 p-6 shadow-subtle dark:shadow-none">
               <p class="text-xs font-semibold uppercase tracking-[0.16em] text-content-subtle">
                 On This Page
               </p>
