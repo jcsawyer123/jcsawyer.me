@@ -8,6 +8,8 @@ import BlogPreviewCard from '../components/sections/BlogPreviewCard.astro';
 import { getCollection } from 'astro:content';
 import GradientAccent from '../components/GradientAccent.astro';
 import SectionHeader from '../components/sections/SectionHeader.astro';
+import ExperienceSection from '../components/sections/ExperienceSection.astro';
+import SkillsSection from '../components/sections/SkillsSection.astro';
 
 const projectEntries = await getCollection('projects');
 const featuredProjects = projectEntries.filter(p => p.data.featured).slice(0, 2);
@@ -42,7 +44,7 @@ const blogPosts = (await getCollection('blog'))
           </div>
           <div class="border-t-2 border-border-subtle dark:border-border my-6 max-w-md"></div>
           <p class="text-content mb-8 max-w-xl">
-            Passionate about engineering elegant and efficient solutions across the stack. Exploring the frontiers of backend systems and large-scale microarchitectures, with a love for hackathons and creative problem-solving.
+            Software engineer at Fortra, where I work on distributed deployment systems primarily in Erlang — building backend services, owning AWS integrations, and modernising internal Erlang tooling. I have full-stack range across JavaScript, TypeScript, and various frameworks. Outside of work, I'm a trustee at Hackathons UK, a charity I helped build to support student hackathons and tech societies across the UK.
           </p>
           <div class="flex flex-wrap gap-4">
             <Button href="blog" variant="primary" class="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-theme-400 dark:focus-visible:ring-accent-400">Blogs</Button>
@@ -55,9 +57,9 @@ const blogPosts = (await getCollection('blog'))
               class="px-1 py-1 mt-4"
             >
               <div class="flex gap-3">
-                <SocialIcon label="GitHub" href="https://github.com" aria-label="GitHub" />
-                <SocialIcon label="LinkedIn" href="https://linkedin.com" aria-label="LinkedIn" />
-                <SocialIcon label="Twitter" href="https://twitter.com" aria-label="Twitter" />
+                <SocialIcon label="GitHub" href="https://github.com/jcsawyer123" aria-label="GitHub" />
+                <SocialIcon label="LinkedIn" href="https://www.linkedin.com/in/joshua-sawyer/" aria-label="LinkedIn" />
+                <SocialIcon label="Twitter" href="https://twitter.com/jcsawyer123" aria-label="Twitter" />
               </div>
             </Container>
           </div>
@@ -75,6 +77,12 @@ const blogPosts = (await getCollection('blog'))
       </Container>
     </div>
   </section>
+
+  {/* --- Experience Section --- */}
+  <ExperienceSection />
+
+  {/* --- Skills Section --- */}
+  <SkillsSection />
 
   {/* --- Projects Section --- */}
   <section id="projects" class="w-full mb-16">

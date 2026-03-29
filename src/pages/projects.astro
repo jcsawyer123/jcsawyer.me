@@ -1,0 +1,29 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ProjectCard from '../components/sections/ProjectCard.astro';
+import SectionHeader from '../components/sections/SectionHeader.astro';
+import { getCollection } from 'astro:content';
+
+const projectEntries = await getCollection('projects');
+const featuredProjects = projectEntries.filter(p => p.data.featured);
+const otherProjects = projectEntries.filter(p => !p.data.featured);
+const allProjects = [...featuredProjects, ...otherProjects];
+---
+
+<BaseLayout title="Projects — Joshua Sawyer" description="A collection of my projects, open-source work, and contributions.">
+  <div class="max-w-4xl mx-auto px-4 w-full">
+    <SectionHeader
+      title="Projects"
+      description="Open-source work, side projects, and contributions."
+      accent="top"
+      accentSize="md"
+    />
+    <div class="max-w-3xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-6">
+      {allProjects.map(project => (
+        <div>
+          <ProjectCard class="transition-all duration-200 hover:-translate-y-1" project={project.data} />
+        </div>
+      ))}
+    </div>
+  </div>
+</BaseLayout>
