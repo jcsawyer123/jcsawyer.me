@@ -1,18 +1,31 @@
 ---
-import SectionHeader from './SectionHeader.astro';
-import Container from '../Container.astro';
-import GradientAccent from '../GradientAccent.astro';
-
 const experiences = [
   {
+    role: "Software Engineer III",
+    company: "LevelBlue",
+    period: "Apr 2026 – Present",
+    bullets: [
+      "Leading development of core analytics pipeline services for MDR product suite",
+      "Collaborating across teams to define and deliver against key engineering initiatives",
+      "Driving improvements to system reliability and observability across backend services",
+    ],
+  },
+  {
+    role: "Software Engineer III",
+    company: "Fortra",
+    period: "Mar 2023 – Apr 2026",
+    bullets: [
+      "Led the Developer Advocacy Initiative",
+      "Drove modernisation of the internal erlcloud fork for deployment tooling",
+    ],
+  },
+  {
     role: "Software Engineer",
-    company: "Fortra · Alert Logic",
-    period: "Mar 2022 – Present",
+    company: "Alert Logic",
+    period: "Mar 2022 – Mar 2023",
     bullets: [
       "Deployment Configuration Services; backend systems primarily in Erlang",
       "Led MDR integration into AWS Control Tower and owned its continued development",
-      "Drove modernisation of the internal erlcloud fork for deployment tooling",
-      "Led the Developer Advocacy Initiative",
     ],
   },
   {
@@ -44,34 +57,38 @@ const experiences = [
 
 <section class="w-full mb-16">
   <div class="max-w-4xl mx-auto px-4 w-full">
-    <SectionHeader title="Experience" accent="top" accentSize="md" />
-    <div class="max-w-3xl mx-auto">
-      <Container frosted panel borderColor="border-border" class="relative overflow-hidden p-6 sm:p-8">
-        <GradientAccent position="left" size="lg" />
-        <div class="space-y-8 pl-2">
-          {experiences.map((exp) => (
-            <div class="relative pl-6 border-l border-border-subtle dark:border-border">
-              <div class="absolute -left-[5px] top-[7px] w-2.5 h-2.5 rounded-full bg-theme-400 dark:bg-accent-400 ring-2 ring-surface-muted" />
-              <div class="flex flex-col sm:flex-row sm:items-baseline gap-0.5 sm:gap-3 mb-2">
-                <span class="text-content-strong font-semibold">{exp.role}</span>
-                <span class="hidden sm:inline text-border-subtle">·</span>
-                <span class="text-content">{exp.company}</span>
-                <span class="text-content-subtle text-sm sm:ml-auto whitespace-nowrap">{exp.period}</span>
-              </div>
+    <div class="max-w-3xl mx-auto pt-12">
+
+      <div class="flex items-center gap-4 mb-10">
+        <span class="text-xs font-mono text-theme-500 dark:text-theme-400 tracking-widest shrink-0">01</span>
+        <h2 class="text-2xl font-bold text-content-strong shrink-0">Experience</h2>
+        <div class="flex-1 h-px bg-border-subtle"></div>
+      </div>
+
+      <div class="space-y-10">
+        {experiences.map((exp) => (
+          <div class="grid grid-cols-1 sm:grid-cols-[180px_1fr] gap-1 sm:gap-x-10">
+            <div class="sm:pt-0.5">
+              <div class="text-sm text-content-subtle">{exp.period}</div>
+              <div class="text-sm text-content mt-1">{exp.company}</div>
+            </div>
+            <div>
+              <div class="font-semibold text-content-strong mb-2.5">{exp.role}</div>
               {exp.bullets.length > 0 && (
                 <ul class="space-y-1.5">
                   {exp.bullets.map((bullet) => (
-                    <li class="text-content-muted text-sm flex gap-2">
-                      <span class="text-theme-400 dark:text-accent-400 mt-0.5 shrink-0 select-none">–</span>
+                    <li class="text-sm text-content-muted flex gap-2 leading-relaxed">
+                      <span class="shrink-0 select-none text-theme-400 dark:text-theme-400 mt-0.5">–</span>
                       <span>{bullet}</span>
                     </li>
                   ))}
                 </ul>
               )}
             </div>
-          ))}
-        </div>
-      </Container>
+          </div>
+        ))}
+      </div>
+
     </div>
   </div>
 </section>

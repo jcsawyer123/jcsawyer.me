@@ -1,15 +1,13 @@
 ---
 import Button from './Button.astro';
-import GradientAccent from './GradientAccent.astro';
 
 const { className = '' } = Astro.props;
 ---
 <div class:list={[
-  'border border-border shadow-default backdrop-blur-md bg-surface-muted rounded-xl relative overflow-hidden p-1 md:p-2',
+  'border border-border shadow-default rounded-xl p-1 md:p-2',
   className
 ]}>
-  <GradientAccent position="top" size="md" />
-  <div class="relative z-10 p-panel-sm">
+  <div class="p-panel-sm">
     <h3 class="text-xl sm:text-2xl font-bold text-content-strong mb-2">Stay updated</h3>
     <p class="text-sm text-content mb-3">
       Get notified when new articles are published

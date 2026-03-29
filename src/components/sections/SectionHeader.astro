@@ -1,6 +1,5 @@
 ---
 import Button from '../Button.astro';
-import GradientAccent from '../GradientAccent.astro';
 import Container from '../Container.astro';
 
 interface Props {
@@ -11,18 +10,14 @@ interface Props {
     href: string;
     variant?: 'primary' | 'secondary' | 'outline' | 'highlight';
   };
-  accent?: 'top' | 'bottom' | 'left' | 'right';
-  accentSize?: 'sm' | 'md' | 'lg';
   class?: string;
   rounded?: 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | 'full';
 }
 
-const { 
-  title, 
-  description, 
-  actionButton, 
-  accent = 'top',
-  accentSize = 'md', 
+const {
+  title,
+  description,
+  actionButton,
   class: className,
   rounded = 'xl'
 } = Astro.props;
@@ -41,13 +36,11 @@ const roundedClass = roundedMap[rounded];
 ---
 
 <Container
-  frosted
   panel
   padding="sm"
-  class={`mb-6 relative overflow-hidden p-6 ${roundedClass} ${className ?? ''}`}
+  class={`mb-6 p-6 ${roundedClass} ${className ?? ''}`}
 >
-  <GradientAccent position={accent} size={accentSize} />
-  <div class="relative z-10 pt-2">
+  <div class="relative z-10">
     <h2 class="text-2xl sm:text-3xl font-bold text-content-strong mb-1">
       {title}
     </h2>

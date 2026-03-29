@@ -18,8 +18,10 @@ const projectCollection = defineCollection({
     type: 'content',
     schema: z.object({
         name: z.string(),
+        context: z.string().optional(),
         description: z.string(),
-        link: z.string().url(),
+        link: z.string().url().optional(),
+        linkLabel: z.string().optional(),
         featured: z.boolean().optional().default(false),
     })
 });

@@ -29,14 +29,9 @@ const years = Object.keys(postsByYear).sort((a, b) => Number(b) - Number(a));
         {/* --- Blog Header --- */}
 		<Container
 			borderColor="border-border"
-			class="relative overflow-hidden p-8 mb-10 bg-surface-muted backdrop-blur-md shadow-default"
+			class="p-8 mb-10 bg-surface-muted shadow-default"
 		>
-			{/* Gradient Accent Bar */}
-			<div
-				class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-theme-300 to-theme-400 dark:from-theme-600 dark:to-accent-700"
-				aria-hidden="true"
-			></div>
-			<div class="relative z-10 pt-2">
+			<div class="relative z-10">
 				<h1 class="text-3xl font-bold text-content-strong mb-2">Blog</h1>
 				<p class="text-content mb-0">
 					Thoughts, tutorials, and insights about web development and design
@@ -47,7 +42,7 @@ const years = Object.keys(postsByYear).sort((a, b) => Number(b) - Number(a));
         {/* --- Main Content --- */}
 		<Container
 			borderColor="border-border"
-			class="relative overflow-hidden p-8 mb-10 bg-surface-muted backdrop-blur-md shadow-default"
+			class="p-8 mb-10 bg-surface-muted shadow-default"
 		>
 			{/* Filter/Search Section */}
 			<div class="mb-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-4">

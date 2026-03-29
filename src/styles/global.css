@@ -13,7 +13,7 @@
   }
 
   :focus-visible {
-    @apply outline-none ring-2 ring-theme-400 dark:ring-accent-400;
+    @apply outline-none ring-2 ring-theme-400 dark:ring-theme-400;
   }
 
   /* Add scroll margin for all headings and elements that might be anchor targets */
@@ -36,14 +36,14 @@ body::before {
   width: 100%;
   height: 100%;
   z-index: -1;
-  /* Updated to use CSS variables */
-  background: linear-gradient(to bottom right, var(--color-surface), var(--color-theme-100));
+  background: linear-gradient(to bottom right, #eaf7f7, #ffffff 62%);
 }
 
-/* Dark mode gradient handled through direct values to match the old style */
 html.dark body::before {
-  background: linear-gradient(to bottom right, #0f172a, #1e293b);
+  background: linear-gradient(to bottom right, #0b0d0d, #121515 72%);
 }
+
+
 
 /**
  * Layout Components
@@ -190,7 +190,7 @@ html.dark body::before {
 @layer components {
   /* Link styles - simplified to use theme colors */
   .link-primary {
-    @apply text-theme-600 hover:text-theme-800 dark:text-accent-400 dark:hover:text-accent-300;
+    @apply text-theme-600 hover:text-theme-700 dark:text-theme-400 dark:hover:text-theme-300;
     @apply transition-colors duration-200;
   }
 
@@ -219,7 +219,7 @@ html.dark body::before {
 @layer utilities {
   /* Updated to use theme colors */
   .gradient-primary {
-    @apply bg-gradient-to-r from-theme-300 to-theme-400 dark:from-theme-600 dark:to-accent-700;
+    @apply bg-gradient-to-r from-theme-300 to-theme-500 dark:from-theme-700 dark:to-theme-500;
   }
 
   /* Commented out in favor of direct Tailwind utilities */
