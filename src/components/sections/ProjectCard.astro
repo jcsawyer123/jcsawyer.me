@@ -11,7 +11,7 @@ const hasLink = Boolean(project.link);
 const linkLabel = project.linkLabel ?? 'Open';
 ---
 
-<div class={`project-card relative ${className}`}>
+<div class={`project-card group relative ${className}`}>
   <div class="border border-border bg-surface/85 shadow-subtle dark:shadow-none rounded-lg h-full relative overflow-hidden transition-all duration-200 hover:-translate-y-1 hover:shadow-default dark:hover:shadow-none hover:border-theme-300 dark:hover:border-theme-700">
     {project.featured && (
       <div class="absolute top-0 right-0 z-10">
@@ -29,7 +29,7 @@ const linkLabel = project.linkLabel ?? 'Open';
         </div>
       )}
 
-      <h3 class="text-content-strong font-bold project-title transition-colors duration-200">
+      <h3 class="text-content-strong font-bold transition-colors duration-200 group-hover:text-theme-700 dark:group-hover:text-theme-300">
         {project.name}
       </h3>
 
@@ -71,28 +71,15 @@ const linkLabel = project.linkLabel ?? 'Open';
 
 <script>
   document.addEventListener('DOMContentLoaded', () => {
-    const projectCards = document.querySelectorAll('.project-card');
-
-    projectCards.forEach(card => {
+    document.querySelectorAll('.project-card').forEach(card => {
       const description = card.querySelector('.description');
       const expandToggle = card.querySelector('.expand-toggle');
       const expandToggleOpen = card.querySelector('.expand-toggle-open');
       const expandToggleClose = card.querySelector('.expand-toggle-close');
       const expandArrow = card.querySelector('.expand-arrow');
-      const projectTitle = card.querySelector('.project-title');
-
-      card.addEventListener('mouseenter', () => {
-        projectTitle.classList.add('text-theme-700', 'dark:text-theme-300');
-      });
-
-      card.addEventListener('mouseleave', () => {
-        projectTitle.classList.remove('text-theme-700', 'dark:text-theme-300');
-      });
 
       setTimeout(() => {
-        const isClipped = description.scrollHeight > description.clientHeight;
-
-        if (!isClipped || !expandToggle) {
+        if (!description || !expandToggle || description.scrollHeight <= description.clientHeight) {
           return;
         }
 
@@ -100,7 +87,6 @@ const linkLabel = project.linkLabel ?? 'Open';
 
         expandToggle.addEventListener('click', () => {
           const isExpanded = !description.classList.contains('line-clamp-2');
-
           description.classList.toggle('line-clamp-2', isExpanded);
           expandArrow.classList.toggle('rotate-180', !isExpanded);
           expandToggleOpen.classList.toggle('hidden', !isExpanded);
@@ -110,17 +96,3 @@ const linkLabel = project.linkLabel ?? 'Open';
     });
   });
 </script>
-
-<style>
-  .description-container {
-    transition: height 0.3s ease;
-  }
-
-  .description {
-    transition: max-height 0.3s ease;
-  }
-
-  .project-title {
-    transition: color 0.2s ease;
-  }
-</style>

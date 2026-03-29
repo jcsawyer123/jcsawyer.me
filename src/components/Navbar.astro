@@ -3,6 +3,7 @@ import NavLink from './NavLink.astro';
 import MobileMenu from './MobileMenu.astro';
 import ThemeToggle from './ThemeToggle.astro';
 import { isEnabled } from '../config/flags';
+import { isActive } from '../utils/nav';
 
 interface Props {
     currentPath: string;
@@ -10,12 +11,6 @@ interface Props {
 const { currentPath } = Astro.props;
 const showBlogPage = isEnabled('showBlogPage');
 const showContactPage = isEnabled('showContactPage');
-
-const isActive = (path: string) => {
-    if (path === '/') return currentPath === '/';
-    if (path.startsWith('/#')) return currentPath === '/' || currentPath === path.substring(1);
-    return currentPath.startsWith(path);
-}
 ---
 
 <div class="fixed top-0 left-0 right-0 z-50 flex justify-center">
@@ -33,24 +28,24 @@ const isActive = (path: string) => {
         "
     > 
         {/* Logo */}
-        <a href="/" class="font-bold text-xl text-content-strong">JCS</a>
+        <a href="/" class="font-bold text-xl text-content-strong">J. Sawyer</a>
 
         {/* Nav Links & Theme Toggle Container */}
         <div class="flex items-center gap-2 sm:gap-4">
             {/* Nav Links - Desktop */}
             <div class="hidden md:flex items-center">
-                <NavLink href="/" active={isActive('/')}>Home</NavLink>
+                <NavLink href="/" active={isActive(currentPath, '/')}>Home</NavLink>
                 {showBlogPage && <span class="text-border mx-1">|</span>}
-                {showBlogPage && <NavLink href="/blog" active={isActive('/blog')}>Blog</NavLink>}
+                {showBlogPage && <NavLink href="/blog" active={isActive(currentPath, '/blog')}>Blog</NavLink>}
                 {showContactPage && <span class="text-border mx-1">|</span>}
-                {showContactPage && <NavLink href="/contact" active={isActive('/contact')}>Contact</NavLink>}
+                {showContactPage && <NavLink href="/contact" active={isActive(currentPath, '/contact')}>Contact</NavLink>}
             </div>
 
             {/* Theme Toggle Button */}
             <ThemeToggle />
 
-            {/* Mobile Menu */}
-            <MobileMenu currentPath={currentPath} />
+            {/* Mobile Menu - only when there are pages to navigate to */}
+            {(showBlogPage || showContactPage) && <MobileMenu currentPath={currentPath} />}
         </div>
     </nav>
 </div>

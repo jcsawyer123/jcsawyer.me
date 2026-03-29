@@ -92,9 +92,7 @@ const blogPosts = (await getCollection('blog'))
         </p>
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
           {projectsToShow.map(project => (
-            <div>
-              <ProjectCard class="transition-all duration-200 hover:-translate-y-1" project={project.data} />
-            </div>
+            <ProjectCard project={project.data} />
           ))}
         </div>
       </div>
@@ -116,9 +114,7 @@ const blogPosts = (await getCollection('blog'))
         </p>
         <div class="space-y-4">
           {blogPosts.map(post => (
-            <div class="transition-all duration-200 hover:-translate-y-1">
-              <BlogPreviewCard post={post} />
-            </div>
+            <BlogPreviewCard post={post} />
           ))}
         </div>
       </div>

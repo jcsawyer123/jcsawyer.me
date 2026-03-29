@@ -8,15 +8,6 @@ export interface BaseProps {
   id?: string;
 }
 
-// Standard container props
-export interface ContainerProps extends BaseProps {
-  borderColor?: string;
-  rounded?: 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | 'full';
-  padding?: 'none' | 'sm' | 'md' | 'lg' | 'xl';
-  frosted?: boolean;
-  panel?: boolean;
-}
-
 // Component that can be either a button or an anchor
 export type ActionElementProps =
   | { href: string; type?: never }
@@ -39,32 +30,6 @@ export interface NavLinkProps extends BaseProps {
   href: string;
   active?: boolean;
   external?: boolean;
-}
-
-// Section header props
-export interface SectionHeaderProps extends BaseProps {
-  title: string;
-  description?: string;
-  actionButton?: {
-    text: string;
-    href: string;
-    variant?: 'primary' | 'secondary' | 'outline' | 'highlight';
-  };
-  accent?: 'top' | 'bottom' | 'left' | 'right';
-  accentSize?: 'sm' | 'md' | 'lg';
-}
-
-// Card component props
-export interface CardProps extends BaseProps {
-  title?: string;
-  description?: string;
-  link?: string;
-  linkText?: string;
-  featured?: boolean;
-  image?: {
-    src: string;
-    alt: string;
-  };
 }
 
 // Tag component props
@@ -100,21 +65,6 @@ export interface ReadingTimeProps extends BaseProps {
 export interface ShareButtonsProps extends BaseProps {
   title: string;
   url: string;
-}
-
-// Code block props
-export interface CodeBlockProps extends BaseProps {
-  code: string;
-  language?: string;
-  showLineNumbers?: boolean;
-  highlightLines?: number[];
-}
-
-// Color swatch props
-export interface ColorSwatchProps extends BaseProps {
-  color: string;
-  name: string;
-  hex: string;
 }
 
 // Footer link props

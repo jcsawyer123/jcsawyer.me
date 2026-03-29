@@ -6,9 +6,10 @@ import { isEnabled } from '../config/flags';
 
 const enabled = isEnabled('showSelectedWorkPage');
 const projectEntries = await getCollection('projects');
-const featuredProjects = projectEntries.filter(p => p.data.featured);
-const otherProjects = projectEntries.filter(p => !p.data.featured);
-const allProjects = [...featuredProjects, ...otherProjects];
+const allProjects = [
+  ...projectEntries.filter(p => p.data.featured),
+  ...projectEntries.filter(p => !p.data.featured),
+];
 ---
 
 {!enabled && (
@@ -52,9 +53,7 @@ const allProjects = [...featuredProjects, ...otherProjects];
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
           {allProjects.map(project => (
-            <div>
-              <ProjectCard class="transition-all duration-200 hover:-translate-y-1" project={project.data} />
-            </div>
+            <ProjectCard project={project.data} />
           ))}
         </div>
       </div>

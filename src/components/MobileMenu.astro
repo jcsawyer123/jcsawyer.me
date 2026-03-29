@@ -1,6 +1,6 @@
 ---
-import NavLink from './NavLink.astro';
 import { isEnabled } from '../config/flags';
+import { isActive } from '../utils/nav';
 
 interface Props {
   currentPath: string;
@@ -9,19 +9,12 @@ interface Props {
 const { currentPath } = Astro.props;
 const showBlogPage = isEnabled('showBlogPage');
 const showContactPage = isEnabled('showContactPage');
-
-// Helper function to check if a path is active
-const isActive = (path: string) => {
-  if (path === '/') return currentPath === '/';
-  if (path.startsWith('/#')) return currentPath === '/' || currentPath === path.substring(1);
-  return currentPath.startsWith(path);
-};
 ---
 
 <div class="md:hidden">
   <button
     id="mobile-menu-button"
-    aria-label="Toggle mobile menu"
+    aria-label="Open navigation menu"
     aria-expanded="false"
     aria-controls="mobile-menu"
     class="p-1.5 rounded-lg text-content hover:bg-surface-subtle dark:hover:bg-surface-emphasis focus:outline-none focus:ring-2 focus:ring-theme-400 dark:focus:ring-theme-400 transition-colors duration-200"
@@ -31,46 +24,109 @@ const isActive = (path: string) => {
     </svg>
   </button>
 
-  <!-- Mobile Menu (Hidden by default) -->
-  <div 
-    id="mobile-menu" 
-    class="hidden absolute top-full left-0 right-0 border border-border shadow-medium backdrop-blur-md bg-surface/85 rounded-b-xl p-4 md:hidden flex flex-col space-y-2"
+  <div
+    id="mobile-menu"
+    role="dialog"
+    aria-modal="true"
+    aria-label="Navigation menu"
+    class="hidden fixed inset-0 z-[60] bg-surface/95 backdrop-blur-lg"
   >
-    <NavLink href="/" active={isActive('/')}>Home</NavLink>
-    {showBlogPage && <NavLink href="/blog" active={isActive('/blog')}>Blog</NavLink>}
-    {showContactPage && <NavLink href="/contact" active={isActive('/contact')}>Contact</NavLink>}
+    <div class="flex items-center justify-between px-5 py-4">
+      <a href="/" class="font-bold text-xl text-content-strong">J. Sawyer</a>
+      <button
+        id="mobile-menu-close"
+        aria-label="Close navigation menu"
+        class="p-1.5 rounded-lg text-content hover:bg-surface-subtle dark:hover:bg-surface-emphasis focus:outline-none focus:ring-2 focus:ring-theme-400 dark:focus:ring-theme-400 transition-colors duration-200"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+
+    <nav class="flex flex-col items-center justify-center gap-8 h-[calc(100%-61px)]">
+      <a
+        href="/"
+        class:list={[
+          'text-2xl font-semibold transition-colors duration-200',
+          isActive(currentPath, '/')
+            ? 'text-theme-600 dark:text-theme-400'
+            : 'text-content-strong hover:text-theme-600 dark:hover:text-theme-400',
+        ]}
+      >Home</a>
+      {showBlogPage && (
+        <a
+          href="/blog"
+          class:list={[
+            'text-2xl font-semibold transition-colors duration-200',
+            isActive(currentPath, '/blog')
+              ? 'text-theme-600 dark:text-theme-400'
+              : 'text-content-strong hover:text-theme-600 dark:hover:text-theme-400',
+          ]}
+        >Blog</a>
+      )}
+      {showContactPage && (
+        <a
+          href="/contact"
+          class:list={[
+            'text-2xl font-semibold transition-colors duration-200',
+            isActive(currentPath, '/contact')
+              ? 'text-theme-600 dark:text-theme-400'
+              : 'text-content-strong hover:text-theme-600 dark:hover:text-theme-400',
+          ]}
+        >Contact</a>
+      )}
+    </nav>
   </div>
 </div>
+
+<style>
+  #mobile-menu:not(.hidden) {
+    display: flex;
+    flex-direction: column;
+  }
+</style>
 
 <script>
   const initMobileMenu = () => {
     const menuButton = document.getElementById('mobile-menu-button');
+    const closeButton = document.getElementById('mobile-menu-close');
     const mobileMenu = document.getElementById('mobile-menu');
-    
-    if (!menuButton || !mobileMenu) return;
-    
-    // Toggle menu visibility
-    menuButton.addEventListener('click', (e) => {
-      e.stopPropagation();
-      const isExpanded = mobileMenu.classList.toggle('hidden') === false;
-      menuButton.setAttribute('aria-expanded', isExpanded.toString());
+
+    if (!menuButton || !closeButton || !mobileMenu) return;
+
+    // The navbar has backdrop-blur which creates a stacking context in Chrome,
+    // trapping fixed children inside it. Moving to body escapes that.
+    if (mobileMenu.parentElement !== document.body) {
+      document.body.appendChild(mobileMenu);
+    }
+
+    const navbar = document.getElementById('main-navbar');
+
+    const open = () => {
+      mobileMenu.classList.remove('hidden');
+      document.body.classList.add('overflow-hidden');
+      menuButton.setAttribute('aria-expanded', 'true');
+      navbar?.classList.add('border-transparent');
+    };
+
+    const close = () => {
+      mobileMenu.classList.add('hidden');
+      document.body.classList.remove('overflow-hidden');
+      menuButton.setAttribute('aria-expanded', 'false');
+      navbar?.classList.remove('border-transparent');
+    };
+
+    menuButton.addEventListener('click', open);
+    closeButton.addEventListener('click', close);
+
+    mobileMenu.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', close);
     });
-    
-    // Close menu if clicking outside
-    document.addEventListener('click', (event) => {
-      const navbar = document.getElementById('main-navbar');
-      if (navbar && 
-          !navbar.contains(event.target as Node) && 
-          !mobileMenu.classList.contains('hidden')) {
-        mobileMenu.classList.add('hidden');
-        menuButton.setAttribute('aria-expanded', 'false');
-      }
-    });
+
+    document.addEventListener('astro:before-swap', close);
   };
-  
-  // Initialize on page load
+
   document.addEventListener('DOMContentLoaded', initMobileMenu);
-  
-  // Re-initialize after page transitions
   document.addEventListener('astro:after-swap', initMobileMenu);
 </script>
