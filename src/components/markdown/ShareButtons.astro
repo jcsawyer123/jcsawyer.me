@@ -1,4 +1,6 @@
 ---
+import { absoluteUrl } from '../../utils/url';
+
 interface Props {
   title: string;
   url: string;
@@ -6,9 +8,7 @@ interface Props {
 
 const { title, url } = Astro.props;
 
-// Create full URL
-const siteUrl = import.meta.env.SITE_URL || 'https://jcsawyer.me';
-const fullUrl = `${siteUrl}${url}`;
+const fullUrl = absoluteUrl(url, Astro.site);
 const encodedUrl = encodeURIComponent(fullUrl);
 const encodedTitle = encodeURIComponent(title);
 

@@ -3,7 +3,6 @@ import type { SEOProps } from '../types/props';
 
 interface Props extends SEOProps {
   siteName?: string;
-  siteUrl?: string;
   locale?: string;
 }
 
@@ -14,8 +13,9 @@ const {
   ogImage,
   ogType = 'website',
   twitterCard = 'summary_large_image',
+  noindex = false,
+  structuredData,
   siteName = 'Joshua Sawyer',
-  siteUrl = 'https://dev.jcsawyer.me',
   locale = 'en_US'
 } = Astro.props;
 
@@ -26,13 +26,18 @@ const url = canonicalUrl
 
 const imageUrl = ogImage
   ? new URL(ogImage, Astro.site).toString()
-  : new URL('/images/default-og.jpg', Astro.site).toString();
+  : new URL('/og-default.png', Astro.site).toString();
+
+const robots = noindex ? 'noindex, nofollow' : 'index, follow';
+const structuredDataJson = structuredData ? JSON.stringify(structuredData) : null;
 ---
 
 <!-- Basic Meta Tags -->
 <title>{title}</title>
 <meta name="description" content={description} />
 <link rel="canonical" href={url} />
+<meta name="robots" content={robots} />
+<meta name="author" content={siteName} />
 
 <!-- Open Graph Tags -->
 <meta property="og:site_name" content={siteName} />
@@ -48,15 +53,21 @@ const imageUrl = ogImage
 
 <!-- Twitter Tags -->
 <meta name="twitter:card" content={twitterCard} />
+<meta name="twitter:site" content="@jcsawyer123" />
 <meta name="twitter:title" content={title} />
 <meta name="twitter:description" content={description} />
 <meta name="twitter:image" content={imageUrl} />
+<meta name="twitter:image:alt" content={title} />
 
 <!-- Favicons -->
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
 <link rel="manifest" href="/site.webmanifest">
+
+{structuredDataJson && (
+  <script type="application/ld+json" set:html={structuredDataJson} />
+)}
 
 <!-- Additional tags passed via <slot /> -->
 <slot />

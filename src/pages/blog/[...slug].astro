@@ -6,9 +6,11 @@ import TableOfContents from '../../components/markdown/TableOfContents.astro';
 import ReadingTime from '../../components/markdown/ReadingTime.astro';
 import ShareButtons from '../../components/markdown/ShareButtons.astro';
 import { isEnabled } from '../../config/flags';
+import { absoluteUrl } from '../../utils/url';
 
 export async function getStaticPaths() {
   if (!isEnabled('showBlogPage')) return [];
+
   const posts = await getCollection('blog');
   return posts
     .filter((post) => isEnabled('showDrafts') || !post.data.draft)
@@ -23,11 +25,30 @@ type Props = CollectionEntry<'blog'>;
 const post = Astro.props as Props;
 const { Content, headings } = await post.render();
 const tocHeadings = headings.filter((heading) => heading.depth === 2 || heading.depth === 3);
+const articleUrl = `/blog/${post.slug}`;
+const articleImage = '/android-chrome-512x512.png';
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: post.data.title,
+  description: post.data.description,
+  datePublished: post.data.pubDate.toISOString(),
+  author: {
+    '@type': 'Person',
+    name: 'Joshua Sawyer',
+  },
+  mainEntityOfPage: absoluteUrl(articleUrl, Astro.site),
+  image: [absoluteUrl(articleImage, Astro.site)],
+};
 ---
 
 <BaseLayout
-  title={`${post.data.title} | Blog`}
+  title={`${post.data.title} | Joshua Sawyer`}
   description={post.data.description}
+  canonicalUrl={articleUrl}
+  ogImage={articleImage}
+  ogType="article"
+  structuredData={structuredData}
 >
   <div class="max-w-[108rem] mx-auto px-5 sm:px-6 pb-16">
     <div class="max-w-4xl mx-auto mt-8 mb-6">
@@ -35,13 +56,7 @@ const tocHeadings = headings.filter((heading) => heading.depth === 2 || heading.
         href="/blog"
         class="inline-flex items-center gap-1 text-sm font-medium text-theme-600 transition-colors duration-200 hover:text-theme-700 dark:text-theme-400 dark:hover:text-theme-300"
       >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 20 20"
-          fill="currentColor"
-          class="h-4 w-4"
-          aria-hidden="true"
-        >
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-4 w-4" aria-hidden="true">
           <path
             fillRule="evenodd"
             d="M18 10a.75.75 0 01-.75.75H4.66l2.1 1.95a.75.75 0 11-1.02 1.1l-3.5-3.25a.75.75 0 010-1.1l3.5-3.25a.75.75 0 111.02 1.1l-2.1 1.95h12.59A.75.75 0 0118 10z"
@@ -57,13 +72,7 @@ const tocHeadings = headings.filter((heading) => heading.depth === 2 || heading.
         <details class="group mb-6 rounded-2xl border border-border bg-surface/85 shadow-subtle dark:shadow-none xl:hidden">
           <summary class="flex cursor-pointer items-center justify-between px-5 py-4 text-sm font-semibold text-content-strong sm:px-6">
             <span>Table of Contents</span>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-              class="h-4 w-4 transition-transform duration-200 group-open:rotate-180"
-              aria-hidden="true"
-            >
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-4 w-4 transition-transform duration-200 group-open:rotate-180" aria-hidden="true">
               <path
                 fillRule="evenodd"
                 d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.51a.75.75 0 01-1.08 0l-4.25-4.51a.75.75 0 01.02-1.06z"

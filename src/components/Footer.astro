@@ -1,8 +1,10 @@
 ---
 import FooterLink from './FooterLink.astro';
 import SocialIcon from './SocialIcon.astro';
+import { isEnabled } from '../config/flags';
 
 const currentYear = new Date().getFullYear();
+const showContactPage = isEnabled('showContactPage');
 ---
 
 <footer id="contact" class="w-full py-8 px-4">
@@ -13,14 +15,14 @@ const currentYear = new Date().getFullYear();
 			&copy; {currentYear} Joshua Sawyer. All rights reserved.
 		  </div>
 		  <div class="flex items-center gap-4">
-			<div class="flex gap-4 text-sm text-content-muted">
-			  <FooterLink href="/privacy">Privacy</FooterLink>
-			  <span class="text-border">|</span>
-			  <FooterLink href="/terms">Terms</FooterLink>
-			  <span class="text-border">|</span>
-			  <FooterLink href="/contact">Contact</FooterLink>
-			</div>
-			<span class="text-border">|</span>
+			{showContactPage && (
+			  <>
+				<div class="flex gap-4 text-sm text-content-muted">
+				  <FooterLink href="/contact">Contact</FooterLink>
+				</div>
+				<span class="text-border">|</span>
+			  </>
+			)}
 			<div class="flex gap-2">
 			  <SocialIcon label="GH" href="https://github.com/jcsawyer123" />
 			  <SocialIcon label="LI" href="https://www.linkedin.com/in/joshua-sawyer/" />

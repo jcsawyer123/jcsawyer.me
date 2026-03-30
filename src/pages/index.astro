@@ -8,6 +8,7 @@ import { getCollection } from 'astro:content';
 import ExperienceSection from '../components/sections/ExperienceSection.astro';
 import SkillsSection from '../components/sections/SkillsSection.astro';
 import { isEnabled } from '../config/flags';
+import { absoluteUrl } from '../utils/url';
 
 const showBlogPage = isEnabled('showBlogPage');
 const showContactPage = isEnabled('showContactPage');
@@ -34,9 +35,31 @@ const blogPosts = (await getCollection('blog'))
     .filter((post) => isEnabled('showDrafts') || !post.data.draft)
     .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
     .slice(0, 4);
+
+const pageTitle = 'Joshua Sawyer | Software Engineer';
+const pageDescription =
+  'Software engineer working across distributed systems, cloud integrations, backend services, and dependable delivery, with selected work and writing from Joshua Sawyer.';
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Joshua Sawyer',
+  url: absoluteUrl('/', Astro.site),
+  jobTitle: 'Software Engineer',
+  sameAs: [
+    'https://github.com/jcsawyer123',
+    'https://www.linkedin.com/in/joshua-sawyer/',
+    'https://twitter.com/jcsawyer123',
+  ],
+  description: pageDescription,
+};
 ---
 
-<BaseLayout title="Joshua Sawyer - Software Engineer">
+<BaseLayout
+  title={pageTitle}
+  description={pageDescription}
+  canonicalUrl="/"
+  structuredData={structuredData}
+>
 
   {/* --- Hero --- */}
   <section id="home" class={`w-full ${onlyHero ? 'flex items-center min-h-[calc(100svh-16rem)]' : 'mb-4'}`}>

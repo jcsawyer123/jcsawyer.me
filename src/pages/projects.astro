@@ -2,14 +2,24 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ProjectCard from '../components/sections/ProjectCard.astro';
 import { getCollection } from 'astro:content';
+import { absoluteUrl } from '../utils/url';
 import { isEnabled } from '../config/flags';
 
 const enabled = isEnabled('showSelectedWorkPage');
+
 const projectEntries = await getCollection('projects');
 const allProjects = [
-  ...projectEntries.filter(p => p.data.featured),
-  ...projectEntries.filter(p => !p.data.featured),
+  ...projectEntries.filter((p) => p.data.featured),
+  ...projectEntries.filter((p) => !p.data.featured),
 ];
+
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  name: 'Selected Work | Joshua Sawyer',
+  url: absoluteUrl('/projects', Astro.site),
+  description: 'Selected work spanning backend systems, infrastructure, community engineering, and practical software delivery.',
+};
 ---
 
 {!enabled && (
@@ -22,7 +32,12 @@ const allProjects = [
   </html>
 )}
 {enabled && (
-<BaseLayout title="Selected Work — Joshua Sawyer" description="A mix of professional work, infrastructure, community engineering, and the occasional personal build.">
+<BaseLayout
+  title="Selected Work | Joshua Sawyer"
+  description="Selected work spanning backend systems, infrastructure, community engineering, and practical software delivery."
+  canonicalUrl="/projects"
+  structuredData={structuredData}
+>
   <section class="w-full mb-4">
     <div class="max-w-5xl mx-auto px-5 sm:px-6 w-full">
       <div class="max-w-4xl mx-auto py-12 sm:py-16">
@@ -52,7 +67,7 @@ const allProjects = [
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-          {allProjects.map(project => (
+          {allProjects.map((project) => (
             <ProjectCard project={project.data} />
           ))}
         </div>

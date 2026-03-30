@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">Joshua Sawyer</title>
+  <desc id="desc">Software engineer focused on distributed systems, backend services, cloud integrations, and reliable delivery.</desc>
+  <defs>
+    <linearGradient id="page-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fafaf8" />
+      <stop offset="62%" stop-color="#ffffff" />
+      <stop offset="100%" stop-color="#f2f8f8" />
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#page-bg)" />
+
+  <text x="118" y="244" fill="#0b2020" font-family="Arial, sans-serif" font-size="92" font-weight="700" letter-spacing="-0.04em">Joshua Sawyer</text>
+
+  <text x="122" y="316" fill="#0f7c7c" font-family="Arial, sans-serif" font-size="26" font-weight="700" letter-spacing="0.24em">SOFTWARE ENGINEER</text>
+
+  <text x="118" y="410" fill="#133131" font-family="Arial, sans-serif" font-size="31">
+    Backend and platform-leaning software engineer focused on
+  </text>
+  <text x="118" y="452" fill="#5f7d7d" font-family="Arial, sans-serif" font-size="31">
+    distributed systems, cloud integrations, and reliable service design.
+  </text>
+
+  <line x1="118" y1="510" x2="392" y2="510" stroke="#d7e7e7" stroke-width="3" />
+  <text x="118" y="554" fill="#5f7d7d" font-family="Arial, sans-serif" font-size="24">jcsawyer.me</text>
+</svg>
